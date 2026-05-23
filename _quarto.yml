@@ -1,0 +1,56 @@
+project:
+  type: manuscript
+
+notebook-view: false
+
+manuscript: 
+  article: airborne_fraction_robust_multiple_measurements.qmd
+
+  notebooks:
+    - scripts/lulc_measurements.qmd
+    - scripts/af_plots.qmd
+    - scripts/af_2step_all_lulc_measurements.qmd
+
+  code-links: repo
+
+format:
+  html:
+    mainfont: Georgia, serif
+    embed-resources: true
+    self-contained: true
+    html-math-method: katex
+    theme: litera
+    toc: false
+    include-in-header:
+      - text: |
+            <style>
+            p {
+            text-align: justify;
+            }
+            </style>
+  typst:
+    output-file: airborne_fraction_typst.pdf
+    font: "Times New Roman"
+    fontsize: 12pt
+    paper: a4
+    numbering: false
+    margin:
+      x: 2cm
+      y: 2cm
+    include-before-body:
+      - text: |
+          #set heading(numbering: none)
+          #set par(justify: false, leading: 1.2em)
+          #set par.line(numbering: "1")
+  pdf:
+    output-file: airborne_fraction_latex.pdf
+    pdf-engine: pdflatex
+    fontsize: 12pt
+    number-sections: false
+    font: Times New Roman
+    keep-tex: true
+engine: julia
+execute: 
+  enabled: true
+  cache: true
+  freeze: true

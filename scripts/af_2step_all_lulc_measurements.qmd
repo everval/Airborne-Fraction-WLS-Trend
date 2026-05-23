@@ -1,0 +1,499 @@
+---
+title: "Script to estimate airborne fraction trends with all LULC measurement combinations"
+subtitle: "Fossil emissions and atmospheric growth from GCB 2025 with LULC panel measurements"
+author:
+  - name: J. Eduardo Vera-Valdés
+    email: eduardo@math.aau.dk
+    url: https://everval.github.io
+    affiliations:
+      - name: Aalborg University
+        department: Department of Mathematical Sciences
+        country: Denmark
+      - name: CoRE
+        department: "Center for Research in Energy: Economics and Markets"
+        country: Denmark
+    orcid: 0000-0002-0337-8055
+    corresponding: true
+abstract: |
+    This script estimates airborne-fraction trends using the GCB 2025 fossil-emissions and atmospheric-growth series together with all LULC measurement combinations produced by the LULC extraction script. The LULC panel includes the extracted bookkeeping series and all peat-augmented model combinations. We use the cross-measurement dispersion of that full LULC panel to construct delta-method weights, then replicate the OLS and WLS trend analysis for the full sample and for the sample ending in 2023.
+keywords: [LULC, airborne fraction, measurement error, weighted least squares, Global Carbon Budget]
+execute:
+  enabled: false
+  engine: julia
+---
+
+## Script to run the analysis
+
+Load the dataset and the LULC measurement panel.
+
+```{julia}
+#| warning: false
+#| message: false
+#| output: false
+cd(@__DIR__)
+using Pkg
+Pkg.activate(pwd())
+
+using CSV
+using DataFrames
+using Statistics
+include(joinpath(@__DIR__, "estimation_functions.jl"))
+```
+
+```{julia}
+data_path = joinpath(@__DIR__, "..", "data", "Data_GCB_2025_cols.csv")
+lulc_path = joinpath(@__DIR__, "..", "results", "LULC_measurements_extracted_and_derived.csv")
+
+df = CSV.read(data_path, DataFrame)
+lulc_df = CSV.read(lulc_path, DataFrame)
+rename!(lulc_df, :year => :Year)
+
+last(df[:, 1:5], 5)
+```
+
+## Build the airborne-fraction series
+
+The numerator is the atmospheric-growth series from the GCB 2025 data. The denominator uses the fossil-emissions series together with the average of all LULC measurement combinations extracted from the results folder.
+
+```{julia}
+lulc_measure_cols = filter(col -> col != "Year", names(lulc_df))
+
+analysis_df = innerjoin(
+    select(df, :Year, :"fossil emissions excluding carbonation", :"atmospheric growth"),
+    lulc_df,
+    on = :Year,
+)
+
+rename!(analysis_df,
+    "fossil emissions excluding carbonation" => "Fossil",
+    "atmospheric growth" => "Growth",
+)
+
+analysis_df.LULC = vec(sum(Matrix(analysis_df[:, lulc_measure_cols]), dims = 2) ./ length(lulc_measure_cols))
+analysis_df.lulc_var = vec(var(Matrix(analysis_df[:, lulc_measure_cols]), dims = 2))
+analysis_df.AF = analysis_df.Growth ./ (analysis_df.Fossil .+ analysis_df.LULC)
+analysis_df.AF_var = (analysis_df.Growth ./ (analysis_df.Fossil .+ analysis_df.LULC).^2).^2 .* analysis_df.lulc_var
+
+first(analysis_df[:, [:Year, :Fossil, :Growth, :LULC, :AF]], 5)
+```
+
+## Build the benchmark AF series with GCB LULC only
+
+```{julia}
+gcb_df = select(
+    df,
+    :Year,
+    :"fossil emissions excluding carbonation",
+    :"land-use change emissions",
+    :"atmospheric growth",
+)
+
+rename!(
+    gcb_df,
+    "fossil emissions excluding carbonation" => "Fossil",
+    "land-use change emissions" => "LULC",
+    "atmospheric growth" => "Growth",
+)
+
+gcb_df.AF = gcb_df.Growth ./ (gcb_df.Fossil .+ gcb_df.LULC)
+```
+
+## Full-sample estimation
+
+```{julia}
+T = nrow(analysis_df)
+T_gcb = nrow(gcb_df)
+model_ols_gcb = robust_est(gcb_df.AF, hcat(ones(T_gcb), gcb_df.Year), verbose = true)
+model_wls_gcbaf_allw = robust_est(gcb_df.AF, hcat(ones(T_gcb), gcb_df.Year), w = 1 ./ analysis_df.AF_var, verbose = true)
+model_ols = robust_est(analysis_df.AF, hcat(ones(T), analysis_df.Year), verbose = true)
+model_wls = robust_est(analysis_df.AF, hcat(ones(T), analysis_df.Year), w = 1 ./ analysis_df.AF_var, verbose = true)
+```
+
+```{julia}
+gcb_df.AF_ols_trend = model_ols_gcb.Yfit
+gcb_df.AF_wls_allw_trend = model_wls_gcbaf_allw.Yfit
+analysis_df.AF_ols_trend = model_ols.Yfit
+analysis_df.AF_wls_trend = model_wls.Yfit
+```
+
+```{julia}
+using Plots.PlotMeasures
+
+w_rel = (1 ./ analysis_df.AF_var) ./ maximum(1 ./ analysis_df.AF_var)
+af_sd = sqrt.(analysis_df.AF_var)
+
+p = plot(
+    analysis_df.Year,
+    analysis_df.AF;
+    color = :steelblue,
+    linewidth = 2.0,
+    label = "AF (all-LULC ratio)",
+    ribbon = 1.96 .* af_sd,
+    fillalpha = 0.3,
+    title = "Airborne Fraction with OLS and WLS fits for all LULC measurements",
+    xlabel = "Year",
+    ylabel = "Airborne Fraction",
+    size = (800, 400),
+    margin = 3mm,
+)
+plot!(
+    p,
+    gcb_df.Year,
+    gcb_df.AF_ols_trend;
+    color = :darkorange,
+    linewidth = 2.2,
+    linestyle = :dot,
+    label = "OLS fit (GCB)",
+)
+plot!(
+    p,
+    analysis_df.Year,
+    analysis_df.AF_ols_trend;
+    color = :goldenrod,
+    linewidth = 2.2,
+    linestyle = :dashdot,
+    label = "OLS fit (all-LULC)",
+)
+plot!(
+    p,
+    gcb_df.Year,
+    gcb_df.AF_wls_allw_trend;
+    color = :purple,
+    linewidth = 2.5,
+    linestyle = :dash,
+    label = "WLS fit (GCB)",
+)
+plot!(
+    p,
+    analysis_df.Year,
+    analysis_df.AF_wls_trend;
+    color = :firebrick,
+    linewidth = 2.5,
+    linestyle = :solid,
+    label = "WLS fit (all-LULC)",
+    ylabel = "Airborne Fraction",
+    legend = :topleft
+)
+p2 = twinx()
+bar!(
+    p2,
+    analysis_df.Year,
+    w_rel;
+    bar_width = 0.8,
+    color = :black,
+    alpha = 0.2,
+    label = "Relative WLS weight",
+    ylabel = "Weight (relative)",
+    legend = :topright,
+)
+p
+```
+
+```{julia}
+savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS.png"))
+savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS.pdf"))
+```
+
+## Sample ending in 2023
+
+```{julia}
+analysis_2023 = analysis_df[analysis_df.Year .< 2024, :]
+gcb_2023 = gcb_df[gcb_df.Year .< 2024, :]
+
+T_2023 = nrow(analysis_2023)
+T_gcb_2023 = nrow(gcb_2023)
+model_ols_gcb_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), gcb_2023.Year), verbose = true)
+model_wls_gcbaf_allw_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), gcb_2023.Year), w = 1 ./ analysis_2023.AF_var, verbose = true)
+model_ols_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), analysis_2023.Year), verbose = true)
+model_wls_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), analysis_2023.Year), w = 1 ./ analysis_2023.AF_var, verbose = true)
+
+gcb_2023.AF_ols_trend = model_ols_gcb_2023.Yfit
+gcb_2023.AF_wls_allw_trend = model_wls_gcbaf_allw_2023.Yfit
+analysis_2023.AF_ols_trend = model_ols_2023.Yfit
+analysis_2023.AF_wls_trend = model_wls_2023.Yfit
+```
+
+```{julia}
+w_rel_2023 = (1 ./ analysis_2023.AF_var) ./ maximum(1 ./ analysis_2023.AF_var)
+af_sd_2023 = sqrt.(analysis_2023.AF_var)
+
+p_2023 = plot(
+    analysis_2023.Year,
+    analysis_2023.AF;
+    color = :steelblue,
+    linewidth = 2.0,
+    label = "AF (all-LULC ratio)",
+    ribbon = 1.96 .* af_sd_2023,
+    fillalpha = 0.3,
+    title = "Airborne Fraction with OLS and WLS fits for all LULC measurements, without 2024",
+    xlabel = "Year",
+    ylabel = "Airborne Fraction",
+    size = (800, 400),
+    margin = 3mm,
+)
+plot!(
+    p_2023,
+    gcb_2023.Year,
+    gcb_2023.AF_ols_trend;
+    color = :darkorange,
+    linewidth = 2.2,
+    linestyle = :dot,
+    label = "OLS fit (GCB)",
+)
+plot!(
+    p_2023,
+    analysis_2023.Year,
+    analysis_2023.AF_ols_trend;
+    color = :goldenrod,
+    linewidth = 2.2,
+    linestyle = :dashdot,
+    label = "OLS fit (all-LULC)",
+)
+plot!(
+    p_2023,
+    gcb_2023.Year,
+    gcb_2023.AF_wls_allw_trend;
+    color = :purple,
+    linewidth = 2.5,
+    linestyle = :dash,
+    label = "WLS fit (GCB)",
+)
+plot!(
+    p_2023,
+    analysis_2023.Year,
+    analysis_2023.AF_wls_trend;
+    color = :firebrick,
+    linewidth = 2.5,
+    linestyle = :solid,
+    label = "WLS fit (all-LULC)",
+    ylabel = "Airborne Fraction",
+    legend = :topleft
+)
+p2_2023 = twinx()
+bar!(
+    p2_2023,
+    analysis_2023.Year,
+    w_rel_2023;
+    bar_width = 0.8,
+    color = :black,
+    alpha = 0.2,
+    label = "Relative WLS weight",
+    ylabel = "Weight (relative)",
+    legend = :topright,
+)
+p_2023
+```
+
+```{julia}
+savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS_2023.png"))
+savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS_2023.pdf"))
+```
+
+## Results
+
+### Slope
+
+```{julia}
+#| results: asis
+trend_idx = 2
+
+results_table = DataFrame(
+    Metric = [
+        "Estimate",
+        "Standard error",
+        "HAC standard error",
+        "pval",
+        "hac_pvals",
+        "R-squared",
+    ],
+    OLS_GCB_full = [
+        model_ols_gcb.β[trend_idx],
+        model_ols_gcb.stderr[trend_idx],
+        model_ols_gcb.stderr_hac[trend_idx],
+        model_ols_gcb.pvalues[trend_idx],
+        model_ols_gcb.pvalues_hac[trend_idx],
+        model_ols_gcb.rsquared,
+    ],
+    OLS_full = [
+        model_ols.β[trend_idx],
+        model_ols.stderr[trend_idx],
+        model_ols.stderr_hac[trend_idx],
+        model_ols.pvalues[trend_idx],
+        model_ols.pvalues_hac[trend_idx],
+        model_ols.rsquared,
+    ],
+    WLS_full = [
+        model_wls.β[trend_idx],
+        model_wls.stderr[trend_idx],
+        model_wls.stderr_hac[trend_idx],
+        model_wls.pvalues[trend_idx],
+        model_wls.pvalues_hac[trend_idx],
+        model_wls.rsquared,
+    ],
+    WLS_GCB_AF_allw_full = [
+        model_wls_gcbaf_allw.β[trend_idx],
+        model_wls_gcbaf_allw.stderr[trend_idx],
+        model_wls_gcbaf_allw.stderr_hac[trend_idx],
+        model_wls_gcbaf_allw.pvalues[trend_idx],
+        model_wls_gcbaf_allw.pvalues_hac[trend_idx],
+        model_wls_gcbaf_allw.rsquared,
+    ],
+    OLS_up_to_2023 = [
+        model_ols_2023.β[trend_idx],
+        model_ols_2023.stderr[trend_idx],
+        model_ols_2023.stderr_hac[trend_idx],
+        model_ols_2023.pvalues[trend_idx],
+        model_ols_2023.pvalues_hac[trend_idx],
+        model_ols_2023.rsquared,
+    ],
+    OLS_GCB_up_to_2023 = [
+        model_ols_gcb_2023.β[trend_idx],
+        model_ols_gcb_2023.stderr[trend_idx],
+        model_ols_gcb_2023.stderr_hac[trend_idx],
+        model_ols_gcb_2023.pvalues[trend_idx],
+        model_ols_gcb_2023.pvalues_hac[trend_idx],
+        model_ols_gcb_2023.rsquared,
+    ],
+    WLS_up_to_2023 = [
+        model_wls_2023.β[trend_idx],
+        model_wls_2023.stderr[trend_idx],
+        model_wls_2023.stderr_hac[trend_idx],
+        model_wls_2023.pvalues[trend_idx],
+        model_wls_2023.pvalues_hac[trend_idx],
+        model_wls_2023.rsquared,
+    ],
+    WLS_GCB_AF_allw_up_to_2023 = [
+        model_wls_gcbaf_allw_2023.β[trend_idx],
+        model_wls_gcbaf_allw_2023.stderr[trend_idx],
+        model_wls_gcbaf_allw_2023.stderr_hac[trend_idx],
+        model_wls_gcbaf_allw_2023.pvalues[trend_idx],
+        model_wls_gcbaf_allw_2023.pvalues_hac[trend_idx],
+        model_wls_gcbaf_allw_2023.rsquared,
+    ],
+)
+
+using Printf
+
+fmt_num(x) = @sprintf("%.6f", x)
+
+header = "| Metric | OLS (GCB LULC) full | OLS (all-LULC mean) full | WLS (all-LULC AF; all-LULC w) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
+sep = "|---|---:|---:|---:|---:|---:|---:|---:|---:|"
+
+rows = String[]
+for r in eachrow(results_table)
+    push!(rows, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) |")
+end
+
+table_md = join([header, sep, rows...], "\n") * "\n"
+
+println(table_md)
+
+table_out_path = joinpath(@__DIR__, "..", "results", "af_2step_all_lulc_trend_summary_table.md")
+open(table_out_path, "w") do io
+    write(io, table_md)
+end
+
+println("Saved manuscript-embed table to: $(table_out_path)")
+```
+
+### Supplementary table: intercept estimates
+
+```{julia}
+#| results: asis
+
+intercept_idx = 1
+
+intercept_table = DataFrame(
+    Metric = [
+        "Estimate",
+        "Standard error",
+        "HAC standard error",
+        "pval",
+        "hac_pvals",
+        "R-squared",
+    ],
+    OLS_GCB_full = [
+        model_ols_gcb.β[intercept_idx],
+        model_ols_gcb.stderr[intercept_idx],
+        model_ols_gcb.stderr_hac[intercept_idx],
+        model_ols_gcb.pvalues[intercept_idx],
+        model_ols_gcb.pvalues_hac[intercept_idx],
+        model_ols_gcb.rsquared,
+    ],
+    OLS_full = [
+        model_ols.β[intercept_idx],
+        model_ols.stderr[intercept_idx],
+        model_ols.stderr_hac[intercept_idx],
+        model_ols.pvalues[intercept_idx],
+        model_ols.pvalues_hac[intercept_idx],
+        model_ols.rsquared,
+    ],
+    WLS_full = [
+        model_wls.β[intercept_idx],
+        model_wls.stderr[intercept_idx],
+        model_wls.stderr_hac[intercept_idx],
+        model_wls.pvalues[intercept_idx],
+        model_wls.pvalues_hac[intercept_idx],
+        model_wls.rsquared,
+    ],
+    WLS_GCB_AF_allw_full = [
+        model_wls_gcbaf_allw.β[intercept_idx],
+        model_wls_gcbaf_allw.stderr[intercept_idx],
+        model_wls_gcbaf_allw.stderr_hac[intercept_idx],
+        model_wls_gcbaf_allw.pvalues[intercept_idx],
+        model_wls_gcbaf_allw.pvalues_hac[intercept_idx],
+        model_wls_gcbaf_allw.rsquared,
+    ],
+    OLS_up_to_2023 = [
+        model_ols_2023.β[intercept_idx],
+        model_ols_2023.stderr[intercept_idx],
+        model_ols_2023.stderr_hac[intercept_idx],
+        model_ols_2023.pvalues[intercept_idx],
+        model_ols_2023.pvalues_hac[intercept_idx],
+        model_ols_2023.rsquared,
+    ],
+    OLS_GCB_up_to_2023 = [
+        model_ols_gcb_2023.β[intercept_idx],
+        model_ols_gcb_2023.stderr[intercept_idx],
+        model_ols_gcb_2023.stderr_hac[intercept_idx],
+        model_ols_gcb_2023.pvalues[intercept_idx],
+        model_ols_gcb_2023.pvalues_hac[intercept_idx],
+        model_ols_gcb_2023.rsquared,
+    ],
+    WLS_up_to_2023 = [
+        model_wls_2023.β[intercept_idx],
+        model_wls_2023.stderr[intercept_idx],
+        model_wls_2023.stderr_hac[intercept_idx],
+        model_wls_2023.pvalues[intercept_idx],
+        model_wls_2023.pvalues_hac[intercept_idx],
+        model_wls_2023.rsquared,
+    ],
+    WLS_GCB_AF_allw_up_to_2023 = [
+        model_wls_gcbaf_allw_2023.β[intercept_idx],
+        model_wls_gcbaf_allw_2023.stderr[intercept_idx],
+        model_wls_gcbaf_allw_2023.stderr_hac[intercept_idx],
+        model_wls_gcbaf_allw_2023.pvalues[intercept_idx],
+        model_wls_gcbaf_allw_2023.pvalues_hac[intercept_idx],
+        model_wls_gcbaf_allw_2023.rsquared,
+    ],
+)
+
+header_int = "| Metric | OLS (GCB LULC) full | OLS (all-LULC mean) full | WLS (all-LULC AF; all-LULC w) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
+sep_int = "|---|---:|---:|---:|---:|---:|---:|---:|---:|"
+
+rows_int = String[]
+for r in eachrow(intercept_table)
+    push!(rows_int, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) |")
+end
+
+intercept_table_md = join([header_int, sep_int, rows_int...], "\n") * "\n"
+
+println(intercept_table_md)
+
+intercept_out_path = joinpath(@__DIR__, "..", "results", "af_2step_all_lulc_intercept_summary_table.md")
+open(intercept_out_path, "w") do io
+    write(io, intercept_table_md)
+end
+
+println("Saved manuscript-embed table to: $(intercept_out_path)")
+```
