@@ -15,7 +15,7 @@ author:
     corresponding: true
 date: today
 abstract: |
-  The airborne fraction is the share of human carbon dioxide emissions that remains in the atmosphere, and it is a key indicator of how the climate system is responding to continued emissions [@Canadell2007; @Raupach2007]. Whether this share is rising remains debated because conclusions depend strongly on uncertain estimates of emissions from land-use and land-cover change (LULC). To address this, we use all available LULC measurement series constructed from Global Carbon Budget 2025 data [@Friedlingstein2025] and apply a trend framework that explicitly accounts for measurement uncertainty [@Fuller1987; @Carroll2006; @veravaldes2025robustestimationco2]. We show that the airborne fraction has increased over time, and that this conclusion remains when we test sensitivity to excluding the final year and to serial dependence in annual data [@NeweyWest1987]. These results strengthen evidence that a growing share of emitted carbon dioxide is accumulating in the atmosphere rather than being taken up by land and ocean sinks, with direct implications for carbon-budget assessments and near-term mitigation requirements.
+  The airborne fraction is the share of anthropogenic carbon dioxide emissions that remains in the atmosphere, and a key indicator of carbon-cycle response under continued emissions. Whether this share is rising remains debated because inference is sensitive to uncertainty in land-use and land-cover change (LULC) emissions. We address this by using all available LULC measurement series constructed from Global Carbon Budget 2025 data and estimating trends with a mixed-effects model with random intercepts and random slopes by LULC series. We find that airborne fraction has increased over time, and that this conclusion is robust to excluding the final year and to benchmarking against a measurement-error-aware weighted least squares estimator. These results strengthen evidence that an increasing share of emitted carbon dioxide is accumulating in the atmosphere rather than being taken up by land and ocean sinks, with direct implications for carbon-budget assessment and near-term mitigation requirements.
 keywords:
   - airborne fraction
   - land-use and land-cover change emissions
@@ -38,16 +38,18 @@ $${#eq-af-def}
 
 where $G_t$ is the annual atmospheric $CO_2$ growth, $FF_t$ is fossil fuel emissions excluding carbonation, and $LULC_t$ is land-use and land-cover change emissions. AF is a key carbon-cycle diagnostic, with implications for carbon-cycle feedbacks and near-term mitigation planning [@Canadell2007; @Raupach2007; @Friedlingstein2025].
 
+A persistent concern is that AF inference depends on the treatment of land-use and land-cover change (LULC) emissions, which are uncertain and model-dependent in annual carbon-budget accounting. The Global Carbon Budget (GCB) 2025 [@Friedlingstein2025]  provides one column of LULC emissions as the average of three bookkeeping models (BLUE [@Hansis2015], OSCAR [@Gasser2020], LUCE [@Qin2024]), but a broader set of model-based LULC alternatives can be constructed from the same source data. If the information from this broader set of LULC measurements is not incorporated into AF trend inference, tests can be underpowered and inference on trend direction becomes less reliable.
 
-A persistent concern is that AF inference depends on the treatment of land-use and land-cover change (LULC) emissions, which are uncertain and model-dependent in annual carbon-budget accounting [@Friedlingstein2025]. The Global Carbon Budget (GCB) 2025 dataset provides one column of LULC emissions as the average of three bookkeeping models (BLUE, OSCAR, LUCE), but a broader set of model-based LULC alternatives can be constructed from the same source data. If the information from this broader set of LULC measurements is not incorporated into AF trend inference, tests can be underpowered and inference on trend direction becomes less reliable.
+Here we address that issue with a design that uses all repeated LULC measurements in a mixed-effects trend framework to obtain more reliable inference. The main specification estimates AF trends from a panel of yearly AF values constructed from each LULC measurement series, with random intercepts and random slopes capturing between-series heterogeneity and inducing within-series dependence over time. As a robustness exercise, we also estimate a two-stage measurement-error weigthed least squares (WLS) model that propagates denominator uncertainty from repeated LULC measurements into annual AF variance and uses heteroskedasticity-and-autocorrelation-consistent (HAC) inference [@Fuller1987; @Carroll2006; @NeweyWest1987]. 
 
-Here we address that issue with a design that incorporates measurement uncertainty to obtain more reliable trend estimates [@Fuller1987; @Carroll2006; @veravaldes2025robustestimationco2]. We present a two-stage estimator that propagates denominator uncertainty from repeated LULC measurements into annual AF variance and then estimates the AF trend by weighted least squares (WLS) with heteroskedasticity- and autocorrelation-consistent (HAC) inference [@NeweyWest1987]. The approach uses cross-measurement dispersion to weight years by precision, rather than treating all years as equally precise as in ordinary least squares (OLS). We find that WLS delivers statistically significant and more stable evidence of positive trend, including under exclusion of the final observation (2024), which shows a large AF jump. For comparison, we estimate OLS on the same AF series, with conventional and HAC standard errors showing weaker evidence of a positive trend and greater sensitivity to endpoint exclusion. This clarifies why evidence based on OLS does not support a clear conclusion about AF trends.
+Across specifications that incorporate the multi-source LULC information, we find robust evidence that AF has increased over 1959-2024, and that this conclusion is not driven by the final observation (2024), which shows a large AF jump. By contrast, ordinary least squares (OLS) specifications that do not incorporate denominator measurement information provide weaker evidence of a positive trend and are more sensitive to endpoint exclusion. Taken together, the results clarify why AF trend significance has been elusive and strengthen evidence that a growing share of emitted carbon dioxide is accumulating in the atmosphere.
+
 
 ## Data {.unnumbered}
 
 We use annual Global Carbon Budget 2025 data for 1959-2024, with atmospheric growth $G_t$ from NOAA/ESRL global concentration trends [@Lan2025], fossil emissions excluding carbonation $FF_t$ from the Global Carbon Project fossil dataset [@Friedlingstein2025], and a panel of 69 LULC measurements per year: BLUE [@Hansis2015], OSCAR [@Gasser2020], LUCE [@Qin2024], and peat-augmented process-based land-model combinations drawn from the GCB model ensemble [@Haverd2018; @Melton2020; @Lawrence2019; @Fisher2015; @Tian2015; @Ma2022; @Yang2023; @Needham2025; @Felzer2018; @Xia2024; @Yue2024; @Shu2020; @Reick2021; @Poulter2011; @Smith2014; @Schaphoff2018; @Lienert2018; @Vuichard2019; @Walker2017; @Kato2013; @Ito2019], combined with peat components [@Conchedda2020; @Mueller2021; @Qiu2021] (see Methods). The data is shown in @fig-data.
 
-Two LULC means are constructed from the panel. First, the GCB LULC mean, defined as the mean of the three bookkeeping models BLUE, OSCAR, and LUCE, corresponds to the LULC column used in the Global Carbon Budget. Second, the all‑LULC mean, defined as the cross-series mean from all 69 LULC measurements. Uncertainty from the multiple LULC measurements are estimated by the cross-measurement dispersion from the full panel.
+Two LULC means constructed from the panel are shown. First, the GCB LULC mean, defined as the mean of the three bookkeeping models BLUE, OSCAR, and LUCE, corresponds to the LULC column used in the Global Carbon Budget. Second, the all‑LULC mean, defined as the cross-series mean from all 69 LULC measurements. The literature has typically used the GCB LULC mean as the denominator in AF trend estimation, but we show that incorporating the full set of LULC measurements materially changes inference on AF trends. 
 
 ::: {.content-visible when-format="html"}
 ![Global Carbon Budget 2025 data for fossil emissions, atmospheric growth, and LULC emissions (1959-2024). For the LULC panel, we show all extracted and derived LULC measurements together with the GCB LULC column and the all-LULC cross-series mean.](figures/af_data_all_lulc.png){#fig-data fig-width=8.4 fig-height=4.9}
@@ -62,98 +64,77 @@ Two LULC means are constructed from the panel. First, the GCB LULC mean, defined
 :::
 
 
-## Identification Strategy {.unnumbered}
+## Identification strategy {.unnumbered}
 
-The empirical question is whether AF has a positive linear trend. The key design choice is how to handle annual denominator uncertainty from multiple LULC measurements. OLS assigns equal precision to all years and therefore discards information from cross-measurement dispersion. Our preferred specification uses delta-method variance estimates [@Cochran1977; @Oehlert1992] to construct year-specific weights and then estimates the trend by WLS, with HAC standard errors for inference [@Aitken1935; @NeweyWest1987] (see Methods).
+The empirical question is whether AF has a positive linear trend. The key design choice is how to use the full panel of repeated LULC measurements while accounting for within-series dependence and cross-series heterogeneity. OLS on a collapsed annual series discards panel information and hence provides less reliable inference, see results in @tbl-trend-full. Our preferred specification is a mixed-effects model with random intercepts and random slopes by LULC series, allowing correlation across years within each series and capturing unobserved heterogeneity in LULC measurements [@Henderson1953; @Bolker2009] (see Methods).
+
+For each LULC measurement series, we construct a series of AF estimates by year (@eq-af-def), and the model estimates a common time trend across all series while allowing for series-specific intercepts:
+$$
+AF_{t,j} = \alpha_j + \beta_j t +\varepsilon_{t,j},
+$$
+
+where
+
+$$
+\alpha_j \sim N(\mu_\alpha, \sigma_\alpha^2),\quad
+\beta_j \sim N(\mu_\beta, \sigma_\beta^2),\quad
+\varepsilon_{t,j} \sim N(0, \sigma_\varepsilon^2).
+$$
+
+Here $\mu_\alpha$ and $\mu_\beta$ are the fixed effects (overall intercept and slope), while $\sigma_\alpha^2$ and $\sigma_\beta^2$ capture the variability in intercepts and slopes across LULC measurement series. The error term $\varepsilon_{t,j}$ captures idiosyncratic noise. The key parameter of interest is $\mu_\beta$, which captures the average trend across all LULC measurement series.
 
 
 ## Results {.unnumbered}
 
-### Full-sample trends {.unnumbered}
+### Main estimates {.unnumbered}
 
-@tbl-trend-full reports full-sample trend estimates for the four specifications: OLS using GCB LULC, OLS using the all-LULC mean, WLS using the GCB LULC with all-LULC weights, and WLS using the all-LULC mean with all-LULC weights.
+The main results of estimating the mixed-effects model considering the full sample (1959-2024) are shown in @tbl-mixed-effects and the associated trend lines are shown in @fig-mixed-effects-trend.
+
+| Parameter | Intercept (full) | Slope (full) | Intercept (up to 2023) | Slope (up to 2023) |
+|---|---:|---:|---:|---:|
+| Estimate | 0.406959 | 0.001103 | 0.41326 | 0.000808 |
+| Standard error | 0.005573 | 0.000102 | 0.005586 | 0.000103 |
+| p-value | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| R-squared (marginal) | 0.008631 | 0.008631 | 0.004518 | 0.004518 |
+| R-squared (conditional) | 0.700967 | 0.700967 | 0.708173 | 0.708173 |
+: Mixed-effects model with random effects for each LULC measurement series. {#tbl-mixed-effects}
+
+The mixed-effects slope is positive and statistically significant (p-value < 1E-5), indicating strong evidence of an increasing AF trend across LULC measurement series. The estimated intercept is around 0.41 and the slope is around 0.0011 per year, implying an increase of about 0.07 in AF over 1959-2024. These estimates are comparable with the approximately 0.45 AF level reported in the literature [@Raupach2007;@Knorr2009;@Gloor2010CarbonFeedbackAF;@bennedsenRegressionbasedApproachCO22024;@bennedsenEvidenceTrendCO22023;@veravaldes2025robustestimationco2], while identifying a positive long-run trend when all LULC information is incorporated. The conditional R-squared values indicate that most explained variation is captured by between-series structure rather than by the fixed linear time trend (marginal versus conditional R-squared).
+
+::: {#fig-mixed-effects layout-ncol=1}
+
+![AF series with mixed-effects model trend (full sample, 1959-2024).](figures/AF_mixed_model_definition_trends.png){#fig-mixed-effects-trend fig-width=8.4 fig-height=4.9}
+
+![AF series with mixed-effects model trend (sample ending in 2023).](figures/AF_mixed_model_definition_trends_up_to_2023.png){#fig-mixed-effects-trend-2023 fig-width=8.4 fig-height=4.9}
+
+:::
+
+@fig-mixed-effects-trend shows the AF series for each LULC measurement together with the overall mixed-effects trend line. The figure shows a clear positive trend across the panel of AF series, with the mixed-effects model capturing this common signal while allowing for series-specific heterogeneity. 
+
+### Endpoint and model specification robustness {.unnumbered}
+
+AF shows a large jump in the final year (2024), so we re-estimate the mixed-effects model on the subsample ending in 2023 to check whether the result is driven by that observation. Results are shown in @tbl-mixed-effects and @fig-mixed-effects-trend-2023. The slope remains positive and statistically significant (p-value < 1E-5), indicating that the increasing AF trend is not driven by the final observation. The slope is smaller (0.000808 per year versus 0.001103 per year), consistent with a contribution from the 2024 jump, but the direction and inference are unchanged.
+
+As additional robustness checks, we estimate a delta-method uncertainty proxy for each annual AF estimate using the cross-measurement dispersion of the full 69-series LULC panel, and use these proxies in WLS with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @NeweyWest1987]. Two WLS specifications are shown in @tbl-trend-full: one using the GCB LULC mean as the denominator and one using the all-LULC mean. In both WLS specifications in @tbl-trend-full weights are constructed from the all-LULC panel dispersion so that the weighting scheme is held fixed across denominator definitions. The WLS results are consistent with the mixed-effects results, and Supplementary Information confirms robustness to endpoint exclusion.
 
 | Trend, full sample | OLS (GCB) | OLS (all) | WLS (GCB) | WLS (all) |
 |:-----|---:|---:|---:|---:|
-| Estimate | 0.001581 | 0.001172 | 0.002649 | 0.002305 |
-| Standard error | 0.000771 | 0.000792 | 0.000022 | 0.000023 |
-| HAC standard error | 0.000621 | 0.000643 | 0.000657 | 0.000672 |
-| p-value | 0.040212 | 0.138912 | 0.000000 | 0.000000 |
-| HAC p-value | 0.010837 | 0.068425 | 0.000056 | 0.000609 |
-| R-squared | 0.061706 | 0.033086 | 0.148987 | 0.111070 |
+| Estimate | 0.00158 | 0.00117 | 0.00265 | 0.00230 |
+| Standard error | 0.00077 | 0.00079 | 0.00002 | 0.00002 |
+| HAC standard error | 0.00062 | 0.00064 | 0.00065 | 0.00066 |
+| p-value | 0.04021 | 0.13891 | 0.00000 | 0.00000 |
+| HAC p-value | 0.01112 | 0.06846 | 0.00004 | 0.00050 |
+| R-squared | 0.06171 | 0.03309 | 0.14899 | 0.11107 |
 : Full-sample trend comparison across OLS and WLS specifications. {#tbl-trend-full}
 
-The main finding is that incorporating denominator-measurement information via WLS substantially changes inference relative to both OLS benchmarks. In the full sample, all approaches produce a positive slope, and both WLS specifications provide much stronger evidence than OLS (HAC p-values 0.000056 and 0.000609 versus 0.010837 and 0.068425). The estimated WLS trend is also steeper (0.002305 per year versus 0.001581 and 0.001172), consistent with greater weight on years with lower denominator uncertainty. The WLS slope implies an increase of about $+0.15$ in AF over 1959-2024, compared with about $+0.10$ and $+0.08$ from the two OLS specifications. The R-squared is also higher for WLS, indicating a better fit when accounting for measurement uncertainty. Nevertheless, the R-squared values are small in absolute terms, signaling that AF is a noisy variable and that the trend is only one component of its variation.
-
-@fig-primary-delta-gls shows the AF series using the mean of all LULC measurements together with the associated variance, the OLS trend, and the delta-method WLS trend when using the full sample. The gray bars show the relative weights (standardised so that the maximum weight is 1) assigned to each year in the WLS estimation, which are inversely proportional to the estimated variance of the AF estimate for that year. 
-
-::: {.content-visible when-format="html"}
-![AF series with OLS and delta-method WLS trend (full sample, 1959-2024). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS.png){#fig-primary-delta-gls fig-width=8.4 fig-height=4.9}
-:::
-
-::: {.content-visible when-format="pdf"}
-![AF series with OLS and delta-method WLS trend (full sample, 1959-2024). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS.pdf){#fig-primary-delta-gls fig-width=8.4 fig-height=4.9}
-:::
-
-::: {.content-visible when-format="typst"}
-![AF series with OLS and delta-method WLS trend (full sample, 1959-2024). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS.pdf){#fig-primary-delta-gls fig-width=8.4 fig-height=4.9}
-:::
-
-Note that the WLS trends are steeper than the OLS trends, which is consistent with the numerical results in @tbl-trend-full. The WLS specifications assign more weight to the more precisely measured years (e.g., 2000-2020 as shown by the width of the shaded area) and less weight to noisier years (e.g., 1960s-1970s), which helps reveal the positive trend signal in the data.
-
-### Endpoint Robustness {.unnumbered}
-
-The final observation (2024) shows a large increase in AF. To ensure this point is not mechanically driving the result, we re-estimate the same four specifications on the subsample ending in 2023. Results are shown in @tbl-trend-2023 and @fig-endpoint-robustness.
-
-| Trend (up to 2023) | OLS (GCB) | OLS (all) | WLS (GCB) | WLS (all) |
-|:-----|---:|---:|---:|---:|
-| Estimate | 0.001296 | 0.000878 | 0.002367 | 0.002015 |
-| Standard error | 0.000777 | 0.000798 | 0.000022 | 0.000023 |
-| HAC standard error | 0.000578 | 0.000600 | 0.000600 | 0.000615 |
-| p-value | 0.095163 | 0.271089 | 0.000000 | 0.000000 |
-| HAC p-value | 0.024954 | 0.143217 | 0.000081 | 0.001059 |
-| R-squared | 0.042332 | 0.018863 | 0.125521 | 0.089297 |
-: Subsample (ending in 2023) trend comparison across OLS and WLS specifications. {#tbl-trend-2023}
-
-Results remain qualitatively unchanged for the WLS specifications: both estimated slopes stay positive and statistically significant (0.002367 with HAC p-value = 0.000081, and 0.002015 with HAC p-value = 0.001059). For the sample ending in 2023, OLS using GCB LULC is positive but only marginal under conventional inference (p-value = 0.095), while OLS using the all-LULC mean is not significant (p-value = 0.271). Overall, the WLS results are robust to endpoint exclusion, while OLS results are more sensitive to denominator construction and provide weaker evidence of a positive trend.
-
-::: {.content-visible when-format="html"}
-![AF series with OLS and delta-method WLS trend (sample ending in 2023). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS_2023.png){#fig-endpoint-robustness fig-width=8.4 fig-height=4.9}
-:::
-
-::: {.content-visible when-format="pdf"}
-![AF series with OLS and delta-method WLS trend (sample ending in 2023). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS_2023.pdf){#fig-endpoint-robustness fig-width=8.4 fig-height=4.9}
-:::
-
-::: {.content-visible when-format="typst"}
-![AF series with OLS and delta-method WLS trend (sample ending in 2023). Grey bars show the relative weights assigned to each year in the WLS estimation.](figures/AF_trends_all_lulc_measurements_WLS_2023.pdf){#fig-endpoint-robustness fig-width=8.4 fig-height=4.9}
-:::
-
-
-### Supplementary Numerical Results {.unnumbered}
-
-While the main focus is on the slope estimates, we also report intercept estimates for completeness. The intercept captures the baseline AF level in 1959, and its estimation can also be affected by denominator measurement error.
-
-Results for the intercept estimates are shown in @tbl-intercept-comparison. 
-
-| Intercept | OLS (GCB) full | OLS (all) full | WLS (GCB) full | WLS (all) full | OLS (GCB) 2023 | OLS (all) 2023 | WLS (GCB) 2023 | WLS (all) 2023 |
-|:------------|---:|---:|---:|---:|---:|---:|---:|---:|
-| Estimate | $-2.7266$ | $-1.8946$ | $-4.9141$ | $-4.2130$ | $-2.1611$ | $-1.3121$ | $-4.3539$ | $-3.6377$ |
-| Standard error | 1.5352 | 1.5777 | 0.0443 | 0.0456 | 1.5461 | 1.5888 | 0.0440 | 0.0453 |
-| HAC standard error | 1.2391 | 1.2845 | 1.3212 | 1.3518 | 1.1553 | 1.1994 | 1.2087 | 1.2390 |
-| p-value | 0.0757 | 0.2298 | 0.0000 | 0.0000 | 0.1622 | 0.4089 | 0.0000 | 0.0000 |
-| HAC p-value | 0.0278 | 0.1402 | 0.0002 | 0.0018 | 0.0614 | 0.2739 | 0.0003 | 0.0033 |
-| R-squared | 0.0617 | 0.0331 | 0.1490 | 0.1111 | 0.0423 | 0.0189 | 0.1255 | 0.0893 |   
-: Intercept comparison across OLS and WLS specifications for full sample and sample up to 2023. {#tbl-intercept-comparison}
+By contrast, OLS specifications that do not incorporate denominator measurement information show weaker evidence of a positive trend and greater endpoint sensitivity. In the full sample, OLS using GCB LULC is significant under both conventional and HAC inference (p-values 0.04021 and 0.01112), whereas OLS using the all-LULC mean is not significant under either method (p-values 0.13891 and 0.06846). In the sample ending in 2023 (reported in the Supplementary Information), OLS using GCB LULC is only marginally significant under conventional inference (p-value = 0.09516), and OLS using the all-LULC mean is not significant (p-value = 0.27109). This sensitivity to denominator construction and endpoint exclusion highlights the value of incorporating multi-source LULC information in AF trend estimation.
 
 
 ## Discussion and conclusion {.unnumbered}
 
-Using a measurement-error-aware framework, we find robust evidence that AF increased from 1959 to 2024. The key methodological point is that incorporating multi-source denominator uncertainty through delta-method WLS materially changes inference relative to plain OLS. The endpoint test shows that this conclusion is not driven by the 2024 jump.
+Using a framework that incorporates all available LULC information from Global Carbon Budget 2025, we find robust evidence that AF increased from 1959 to 2024. Methodologically, incorporating multi-source uncertainty materially changes inference relative to plain OLS. Endpoint tests show that this conclusion is not driven by the 2024 jump.
 
-In practice, the implication is clear: AF trend assessments should report measurement-error-aware weighted estimates, benchmark them against OLS, and document endpoint sensitivity. 
-
-A rising AF implies that a larger share of emitted $CO_2$ remains in the atmosphere over policy-relevant horizons, tightening near-term mitigation requirements for a given temperature objective [@Canadell2007; @Raupach2007; @Friedlingstein2025]. The evidence of an increasing AF is consistent with broader findings that the climate system is out of energy balance and has recently exhibited elevated warming and heating rates; these results should therefore be interpreted within that wider risk context [@Miniere2023; @WMO_SGC_2025; @StortoYang2024; @rahmstorfGlobalWarmingHas2025].
+A rising AF implies that a larger share of emitted $CO_2$ remains in the atmosphere over policy-relevant horizons, tightening near-term mitigation requirements for a given temperature objective [@Canadell2007; @Raupach2007; @Friedlingstein2025]. The increasing AF signal is consistent with broader evidence that the climate system is out of energy balance and has recently shown elevated warming and heating rates; these findings should be interpreted in that wider risk context [@Miniere2023; @WMO_SGC_2025; @StortoYang2024; @rahmstorfGlobalWarmingHas2025].
 
 ::: {.content-visible when-format="html"}
 
@@ -167,11 +148,53 @@ A rising AF implies that a larger share of emitted $CO_2$ remains in the atmosph
 
 # Methods {.unnumbered}
 
-Our primary estimator is a two-stage measurement-error trend model using repeated yearly denominator measurements, followed by weighted trend estimation with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @Aitken1935; @NeweyWest1987].
+Our primary estimator is a linear mixed-effects trend model with random intercepts and random slopes for each LULC measurement series [@Henderson1953; @Bolker2009; @NakagawaSchielzeth2013; @NakagawaJohnsonSchielzeth2017]. As a robustness check, we also estimate a two-stage measurement-error trend model using repeated yearly denominator measurements, followed by WLS trend estimation with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @Aitken1935; @NeweyWest1987].
 
 ## Construction of the LULC measurement panel {.unnumbered}
 
-The repeated LULC measurements are built from the Global Carbon Budget 2025 dataset. We first extract the three bookkeeping series (BLUE, OSCAR, LUCE) [@Hansis2015; @Gasser2020; @Qin2024]. Then, for each process-based land-model LULC model in the GCB ensemble which does not already include peat emissions [@Haverd2018; @Melton2020; @Lawrence2019; @Fisher2015; @Tian2015; @Ma2022; @Yang2023; @Needham2025; @Felzer2018; @Xia2024; @Yue2024; @Shu2020; @Reick2021; @Poulter2011; @Smith2014; @Schaphoff2018; @Lienert2018; @Vuichard2019; @Walker2017; @Kato2013; @Ito2019], we add the corresponding peat component to make it comparable to the bookkeeping models, which include peat emissions by construction. Specifically, for each of the 33 process-based land-model combinations in the GCB ensemble we create three peat-augmented variants by adding FAO_peat, LPX_Bern_peat, and ORCHIDEE_peat [@Conchedda2020; @Mueller2021; @Qiu2021]. This produces 66 derived series, and together with BLUE/OSCAR/LUCE gives a panel of 69 yearly LULC measurements.
+The repeated LULC measurements are built from the Global Carbon Budget 2025 dataset. We first extract the three bookkeeping series (BLUE, OSCAR, LUCE) [@Hansis2015; @Gasser2020; @Qin2024]. Then, for each process-based land-model LULC series in the GCB ensemble that does not already include peat emissions [@Haverd2018; @Melton2020; @Lawrence2019; @Fisher2015; @Tian2015; @Ma2022; @Yang2023; @Needham2025; @Felzer2018; @Xia2024; @Yue2024; @Shu2020; @Reick2021; @Poulter2011; @Smith2014; @Schaphoff2018; @Lienert2018; @Vuichard2019; @Walker2017; @Kato2013; @Ito2019], we add the corresponding peat component to make it comparable to the bookkeeping models, which include peat emissions by construction. Specifically, for each of the 22 process-based series we create three peat-augmented variants by adding FAO_peat, LPX_Bern_peat, and ORCHIDEE_peat [@Conchedda2020; @Mueller2021; @Qiu2021]. This produces 66 derived series, and together with BLUE/OSCAR/LUCE gives a panel of 69 yearly LULC measurements.
+
+
+## Mixed-effects model {.unnumbered}
+
+The primary estimator is a linear mixed-effects trend model fitted on the panel of yearly AF values constructed from each LULC measurement series. For each year $t$ and series $j$, we define
+
+$$
+AF_{t,j} = \frac{G_t}{FF_t + LULC_{t,j}},
+$$
+
+and estimate
+
+$$
+AF_{t,j} = (\mu_\alpha + u_{\alpha j}) + (\mu_\beta + u_{\beta j})\,t + \varepsilon_{t,j},
+$$
+
+with
+
+$$
+\begin{bmatrix}u_{\alpha j} \\ u_{\beta j}\end{bmatrix}
+\sim N\!\left(
+\begin{bmatrix}0\\0\end{bmatrix},
+\Sigma_u
+\right),
+\qquad
+\varepsilon_{t,j} \sim N(0,\sigma_\varepsilon^2).
+$$
+
+This specification allows each LULC series to have its own level and trend while estimating a common population-average trend $\mu_\beta$. The main estimand is $\mu_\beta$, interpreted as the average annual change in AF across the full set of LULC definitions. Note that this notation is equivalent to the more compact notation in the main text, where $\alpha_j = \mu_\alpha + u_{\alpha j}$ and $\beta_j = \mu_\beta + u_{\beta j}$.
+
+The model is estimated by restricted maximum likelihood to avoid bias in variance component estimation [@Henderson1953;@Bolker2009]. Fixed-effect uncertainty is based on model-based standard errors and Wald tests. We report the estimated fixed intercept and slope, standard errors, p-values, and marginal/conditional R-squared [@NakagawaSchielzeth2013;@NakagawaJohnsonSchielzeth2017].
+
+Identification and interpretation rely on standard mixed-model conditions: (i) conditional linearity in time, (ii) random effects centered at zero and independent across LULC definitions, and (iii) mean-zero residuals conditional on fixed and random effects. 
+
+Because shocks are common across all definitions within year, these shocks are absorbed into the time-series component of the residual term; therefore, controlled-specification checks with additional year-level covariates are treated as robustness analysis when reported.
+
+As an endpoint robustness check, we re-estimate the same mixed-effects specification on the sample ending in 2023 to verify that inference on $\mu_\beta$ is not mechanically driven by the final-year observation.
+
+
+## Weighted least squares estimation approach {.unnumbered}
+
+As a robustness check to the mixed-effects model, we also estimate a two-stage measurement-error-aware weighted least squares (WLS) model that uses repeated LULC measurements to construct a denominator-uncertainty proxy for each year and uses that proxy for WLS weighting in a linear trend regression with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @Aitken1935; @NeweyWest1987].
 
 In the estimation, the yearly denominator is computed as
 $$
@@ -179,7 +202,7 @@ $$
 \bar{LULC}_t = \frac{1}{n_t}\sum_{j=1}^{n_t} LULC_{tj},
 $$
 
-where $n_t=3$ for the GCB LULC mean and $n_t=69$ for the all-LULC mean. The variance of $\hat C_t$ is estimated from the cross-measurement dispersion across the 69 LULC values and is used to construct the year-specific AF variance estimate used for WLS weighting.
+where $n_t=3$ for the GCB LULC mean and $n_t=69$ for the all-LULC mean. In the implemented robustness specification, the yearly weighting term is computed from the cross-measurement dispersion across the full set of 69 LULC values and is then applied to both denominator definitions.
 
 Assume for each time $t=1,\dots,T$ we observe:
 
@@ -187,26 +210,24 @@ Assume for each time $t=1,\dots,T$ we observe:
 
 -	multiple denominator measurements $c_{t1},\dots,c_{t n_t}$ with $n_t \ge 2$, which are noisy observations of a latent $C_t$.
 
-Using the repeated denominator measurements, we can estimate the variance of the ratio estimator $a_t = b_t/C_t$ via the delta method, which accounts for the variability in $C_t$ due to measurement error. The procedure is described in detail next.
-
-## Two-step estimation approach {.unnumbered}
+Using the repeated denominator measurements, we construct a year-specific uncertainty proxy for the ratio estimator $a_t = b_t/C_t$ via the delta method, which captures how dispersion in denominator definitions propagates into AF. The procedure is described in detail next.
 
 We use a two-step approach to estimate the trend in the ratio $a_t = b_t/C_t$ over time, accounting for denominator measurement error. 
 
 ### Step 1: Estimate $C_t$ and $a_t$ {.unnumbered}
 
-1. Estimate the “true” denominator at time $t$ as the sample mean across available LULC measurements:
+1. Construct the denominator estimate at time $t$ as the sample mean across available LULC measurements:
 $$
   \hat{C}_t = \frac{1}{n_t} \sum_{j=1}^{n_t} c_{tj}.
 $$
 
 We consider two variants of this denominator estimate: one using the GCB LULC column (the mean of BLUE, OSCAR, LUCE) and one using the all-LULC mean (the mean across all 69 LULC measurements).
 
-The variance of $\hat{C}_t$ can be estimated from the multiple measurements. 
+The cross-measurement dispersion around $\hat{C}_t$ is estimated from the multiple measurements.
 
-With $n_t \ge 2$, an empirical estimator is
+With $n_t \ge 2$, the empirical dispersion estimator is
 $$
-\widehat{\operatorname{Var}}(\hat C_t)= s_{c,t}^2,
+\widehat{\operatorname{Disp}}(\hat C_t)= s_{c,t}^2,
 \qquad
 s_{c,t}^2=\frac{1}{n_t-1}\sum_{j=1}^{n_t}(c_{tj}-\bar c_t)^2,
 \qquad
@@ -221,23 +242,23 @@ $$
 3. Use the multivariate delta method (shown below) to get an approximate variance of $\hat a_t$
 
 $$
-\widehat{\operatorname{Var}}(\hat a_t)\approx\left(\frac{b_t}{\hat C_t^2}\right)^2\widehat{\operatorname{Var}}(\hat C_t).
+\widehat{\operatorname{Var}}(\hat a_t)\propto\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
 $$
 
 
 ### Step 2: WLS regression of $\hat{a}_t$ on time {.unnumbered}
 
-For each time $t$, we obtain a point estimate $\hat{a}_t$ and an estimated variance $\widehat{\operatorname{Var}}(\hat a_t)$ that reflects the cross-measurement dispersion. We use these estimates to fit a linear trend via weighted least squares (WLS):
+For each time $t$, we obtain a point estimate $\hat{a}_t$ and an uncertainty proxy that reflects cross-measurement dispersion. We use these quantities to fit a linear trend via weighted least squares (WLS):
 
 $$
 \hat a_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \widehat{\operatorname{Var}}(\hat a_t).
 $$
 
-In our application, the time index $t$ is the year, and $\hat a_t$ is the estimated AF for that year. The variance $\sigma_t^2$ captures the standard error variance and the uncertainty in the AF estimate due to denominator measurement error, which varies across years depending on the number and variability of the LULC measurements. We use this variance to weight the regression, giving more weight to years with more precise AF estimates.
+In our application, the time index $t$ is the year, and $\hat a_t$ is the estimated AF for that year. The weighting term $\sigma_t^2$ is proportional to estimated AF uncertainty from denominator dispersion and varies across years with the spread of the LULC measurement panel. We use this term to weight the regression, giving more weight to years with lower denominator-related uncertainty.
 
 Assuming negligible correlation in $\varepsilon_t$ across time, this is WLS with weights $w_t=\frac{1}{\sigma_t^2}$. If we suspect serial correlation, we can use HAC standard errors for inference on $\beta$ without changing the point estimate. In practice, we use a HAC covariance estimator with a Bartlett kernel and Andrews automatic bandwidth selection [@NeweyWest1987]. In the results, we report both conventional and HAC standard errors.
 
-Testing for a time trend is then a test of $\beta=0$ versus $\beta\neq 0$ in this linear model, and using WLS we have used all the information in the repeated $\hat{a}_t$'s through the delta‑method approximation.
+Testing for a time trend is then a test of $\beta=0$ versus $\beta\neq 0$ in this linear model, and WLS uses the repeated denominator information through this delta-method weighting scheme.
 
 
 ## Delta method for ratio variance estimation {.unnumbered}
@@ -307,11 +328,12 @@ $$
 \operatorname{Var}(\hat a_t)\approx\left(\frac{b_t}{C_t^2}\right)^2 \sigma_{C,t}^2.
 $$
 
-Accordingly, a practical plug-in estimator is
+Accordingly, a practical plug-in weighting proxy is
 
 $$
-\widehat{\operatorname{Var}}(\hat a_t)\approx\left(\frac{b_t}{\hat C_t^2}\right)^2\widehat{\operatorname{Var}}(\hat C_t).
+\tilde{\sigma}_{a,t}^2=\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
 $$
+
 
 ## Data availability {.unnumbered}
 
@@ -319,7 +341,7 @@ The study uses publicly available Global Carbon Budget 2025 data and derived yea
 
 ## Code availability {.unnumbered}
 
-All code used to process data, estimate models, and generate figures is available in the repository ([github.com/everval/Airborne-Fraction-WLS-Trend](https://github.com/everval/Airborne-Fraction-WLS-Trend))under the scripts directory, including Quarto analysis files and Julia helper functions.
+All code used to process data, estimate models, and generate figures is available in the repository ([github.com/everval/Airborne-Fraction-WLS-Trend](https://github.com/everval/Airborne-Fraction-WLS-Trend)) under the scripts directory, including Quarto analysis files and Julia helper functions.
 
 ## Competing interests {.unnumbered}
 
@@ -327,4 +349,4 @@ The author declares no competing interests.
 
 ## Additional information {.unnumbered}
 
-Supplementary information is not included.
+Supplementary information is available in the accompanying supplementary manuscript file.

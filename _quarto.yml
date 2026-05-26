@@ -9,7 +9,9 @@ manuscript:
   notebooks:
     - scripts/lulc_measurements.qmd
     - scripts/af_plots.qmd
-    - scripts/af_2step_all_lulc_measurements.qmd
+    - scripts/af_wls_all_lulc_measurements.qmd
+    - scripts/af_mixed_models_all_lulc_measurements.qmd
+
 
   code-links: repo
 

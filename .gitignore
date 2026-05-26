@@ -42,3 +42,4 @@ Manifest.toml
 _manuscript/
 /scripts/.cache/
 /site_libs/
+.cache/

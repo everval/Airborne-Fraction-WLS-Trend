@@ -103,10 +103,11 @@ gcb_df.AF = gcb_df.Growth ./ (gcb_df.Fossil .+ gcb_df.LULC)
 ```{julia}
 T = nrow(analysis_df)
 T_gcb = nrow(gcb_df)
-model_ols_gcb = robust_est(gcb_df.AF, hcat(ones(T_gcb), gcb_df.Year), verbose = true)
-model_wls_gcbaf_allw = robust_est(gcb_df.AF, hcat(ones(T_gcb), gcb_df.Year), w = 1 ./ analysis_df.AF_var, verbose = true)
-model_ols = robust_est(analysis_df.AF, hcat(ones(T), analysis_df.Year), verbose = true)
-model_wls = robust_est(analysis_df.AF, hcat(ones(T), analysis_df.Year), w = 1 ./ analysis_df.AF_var, verbose = true)
+t = analysis_df.Year .- minimum(analysis_df.Year)
+model_ols_gcb = robust_est(gcb_df.AF, hcat(ones(T_gcb), t), verbose = true)
+model_wls_gcbaf_allw = robust_est(gcb_df.AF, hcat(ones(T_gcb), t), w = 1 ./ analysis_df.AF_var, verbose = true)
+model_ols = robust_est(analysis_df.AF, hcat(ones(T), t), verbose = true)
+model_wls = robust_est(analysis_df.AF, hcat(ones(T), t), w = 1 ./ analysis_df.AF_var, verbose = true)
 ```
 
 ```{julia}
@@ -199,13 +200,14 @@ savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_
 ```{julia}
 analysis_2023 = analysis_df[analysis_df.Year .< 2024, :]
 gcb_2023 = gcb_df[gcb_df.Year .< 2024, :]
+t_2023 = analysis_2023.Year .- minimum(analysis_2023.Year)
 
 T_2023 = nrow(analysis_2023)
 T_gcb_2023 = nrow(gcb_2023)
-model_ols_gcb_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), gcb_2023.Year), verbose = true)
-model_wls_gcbaf_allw_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), gcb_2023.Year), w = 1 ./ analysis_2023.AF_var, verbose = true)
-model_ols_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), analysis_2023.Year), verbose = true)
-model_wls_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), analysis_2023.Year), w = 1 ./ analysis_2023.AF_var, verbose = true)
+model_ols_gcb_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), t_2023), verbose = true)
+model_wls_gcbaf_allw_2023 = robust_est(gcb_2023.AF, hcat(ones(T_gcb_2023), t_2023), w = 1 ./ analysis_2023.AF_var, verbose = true)
+model_ols_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), t_2023), verbose = true)
+model_wls_2023 = robust_est(analysis_2023.AF, hcat(ones(T_2023), t_2023), w = 1 ./ analysis_2023.AF_var, verbose = true)
 
 gcb_2023.AF_ols_trend = model_ols_gcb_2023.Yfit
 gcb_2023.AF_wls_allw_trend = model_wls_gcbaf_allw_2023.Yfit
@@ -302,8 +304,8 @@ results_table = DataFrame(
         "Estimate",
         "Standard error",
         "HAC standard error",
-        "pval",
-        "hac_pvals",
+        "p-value",
+        "HAC p-value",
         "R-squared",
     ],
     OLS_GCB_full = [
@@ -372,11 +374,9 @@ results_table = DataFrame(
     ],
 )
 
-using Printf
+fmt_num(x) = string(round(x; digits = 5))
 
-fmt_num(x) = @sprintf("%.6f", x)
-
-header = "| Metric | OLS (GCB LULC) full | OLS (all-LULC mean) full | WLS (all-LULC AF; all-LULC w) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
+header = "| Trend | OLS (GCB) full | OLS (all) full | WLS (all) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
 sep = "|---|---:|---:|---:|---:|---:|---:|---:|---:|"
 
 rows = String[]
@@ -388,12 +388,41 @@ table_md = join([header, sep, rows...], "\n") * "\n"
 
 println(table_md)
 
-table_out_path = joinpath(@__DIR__, "..", "results", "af_2step_all_lulc_trend_summary_table.md")
+table_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_trend_summary_table.md")
 open(table_out_path, "w") do io
     write(io, table_md)
 end
 
 println("Saved manuscript-embed table to: $(table_out_path)")
+
+# Export separate slope tables in requested order: OLS (GCB), OLS (all), WLS (GCB), WLS (all)
+header_slope = "| Trend | OLS (GCB) | OLS (all) | WLS (GCB) | WLS (all) |"
+sep_slope = "|---|---:|---:|---:|---:|"
+
+rows_full = String[]
+for r in eachrow(results_table)
+    push!(rows_full, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.WLS_full)) |")
+end
+table_slope_full_md = join([header_slope, sep_slope, rows_full...], "\n") * "\n"
+
+rows_2023 = String[]
+for r in eachrow(results_table)
+    push!(rows_2023, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) |")
+end
+table_slope_2023_md = join([header_slope, sep_slope, rows_2023...], "\n") * "\n"
+
+slope_full_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_slope_full_sample.md")
+open(slope_full_out_path, "w") do io
+    write(io, table_slope_full_md)
+end
+
+slope_2023_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_slope_up_to_2023.md")
+open(slope_2023_out_path, "w") do io
+    write(io, table_slope_2023_md)
+end
+
+println("Saved slope full-sample table to: $(slope_full_out_path)")
+println("Saved slope up-to-2023 table to: $(slope_2023_out_path)")
 ```
 
 ### Supplementary table: intercept estimates
@@ -408,8 +437,8 @@ intercept_table = DataFrame(
         "Estimate",
         "Standard error",
         "HAC standard error",
-        "pval",
-        "hac_pvals",
+        "p-value",
+        "HAC p-value",
         "R-squared",
     ],
     OLS_GCB_full = [
@@ -478,19 +507,19 @@ intercept_table = DataFrame(
     ],
 )
 
-header_int = "| Metric | OLS (GCB LULC) full | OLS (all-LULC mean) full | WLS (all-LULC AF; all-LULC w) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
+header_int = "| Metric | OLS (GCB) full | OLS (all) full | WLS (GCB ) full | WLS (all) full | OLS (GCB) 2023 | OLS (all) 2023 | WLS (GCB) 2023 | WLS (all) 2023 |"
 sep_int = "|---|---:|---:|---:|---:|---:|---:|---:|---:|"
 
 rows_int = String[]
 for r in eachrow(intercept_table)
-    push!(rows_int, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) |")
+    push!(rows_int, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.WLS_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) |")
 end
 
 intercept_table_md = join([header_int, sep_int, rows_int...], "\n") * "\n"
 
 println(intercept_table_md)
 
-intercept_out_path = joinpath(@__DIR__, "..", "results", "af_2step_all_lulc_intercept_summary_table.md")
+intercept_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_intercept_summary_table.md")
 open(intercept_out_path, "w") do io
     write(io, intercept_table_md)
 end
