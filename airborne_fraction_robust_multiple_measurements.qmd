@@ -92,9 +92,9 @@ The main results of estimating the mixed-effects model considering the full samp
 
 | Parameter | Intercept (full) | Slope (full) | Intercept (up to 2023) | Slope (up to 2023) |
 |---|---:|---:|---:|---:|
-| Estimate | 0.406959 | 0.001103 | 0.41326 | 0.000808 |
+| Estimate | 0.406959 | 0.001103 | 0.413260 | 0.000808 |
 | Standard error | 0.005573 | 0.000102 | 0.005586 | 0.000103 |
-| p-value | 0.00000 | 0.00000 | 0.00000 | 0.00000 |
+| p-value | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
 | R-squared (marginal) | 0.008631 | 0.008631 | 0.004518 | 0.004518 |
 | R-squared (conditional) | 0.700967 | 0.700967 | 0.708173 | 0.708173 |
 : Mixed-effects model with random effects for each LULC measurement series. {#tbl-mixed-effects}
@@ -115,7 +115,7 @@ The mixed-effects slope is positive and statistically significant (p-value < 1E-
 
 AF shows a large jump in the final year (2024), so we re-estimate the mixed-effects model on the subsample ending in 2023 to check whether the result is driven by that observation. Results are shown in @tbl-mixed-effects and @fig-mixed-effects-trend-2023. The slope remains positive and statistically significant (p-value < 1E-5), indicating that the increasing AF trend is not driven by the final observation. The slope is smaller (0.000808 per year versus 0.001103 per year), consistent with a contribution from the 2024 jump, but the direction and inference are unchanged.
 
-As additional robustness checks, we estimate a delta-method uncertainty proxy for each annual AF estimate using the cross-measurement dispersion of the full 69-series LULC panel, and use these proxies in WLS with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @NeweyWest1987]. Two WLS specifications are shown in @tbl-trend-full: one using the GCB LULC mean as the denominator and one using the all-LULC mean. In both WLS specifications in @tbl-trend-full weights are constructed from the all-LULC panel dispersion so that the weighting scheme is held fixed across denominator definitions. The WLS results are consistent with the mixed-effects results, and Supplementary Information confirms robustness to endpoint exclusion.
+As additional robustness checks, we estimate a delta-method uncertainty proxy for each annual AF estimate using the cross-measurement dispersion of the full 69-series LULC panel, and use these proxies in WLS with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @NeweyWest1987]. Two WLS specifications are shown in @tbl-trend-full: one using the GCB LULC mean as the denominator and one using the all-LULC mean. In both specifications weights are constructed from the all-LULC panel dispersion so that the weighting scheme is held fixed across denominator definitions. The WLS results are consistent with the mixed-effects results, showing a positive and statistically significant trend.
 
 | Trend, full sample | OLS (GCB) | OLS (all) | WLS (GCB) | WLS (all) |
 |:-----|---:|---:|---:|---:|
@@ -127,8 +127,11 @@ As additional robustness checks, we estimate a delta-method uncertainty proxy fo
 | R-squared | 0.06171 | 0.03309 | 0.14899 | 0.11107 |
 : Full-sample trend comparison across OLS and WLS specifications. {#tbl-trend-full}
 
-By contrast, OLS specifications that do not incorporate denominator measurement information show weaker evidence of a positive trend and greater endpoint sensitivity. In the full sample, OLS using GCB LULC is significant under both conventional and HAC inference (p-values 0.04021 and 0.01112), whereas OLS using the all-LULC mean is not significant under either method (p-values 0.13891 and 0.06846). In the sample ending in 2023 (reported in the Supplementary Information), OLS using GCB LULC is only marginally significant under conventional inference (p-value = 0.09516), and OLS using the all-LULC mean is not significant (p-value = 0.27109). This sensitivity to denominator construction and endpoint exclusion highlights the value of incorporating multi-source LULC information in AF trend estimation.
+By contrast, OLS specifications that do not incorporate denominator measurement information show weaker evidence of a positive trend and greater endpoint sensitivity. In the full sample, OLS using GCB LULC is significant under both conventional and HAC inference (p-values 0.04021 and 0.01112), whereas OLS using the all-LULC mean is not significant under either method (p-values 0.13891 and 0.06846). 
 
+In the sample ending in 2023 (reported in the [Supplementary Information](https://everval.github.io/Airborne-Fraction-WLS-Trend/supplementary-preview.html)), WLS remains significant under both mean definitions (p-values 0.00059 and 0.00060), while OLS using GCB LULC is only marginally significant under conventional inference (p-value = 0.09516), and OLS using the all-LULC mean is not significant (p-value = 0.27109). 
+
+This sensitivity to denominator construction and endpoint exclusion highlights the value of incorporating multi-source LULC information in AF trend estimation.
 
 ## Discussion and conclusion {.unnumbered}
 
@@ -225,9 +228,9 @@ We consider two variants of this denominator estimate: one using the GCB LULC co
 
 The cross-measurement dispersion around $\hat{C}_t$ is estimated from the multiple measurements.
 
-With $n_t \ge 2$, the empirical dispersion estimator is
+With $n_t \ge 2$, the empirical variance estimator is
 $$
-\widehat{\operatorname{Disp}}(\hat C_t)= s_{c,t}^2,
+\widehat{\operatorname{Var}}(\hat C_t)= s_{c,t}^2,
 \qquad
 s_{c,t}^2=\frac{1}{n_t-1}\sum_{j=1}^{n_t}(c_{tj}-\bar c_t)^2,
 \qquad
@@ -242,7 +245,7 @@ $$
 3. Use the multivariate delta method (shown below) to get an approximate variance of $\hat a_t$
 
 $$
-\widehat{\operatorname{Var}}(\hat a_t)\propto\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
+\widehat{\operatorname{Var}}(\hat a_t)=\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
 $$
 
 
@@ -251,7 +254,7 @@ $$
 For each time $t$, we obtain a point estimate $\hat{a}_t$ and an uncertainty proxy that reflects cross-measurement dispersion. We use these quantities to fit a linear trend via weighted least squares (WLS):
 
 $$
-\hat a_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \widehat{\operatorname{Var}}(\hat a_t).
+\hat a_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \operatorname{Var}(\hat a_t).
 $$
 
 In our application, the time index $t$ is the year, and $\hat a_t$ is the estimated AF for that year. The weighting term $\sigma_t^2$ is proportional to estimated AF uncertainty from denominator dispersion and varies across years with the spread of the LULC measurement panel. We use this term to weight the regression, giving more weight to years with lower denominator-related uncertainty.
@@ -331,7 +334,7 @@ $$
 Accordingly, a practical plug-in weighting proxy is
 
 $$
-\tilde{\sigma}_{a,t}^2=\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
+\widehat{\operatorname{Var}(\hat a_t)}=\left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
 $$
 
 
@@ -349,4 +352,4 @@ The author declares no competing interests.
 
 ## Additional information {.unnumbered}
 
-Supplementary information is available in the accompanying supplementary manuscript file.
+Supplementary information is available in the accompanying [supplementary manuscript file](https://everval.github.io/Airborne-Fraction-WLS-Trend/supplementary-preview.html).

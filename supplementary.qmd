@@ -18,20 +18,6 @@ date: today
 number-sections: false
 csl: nature.csl
 format:
-  html:
-    mainfont: Georgia, serif
-    embed-resources: true
-    self-contained: true
-    html-math-method: katex
-    theme: litera
-    toc: false
-    include-in-header:
-      - text: |
-            <style>
-            p {
-            text-align: justify;
-            }
-            </style>
   typst:
     output-file: si_airborne_fraction_typst.pdf
     font: "Times New Roman"

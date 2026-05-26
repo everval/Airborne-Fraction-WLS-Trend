@@ -11,7 +11,8 @@ manuscript:
     - scripts/af_plots.qmd
     - scripts/af_wls_all_lulc_measurements.qmd
     - scripts/af_mixed_models_all_lulc_measurements.qmd
-
+    - notebook: supplementary.qmd
+      title: "Supplementary information"
 
   code-links: repo
 
