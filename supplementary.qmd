@@ -18,6 +18,20 @@ date: today
 number-sections: false
 csl: nature.csl
 format:
+  html:
+    mainfont: Georgia, serif
+    embed-resources: true
+    self-contained: true
+    html-math-method: katex
+    theme: litera
+    toc: false
+    include-in-header:
+      - text: |
+            <style>
+            p {
+            text-align: justify;
+            }
+            </style>
   typst:
     output-file: si_airborne_fraction_typst.pdf
     font: "Times New Roman"
@@ -93,7 +107,7 @@ The final observation (2024) shows a large increase in AF. To ensure this point 
 | HAC standard error | 0.00058 | 0.00060 | 0.00059 | 0.00060 |
 | p-value | 0.09516 | 0.27109 | 0.00000 | 0.00000 |
 | HAC p-value | 0.02495 | 0.14322 | 0.00005 | 0.00080 |
-| R-squared | 0.04233 | 0.01886 | 0.12552 | 0.0893 |
+| R-squared | 0.04233 | 0.01886 | 0.12552 | 0.08930 |
 : Subsample (ending in 2023) trend comparison across OLS and WLS specifications. {#tbl-trend-2023}
 
 Results remain qualitatively unchanged for the WLS specifications: both estimated slopes stay positive and statistically significant (0.00237 with HAC p-value = 0.00005, and 0.00202 with HAC p-value = 0.00080). For the sample ending in 2023, OLS using GCB LULC is positive but only marginally significant under conventional inference (p-value = 0.09516), while OLS using the all-LULC mean is not significant (p-value = 0.27109). Overall, the WLS results are robust to endpoint exclusion, whereas OLS results are more sensitive to denominator construction and provide weaker evidence of a positive trend.

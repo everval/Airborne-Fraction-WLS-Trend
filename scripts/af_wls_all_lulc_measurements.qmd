@@ -376,12 +376,12 @@ results_table = DataFrame(
 
 fmt_num(x) = string(round(x; digits = 5))
 
-header = "| Trend | OLS (GCB) full | OLS (all) full | WLS (all) full | WLS (GCB AF; all-LULC w) full | OLS (GCB LULC) up to 2023 | OLS (all-LULC mean) up to 2023 | WLS (all-LULC AF; all-LULC w) up to 2023 | WLS (GCB AF; all-LULC w) up to 2023 |"
+header = "| Trend | OLS (GCB) full | OLS (all) full | WLS (GCB) full |  WLS (all) full | OLS (GCB) up to 2023 | OLS (all) up to 2023 | WLS (GCB) up to 2023 | WLS (all) up to 2023  |"
 sep = "|---|---:|---:|---:|---:|---:|---:|---:|---:|"
 
 rows = String[]
 for r in eachrow(results_table)
-    push!(rows, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) |")
+    push!(rows, "| $(r.Metric) | $(fmt_num(r.OLS_GCB_full)) | $(fmt_num(r.OLS_full)) | $(fmt_num(r.WLS_GCB_AF_allw_full))  | $(fmt_num(r.WLS_full)) | $(fmt_num(r.OLS_GCB_up_to_2023)) | $(fmt_num(r.OLS_up_to_2023)) | $(fmt_num(r.WLS_GCB_AF_allw_up_to_2023)) | $(fmt_num(r.WLS_up_to_2023)) |")
 end
 
 table_md = join([header, sep, rows...], "\n") * "\n"
