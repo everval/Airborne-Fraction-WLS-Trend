@@ -682,10 +682,11 @@ optimisation-based approach to plant coordination of photosynthesis}.
 
 \bibitem[\citeproctext]{ref-Melton2020}
 \CSLLeftMargin{20. }%
-\CSLRightInline{Melton, J. R. \emph{et al.} CLASSIC v1.0: The
+\CSLRightInline{Melton, J. R. \emph{et al.}
+\href{https://doi.org/10.5194/gmd-13-2825-2020}{CLASSIC v1.0: The
 open-source community successor to the canadian land surface scheme
 (CLASS) and the canadian terrestrial ecosystem model (CTEM) -- part 1:
-Model framework and site-level performance. \emph{Geoscientific Model
+Model framework and site-level performance}. \emph{Geoscientific Model
 Development} \textbf{13}, 2825--2850 (2020).}
 
 \bibitem[\citeproctext]{ref-Lawrence2019}
@@ -1020,7 +1021,7 @@ Assume for each time \(t=1,\dots,T\) we observe:
 
 \begin{itemize}
 \item
-  a single numerator \(b_t\) (e.g., atmospheric \(CO_2\) growth), and
+  a single numerator \(G_t\) (e.g., atmospheric \(CO_2\) growth), and
 \item
   multiple denominator measurements \(c_{t1},\dots,c_{t n_t}\) with
   \(n_t \ge 2\), which are noisy observations of a latent \(C_t\).
@@ -1028,14 +1029,14 @@ Assume for each time \(t=1,\dots,T\) we observe:
 
 Using the repeated denominator measurements, we construct a
 year-specific uncertainty proxy for the ratio estimator
-\(a_t = b_t/C_t\) via the delta method, which captures how dispersion in
-denominator definitions propagates into AF. The procedure is described
-in detail next.
+\(AF_t = G_t/C_t\) via the delta method, which captures how dispersion
+in denominator definitions propagates into AF. The procedure is
+described in detail next.
 
 \subsubsection*{\texorpdfstring{Step 1: Estimate \(C_t\) and
-\(a_t\)}{Step 1: Estimate C\_t and a\_t}}\label{step-1-estimate-c_t-and-a_t}
+\(AF_t\)}{Step 1: Estimate C\_t and AF\_t}}\label{step-1-estimate-c_t-and-af_t}
 \addcontentsline{toc}{subsubsection}{Step 1: Estimate \(C_t\) and
-\(a_t\)}
+\(AF_t\)}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1067,35 +1068,34 @@ s_{c,t}^2=\frac{1}{n_t-1}\sum_{j=1}^{n_t}(c_{tj}-\bar c_t)^2,
 \setcounter{enumi}{1}
 \item
   Form the ratio estimate \[
-  \hat a_t = b_t/\hat C_t.
+  AF_t = G_t/\hat C_t.
   \]
 \item
-  Use the multivariate delta method (shown below) to construct an
-  approximate uncertainty proxy for \(\hat a_t\)
+  Use the multivariate delta method (shown below) to obtain an estimate
+  of the \(AF_t\) uncertainty
 \end{enumerate}
 
 \[
-\widehat{\operatorname{Var}}(a_t)\approx \left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
+\widehat{\operatorname{Var}}(AF_t) = \left(\frac{G_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
 \]
 
-\subsubsection*{\texorpdfstring{Step 2: WLS regression of \(\hat{a}_t\)
-on
-time}{Step 2: WLS regression of \textbackslash hat\{a\}\_t on time}}\label{step-2-wls-regression-of-hata_t-on-time}
-\addcontentsline{toc}{subsubsection}{Step 2: WLS regression of
-\(\hat{a}_t\) on time}
+\subsubsection*{\texorpdfstring{Step 2: WLS regression of \(AF_t\) on
+time}{Step 2: WLS regression of AF\_t on time}}\label{step-2-wls-regression-of-af_t-on-time}
+\addcontentsline{toc}{subsubsection}{Step 2: WLS regression of \(AF_t\)
+on time}
 
-For each time \(t\), we obtain a point estimate \(\hat{a}_t\) and an
+For each time \(t\), we obtain a point estimate \(AF_t\) and an
 uncertainty proxy that reflects cross-measurement dispersion. We use
 these quantities to fit a linear trend via WLS:
 
 \[
-\hat a_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \operatorname{Var}(\hat{a}_t).
+AF_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \operatorname{Var}(AF_t).
 \]
 
-In our application, the time index \(t\) is the year, and \(\hat a_t\)
-is the estimated AF for that year. The weighting term is obtained from
-AF uncertainty from denominator dispersion and varies across years with
-the spread of the LULC measurement panel. We use this term to weight the
+In our application, the time index \(t\) is the year, and \(AF_t\) is
+the estimated AF for that year. The weighting term is obtained from AF
+uncertainty from denominator dispersion and varies across years with the
+spread of the LULC measurement panel. We use this term to weight the
 regression, giving more weight to years with lower denominator-related
 uncertainty. The core idea is that years with more consistent LULC
 measurements provide more reliable AF estimates, and hence should have
@@ -1126,53 +1126,53 @@ method):}\label{step-by-step-derivation-first-order-delta-method}
 Define the random vector and the function of interest as \[
 X_t=
 \begin{bmatrix}
-b_t\\
+G_t\\
 \hat C_t
 \end{bmatrix},
 \qquad
-g(X_t)=\frac{b_t}{\hat C_t}.
+g(X_t)=\frac{G_t}{\hat C_t}.
 \]
 
 and let \[
-\sigma_{b,t}^2 = \operatorname{Var}(b_t),\qquad \sigma_{C,t}^2 = \operatorname{Var}(\hat C_t),\qquad \sigma_{bC,t} = \operatorname{Cov}(b_t,\hat C_t).
+\sigma_{G,t}^2 = \operatorname{Var}(G_t),\qquad \sigma_{C,t}^2 = \operatorname{Var}(\hat C_t),\qquad \sigma_{GC,t} = \operatorname{Cov}(G_t,\hat C_t).
 \]
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
   Linearize \(g\) around the mean vector
-  \((\mu_{b,t},\mu_{C,t})=\mathbb E[(b_t,\hat C_t)]\): \[
-  g(X_t)\approx g(\mu_{b,t},\mu_{C,t})+\nabla g(\mu_{b,t},\mu_{C,t})^\top (X_t-\mathbb E[X_t]).
+  \((\mu_{G,t},\mu_{C,t})=\mathbb E[(G_t,\hat C_t)]\): \[
+  g(X_t)\approx g(\mu_{G,t},\mu_{C,t})+\nabla g(\mu_{G,t},\mu_{C,t})^\top (X_t-\mathbb E[X_t]).
   \]
 \item
   Compute the gradient: \[
-  \nabla g(b,C)=
+  \nabla g(G,C)=
   \begin{bmatrix}
-  \partial g/\partial b\\
+  \partial g/\partial G\\
   \partial g/\partial C
   \end{bmatrix}
   =
   \begin{bmatrix}
   1/C\\
-  -b/C^2
+  -G/C^2
   \end{bmatrix}.
   \]
 \item
-  Write the covariance matrix of \((b_t,\hat C_t)\): \[
+  Write the covariance matrix of \((G_t,\hat C_t)\): \[
   \Sigma_t=
   \begin{bmatrix}
-  \sigma_{b,t}^2 & \sigma_{bC,t}\\
-  \sigma_{bC,t} & \sigma_{C,t}^2
+  \sigma_{G,t}^2 & \sigma_{GC,t}\\
+  \sigma_{GC,t} & \sigma_{C,t}^2
   \end{bmatrix}.
   \]
 \item
   Apply the delta-method variance formula \[
-  \operatorname{Var}(g(X_t))\approx \nabla g(\mu_{b,t},\mu_{C,t})^\top\Sigma_t\nabla g(\mu_{b,t},\mu_{C,t}),
-  \] and with plug-in evaluation at \((b_t,C_t)\), this becomes
+  \operatorname{Var}(g(X_t))\approx \nabla g(\mu_{G,t},\mu_{C,t})^\top\Sigma_t\nabla g(\mu_{G,t},\mu_{C,t}),
+  \] and with plug-in evaluation at \((G_t,C_t)\), this becomes
 \end{enumerate}
 
 \[
-\operatorname{Var}(\hat a_t)\approx\left(\frac{1}{C_t}\right)^2 \sigma_{b,t}^2+\left(\frac{b_t}{C_t^2}\right)^2 \sigma_{C,t}^2-2\frac{b_t}{C_t^3}\sigma_{bC,t}.
+\operatorname{Var}(AF_t)\approx\left(\frac{1}{C_t}\right)^2 \sigma_{G,t}^2+\left(\frac{G_t}{C_t^2}\right)^2 \sigma_{C,t}^2-2\frac{G_t}{C_t^3}\sigma_{GC,t}.
 \]
 
 In practice, we use plug-in estimates (replace unknown moments by their
@@ -1186,7 +1186,7 @@ for the variance of a ratio estimator.
 \item
   In the case analysed in this paper, we have a single numerator
   measurement from a robust source per time, so we treat
-  \(\sigma_{b,t}^2\) and \(\sigma_{bC,t}\) as negligible relative to the
+  \(\sigma_{G,t}^2\) and \(\sigma_{GC,t}\) as negligible relative to the
   variance from the denominator measurement error, which is captured by
   \(\sigma_{C,t}^2\). Nevertheless, the formula above is general and can
   be applied in other contexts where numerator uncertainty is
@@ -1198,13 +1198,13 @@ Under the assumption of negligible numerator variance and covariance,
 the formula simplifies to
 
 \[
-\operatorname{Var}(\hat a_t)\approx\left(\frac{b_t}{C_t^2}\right)^2 \sigma_{C,t}^2.
+\operatorname{Var}(AF_t)\approx\left(\frac{G_t}{C_t^2}\right)^2 \sigma_{C,t}^2.
 \]
 
-Accordingly, a practical plug-in variance estimator for \(\hat a_t\) is
+Accordingly, a practical plug-in variance estimator for \(AF_t\) is
 
 \[
-    \widehat{\operatorname{Var}}(\hat{a}_t) = \left(\frac{b_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
+    \widehat{\operatorname{Var}}(AF_t) = \left(\frac{G_t}{C_t^2}\right)^2 s_{c,t}^2.
 \]
 
 \subsection*{Data availability}\label{data-availability}
