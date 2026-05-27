@@ -404,22 +404,22 @@ Slope (up to 2023)
 \endlastfoot
 Estimate & 0.406959 & 0.001103 & 0.413260 & 0.000808 \\
 Standard error & 0.005573 & 0.000102 & 0.005586 & 0.000103 \\
-p-value & 0.000000 & 0.000000 & 0.000000 & 0.000000 \\
+p-value & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
 R-squared (marginal) & 0.008631 & 0.008631 & 0.004518 & 0.004518 \\
 R-squared (conditional) & 0.700967 & 0.700967 & 0.708173 & 0.708173 \\
 \end{longtable}
 
 The mixed-effects slope is positive and statistically significant
-(p-value \textless{} 1E-5), indicating strong evidence of an increasing
-AF trend across LULC measurement series. The estimated intercept is
-around 0.41 and the slope is around 0.0011 per year, implying an
-increase of about 0.07 in AF over 1959-2024. These estimates are
-comparable with the approximately 0.45 AF level reported in the
-literature\textsuperscript{2,3,6,7,42,43}, while identifying a positive
-long-run trend when all LULC information is incorporated. The
-conditional R-squared values indicate that most explained variation is
-captured by between-series structure rather than by the fixed linear
-time trend (marginal versus conditional R-squared).
+(p-value \textless{} 1.0E-5), indicating strong evidence of an
+increasing AF trend across LULC measurement series. The estimated
+intercept is around 0.407+/-0.006 and the slope is around
+0.0011+/-0.0001 per year, implying an increase of about 0.0717 in AF
+over 1959-2024. These estimates are comparable with the approximately
+0.45 AF level reported in the literature\textsuperscript{2,3,6,7,42,43},
+while identifying a positive long-run trend when all LULC information is
+incorporated. The conditional R-squared values indicate that most
+explained variation is captured by between-series structure rather than
+by the fixed linear time trend (marginal versus conditional R-squared).
 
 \begin{figure}
 
@@ -467,7 +467,7 @@ mixed-effects model on the subsample ending in 2023 to check whether the
 result is driven by that observation. Results are shown in the last two
 columns of Table~\ref{tbl-mixed-effects} and
 Figure~\ref{fig-mixed-effects-trend-2023}. The slope remains positive
-and statistically significant (p-value \textless{} 1E-5), indicating
+and statistically significant (p-value \textless{} 1.0E-5), indicating
 that the increasing AF trend is not driven by the final observation. The
 slope is smaller (0.000808 per year versus 0.001103 per year),
 consistent with a contribution from the 2024 large value, but the
@@ -481,46 +481,100 @@ WLS specifications are shown in Table~\ref{tbl-trend-full}: one using
 the GCB LULC mean as the denominator and one using the all-LULC mean. In
 both specifications, weights are constructed from the all-LULC panel
 dispersion so that the weighting scheme is held fixed across denominator
-definitions. The WLS results are consistent with the mixed-effects
-results and show a positive, statistically significant trend. Note that
-the slopes estimated from WLS are steeper than those from OLS or the
-mixed-effects model, which is consistent with the fact that WLS assigns
-less weight to years with higher denominator uncertainty, which tend to
-be the earlier years of the sample.
+definitions.
 
-\begin{longtable}[]{@{}lrrrr@{}}
-\caption{Full-sample trend comparison across OLS and WLS
-specifications.}\label{tbl-trend-full}\tabularnewline
+The WLS results are consistent with the mixed-effects results and show a
+positive, statistically significant trend. Note that the slopes
+estimated from WLS are steeper than those from OLS or the mixed-effects
+model, which is consistent with the fact that WLS assigns less weight to
+years with higher denominator uncertainty, which tend to be the earlier
+years of the sample.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}@{}}
+\caption{Trend comparison across OLS and WLS specifications for the full
+sample and the sample ending in
+2023.}\label{tbl-trend-full}\tabularnewline
 \toprule\noalign{}
-Trend, full sample & OLS (GCB) & OLS (all) & WLS (GCB) & WLS (all) \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Trend
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (GCB) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (all) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (GCB) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (all) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (GCB) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (all) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (GCB) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (all) up to 2023
+\end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
-Trend, full sample & OLS (GCB) & OLS (all) & WLS (GCB) & WLS (all) \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Trend
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (GCB) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (all) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (GCB) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (all) full
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (GCB) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+OLS (all) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (GCB) up to 2023
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+WLS (all) up to 2023
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Estimate & 0.00158 & 0.00117 & 0.00265 & 0.00230 \\
-Standard error & 0.00077 & 0.00079 & 0.00002 & 0.00002 \\
-HAC standard error & 0.00062 & 0.00064 & 0.00065 & 0.00066 \\
-p-value & 0.04021 & 0.13891 & 0.00000 & 0.00000 \\
-HAC p-value & 0.01112 & 0.06846 & 0.00004 & 0.00050 \\
-R-squared & 0.06171 & 0.03309 & 0.14899 & 0.11107 \\
+Estimate & 0.00158 & 0.00117 & 0.00265 & 0.00230 & 0.00130 & 0.00088 &
+0.00237 & 0.00202 \\
+Standard error & 0.00077 & 0.00079 & 2.0E-5 & 2.0E-5 & 0.00078 & 0.00080
+& 2.0E-5 & 2.0E-5 \\
+HAC standard error & 0.00062 & 0.00064 & 0.00065 & 0.00066 & 0.00058 &
+0.0006 & 0.00059 & 0.0006 \\
+p-value & 0.04021 & 0.13891 & 1.0E-5 & 1.0E-5 & 0.09516 & 0.27109 &
+1.0E-5 & 1.0E-5 \\
+HAC p-value & 0.01112 & 0.06846 & 4.0E-5 & 0.00050 & 0.02495 & 0.14322 &
+5.0E-5 & 0.00080 \\
+R-squared & 0.06171 & 0.03309 & 0.14899 & 0.11107 & 0.04233 & 0.01886 &
+0.12552 & 0.08930 \\
 \end{longtable}
 
 By contrast, OLS specifications that do not incorporate denominator
 measurement information show weaker evidence of a positive trend and
 greater endpoint sensitivity. In the full sample, OLS using GCB LULC is
-significant under both conventional and HAC inference (p-values 0.04021
-and 0.01112), whereas OLS using the all-LULC mean is not significant
-under either method (p-values 0.13891 and 0.06846).
+significant under both conventional and HAC inference (p-value 0.04021
+and HAC p-value 0.01112), whereas OLS using the all-LULC mean is not
+significant under either method (p-value 0.13891 and HAC p-value
+0.06846).
 
-In the sample ending in 2023 (reported in the
-\href{https://everval.github.io/Airborne-Fraction-WLS-Trend/supplementary-preview.html}{Supplementary
-Information}), WLS remains significant under both mean definitions (HAC
-p-values 0.00005 and 0.00080), whereas OLS only remains significant when
-using the GCB LULC mean (HAC p-values 0.02495 and 0.14322).
+In the sample ending in 2023, WLS remains significant under both mean
+definitions (HAC p-values 5.0E-5 and 0.00080), whereas OLS only remains
+significant when using the GCB LULC mean (HAC p-values 0.02495 and
+0.14322).
 
 This sensitivity to denominator construction and endpoint exclusion
 highlights the value of incorporating multi-source LULC information in
