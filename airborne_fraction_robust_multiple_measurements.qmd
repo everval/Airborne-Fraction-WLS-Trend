@@ -30,7 +30,7 @@ csl: nature.csl
 
 ## Background {.unnumbered}
 
-The amount of anthropogenic carbon dioxide ($CO_2$) that can be emitted while still meeting a given temperature goal, known as the remaining carbon budget, depends critically on how efficiently the land–ocean system continues to absorb $CO_2$ emissions. In recent decades, the share of anthropogenic $CO_2$ emissions that remains in the atmosphere, known as the airborne fraction (AF), has been estimated to be around 0.45, but whether it has increased over time remains contested [@Canadell2007; @Raupach2007; @Knorr2009; @Ballantyne2012; @LeQuere2009; @bennedsenEvidenceTrendCO22023; @bennedsenRegressionbasedApproachCO22024;@veravaldes2025robustestimationco2]. 
+The amount of anthropogenic carbon dioxide ($CO_2$) that can be emitted while still meeting a given temperature goal, known as the remaining carbon budget, depends critically on how efficiently the land–ocean system continues to absorb $CO_2$ emissions. In recent decades, the share of anthropogenic $CO_2$ emissions that remains in the atmosphere, known as the airborne fraction (AF), has been estimated to be around 0.45, but whether it has increased over time remains contested [@Canadell2007; @Raupach2007; @Knorr2009; @Ballantyne2012; @LeQuere2009; @bennedsenEvidenceTrendCO22023; @bennedsenRegressionbasedApproachCO22024;@bennettQuantificationAirborneFraction2024;@veravaldes2025robustestimationco2]. 
 
 In its classical form, AF is a yearly ratio of atmospheric growth to total anthropogenic emissions, computed as the sum of fossil fuel emissions and land-use and land-cover change emissions as
 
