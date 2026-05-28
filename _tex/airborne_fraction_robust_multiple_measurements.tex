@@ -207,29 +207,39 @@ emissions, robust estimation, trend inference, multiple measurements},
 \begin{abstract}
 The airborne fraction is the share of anthropogenic carbon dioxide
 emissions that remains in the atmosphere and is a key indicator of
-carbon-cycle response under continued emissions. Whether this share is
-rising remains debated because inference is sensitive to uncertainty in
-land-use and land-cover change (LULC) emissions. Here we use all
-available LULC measurement series from Global Carbon Budget 2025 data
-and estimate trends with a mixed-effects model with random intercepts
-and slopes by LULC series. We find that airborne fraction increased over
-1959-2024, and that this conclusion is robust to excluding the final
-year and to a measurement-error-aware weighted least squares robustness
-specification. These results strengthen evidence that an increasing
-share of emitted carbon dioxide is accumulating in the atmosphere rather
-than being taken up by land and ocean sinks, with implications for
-carbon-budget assessment and near-term mitigation requirements.
+carbon‑cycle response and remaining carbon budgets under continued
+emissions. Whether this share is rising remains debated because
+inference is sensitive to uncertainty in land‑use and land‑cover change
+(LULC) emissions. Here we use all available LULC measurement series from
+Global Carbon Budget 2025 and estimate airborne‑fraction trends with a
+mixed‑effects model with random intercepts and slopes by LULC series. We
+find that the airborne fraction increased over 1959--2024, from about
+0.40 to about 0.47, and that this conclusion is robust to excluding the
+final year and to alternative specifications that explicitly propagate
+denominator uncertainty. These results clarify why earlier studies
+reported weak or inconclusive trend evidence and strengthen support for
+the view that an increasing share of emitted carbon dioxide is
+accumulating in the atmosphere rather than being taken up by land and
+ocean sinks, with implications for carbon‑budget assessment and
+near‑term mitigation requirements.
 \end{abstract}
 
 
 \subsection*{Background}\label{background}
 \addcontentsline{toc}{subsection}{Background}
 
-Whether the airborne fraction (AF) is increasing or approximately
-constant remains contested\textsuperscript{1--7}. In its classical form,
-AF is a yearly ratio of atmospheric growth to total anthropogenic
-emissions, computed as the sum of fossil fuel emissions and land-use and
-land-cover change emissions as
+The amount of anthropogenic carbon dioxide (\(CO_2\)) that can be
+emitted while still meeting a given temperature goal, known as the
+remaining carbon budget, depends critically on how efficiently the
+land--ocean system continues to absorb \(CO_2\) emissions. In recent
+decades, the share of anthropogenic \(CO_2\) emissions that remains in
+the atmosphere, known as the airborne fraction (AF), has been estimated
+to be around 0.45, but whether it has increased over time remains
+contested\textsuperscript{1--8}.
+
+In its classical form, AF is a yearly ratio of atmospheric growth to
+total anthropogenic emissions, computed as the sum of fossil fuel
+emissions and land-use and land-cover change emissions as
 
 \begin{equation}\protect\phantomsection\label{eq-af-def}{
 AF_t = \frac{G_t}{FF_t + LULC_t},
@@ -239,15 +249,15 @@ where \(G_t\) is the annual atmospheric \(CO_2\) growth, \(FF_t\) is
 fossil fuel emissions excluding carbonation, and \(LULC_t\) is land-use
 and land-cover change emissions. AF is a key carbon-cycle diagnostic,
 with implications for carbon-cycle feedbacks and near-term mitigation
-planning\textsuperscript{1,2,8}.
+planning\textsuperscript{1,2,9}.
 
 A persistent concern is that AF inference depends on the treatment of
 land-use and land-cover change (LULC) emissions, which are uncertain and
 model-dependent in annual carbon-budget accounting. The Global Carbon
-Budget (GCB) 2025\textsuperscript{8} provides one column of LULC
+Budget (GCB) 2025\textsuperscript{9} provides one column of LULC
 emissions as the average of three bookkeeping models
-(BLUE\textsuperscript{9}, OSCAR\textsuperscript{10},
-LUCE\textsuperscript{11}), but a broader set of model-based LULC
+(BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
+LUCE\textsuperscript{12}), but a broader set of model-based LULC
 alternatives can be constructed from the same source. Estimates that do
 not incorporate this multi-source LULC information can be underpowered
 and inference on trend direction becomes less reliable.
@@ -262,7 +272,7 @@ time. As a robustness exercise, we also estimate a two-stage
 measurement-error weighted least squares (WLS) model that propagates
 denominator uncertainty from repeated LULC measurements into annual AF
 uncertainty and uses heteroskedasticity-and-autocorrelation-consistent
-(HAC) inference\textsuperscript{12--14}.
+(HAC) inference\textsuperscript{13--15}.
 
 Across specifications that incorporate the multi-source LULC
 information, we find robust evidence that AF has increased over
@@ -280,13 +290,13 @@ accumulating in the atmosphere.
 
 We use annual Global Carbon Budget 2025 data for 1959-2024, with
 atmospheric growth \(G_t\) from NOAA/ESRL global concentration
-trends\textsuperscript{15}, fossil emissions excluding carbonation
+trends\textsuperscript{16}, fossil emissions excluding carbonation
 \(FF_t\) from the Global Carbon Project fossil
-dataset\textsuperscript{8}, and a panel of 69 LULC measurements per
-year: BLUE\textsuperscript{9}, OSCAR\textsuperscript{10},
-LUCE\textsuperscript{11}, and peat-augmented\textsuperscript{16--18}
+dataset\textsuperscript{9}, and a panel of 69 LULC measurements per
+year: BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
+LUCE\textsuperscript{12}, and peat-augmented\textsuperscript{17--19}
 process-based land-model combinations drawn from the GCB model
-ensemble\textsuperscript{19--39} (see Methods). The data is shown in
+ensemble\textsuperscript{20--40} (see Methods). The data is shown in
 Figure~\ref{fig-data}.
 
 Two LULC means can be constructed from the panel. First, the GCB LULC
@@ -326,7 +336,7 @@ results in Table~\ref{tbl-trend-full}. Our preferred specification is a
 mixed-effects model with random intercepts and random slopes by LULC
 series, allowing correlation across years within each series and
 capturing unobserved heterogeneity in LULC
-measurements\textsuperscript{40,41} (see Methods).
+measurements\textsuperscript{41,42} (see Methods).
 
 For each LULC measurement series, we construct a series of AF estimates
 by year (Equation~\ref{eq-af-def}), and the model estimates a common
@@ -413,7 +423,7 @@ increasing AF trend across LULC measurement series. The estimated
 intercept is around 0.407+/-0.006 and the slope is around
 0.0011+/-0.0001 per year, implying an increase of about 0.0717 in AF
 over 1959-2024. These estimates are comparable with the approximately
-0.45 AF level reported in the literature\textsuperscript{2,3,6,7,42,43},
+0.45 AF level reported in the literature\textsuperscript{2,3,6--8,43},
 while identifying a positive long-run trend when all LULC information is
 incorporated.
 
@@ -477,7 +487,7 @@ remains positive and significant under this specification (see Methods).
 As an additional robustness check, we estimate a delta-method
 uncertainty proxy for each annual AF estimate using the
 cross-measurement dispersion of the full 69-series LULC panel, and use
-these proxies in WLS with HAC inference\textsuperscript{12--14,44}. Two
+these proxies in WLS with HAC inference\textsuperscript{13--15,44}. Two
 WLS specifications are shown in Table~\ref{tbl-trend-full}: one using
 the GCB LULC mean as the denominator and one using the all-LULC mean. In
 both specifications, weights are constructed from the all-LULC panel
@@ -589,14 +599,15 @@ uncertainty materially changes inference relative to plain OLS. Endpoint
 tests show that this conclusion is not driven by the large value in
 2024.
 
-A rising AF implies that a larger share of emitted \(CO_2\) remains in
-the atmosphere over policy-relevant horizons, tightening near-term
-mitigation requirements for a given temperature
-objective\textsuperscript{1,2,8}. The increasing AF signal is consistent
-with broader evidence that the climate system is out of energy balance
-and has recently shown elevated warming and heating
-rates\textsuperscript{45--48}; these findings should be interpreted in
-that wider risk context.
+Our estimates imply that AF increased from about 0.40 around 1960 to
+about 0.47 by 2024, relative to long-used values around 0.45. For a
+given emissions pathway, this implies faster atmospheric \(CO_2\) growth
+than under a constant-AF baseline, shrinking the remaining carbon budget
+for any temperature target\textsuperscript{1,2,9}. The increasing AF
+signal is consistent with broader evidence that the climate system is
+out of energy balance and has recently shown elevated warming and
+heating rates\textsuperscript{45--48}; these findings should be
+interpreted in that wider risk context.
 
 \protect\phantomsection\label{refs}
 \begin{CSLReferences}{0}{0}
@@ -650,67 +661,74 @@ E1--E3 (2023).}
 approach to the {CO2} airborne fraction}. \emph{Nature Communications}
 \textbf{15}, 8507 (2024).}
 
-\bibitem[\citeproctext]{ref-Friedlingstein2025}
+\bibitem[\citeproctext]{ref-veravaldes2025robustestimationco2}
 \CSLLeftMargin{8. }%
+\CSLRightInline{Vera-Valdés, J. E. \& Grivas, C.
+\href{https://doi.org/10.1088/2515-7620/adc06b}{Robust estimation of
+carbon dioxide airborne fraction under measurement errors}.
+\emph{Environmental Research Communications} \textbf{7}, 031009 (2025).}
+
+\bibitem[\citeproctext]{ref-Friedlingstein2025}
+\CSLLeftMargin{9. }%
 \CSLRightInline{Friedlingstein, P. \emph{et al.}
 \href{https://doi.org/10.5194/essd-18-3211-2026}{Global carbon budget
 2025}. \emph{Earth System Science Data} \textbf{18}, 3211--3288 (2026).}
 
 \bibitem[\citeproctext]{ref-Hansis2015}
-\CSLLeftMargin{9. }%
+\CSLLeftMargin{10. }%
 \CSLRightInline{Hansis, E., Davis, S. J. \& Pongratz, J.
 \href{https://doi.org/10.1002/2014GB004997}{Relevance of methodological
 choices for accounting of land use change carbon fluxes}. \emph{Global
 Biogeochemical Cycles} \textbf{29}, 1230--1246 (2015).}
 
 \bibitem[\citeproctext]{ref-Gasser2020}
-\CSLLeftMargin{10. }%
+\CSLLeftMargin{11. }%
 \CSLRightInline{Gasser, T. \emph{et al.}
 \href{https://doi.org/10.5194/bg-17-4075-2020}{Historical {CO2}
 emissions from land use and land cover change and their uncertainty}.
 \emph{Biogeosciences} \textbf{17}, 4075--4101 (2020).}
 
 \bibitem[\citeproctext]{ref-Qin2024}
-\CSLLeftMargin{11. }%
+\CSLLeftMargin{12. }%
 \CSLRightInline{Qin, Z. \emph{et al.}
 \href{https://doi.org/10.1016/j.oneear.2024.04.002}{Global spatially
 explicit carbon emissions from land-use change over the past six decades
 (1961-2020)}. \emph{One Earth} \textbf{7}, 835--847 (2024).}
 
 \bibitem[\citeproctext]{ref-Fuller1987}
-\CSLLeftMargin{12. }%
+\CSLLeftMargin{13. }%
 \CSLRightInline{Fuller, W. A. \emph{Measurement Error Models}. (Wiley,
 New York, 1987).}
 
 \bibitem[\citeproctext]{ref-Carroll2006}
-\CSLLeftMargin{13. }%
+\CSLLeftMargin{14. }%
 \CSLRightInline{Carroll, R. J., Ruppert, D., Stefanski, L. A. \&
 Crainiceanu, C. M. \emph{Measurement Error in Nonlinear Models: A Modern
 Perspective}. (Chapman \& Hall/CRC, Boca Raton, 2006).}
 
 \bibitem[\citeproctext]{ref-NeweyWest1987}
-\CSLLeftMargin{14. }%
+\CSLLeftMargin{15. }%
 \CSLRightInline{Newey, W. K. \& West, K. D.
 \href{https://doi.org/10.2307/1913610}{A simple, positive semi-definite,
 heteroskedasticity and autocorrelation consistent covariance matrix}.
 \emph{Econometrica} \textbf{55}, 703--708 (1987).}
 
 \bibitem[\citeproctext]{ref-Lan2025}
-\CSLLeftMargin{15. }%
+\CSLLeftMargin{16. }%
 \CSLRightInline{Lan, X., Tans, P. \& Thoning, K. W. Trends in
 globally-averaged CO2 determined from NOAA global monitoring laboratory
 measurements. (2026)
 doi:\href{https://doi.org/10.15138/9N0H-ZH07}{10.15138/9N0H-ZH07}.}
 
 \bibitem[\citeproctext]{ref-Conchedda2020}
-\CSLLeftMargin{16. }%
+\CSLLeftMargin{17. }%
 \CSLRightInline{Conchedda, G. \& Tubiello, F. N.
 \href{https://doi.org/10.5194/essd-12-3113-2020}{Drainage of organic
 soils and GHG emissions: Validation with country data}. \emph{Earth
 System Science Data} \textbf{12}, 3113--3137 (2020).}
 
 \bibitem[\citeproctext]{ref-Mueller2021}
-\CSLLeftMargin{17. }%
+\CSLLeftMargin{18. }%
 \CSLRightInline{Müller, J. \& Joos, F.
 \href{https://doi.org/10.5194/bg-18-3657-2021}{Committed and projected
 future changes in global peatlands -- continued transient model
@@ -718,14 +736,14 @@ simulations since the last glacial maximum}. \emph{Biogeosciences}
 \textbf{18}, 3657--3687 (2021).}
 
 \bibitem[\citeproctext]{ref-Qiu2021}
-\CSLLeftMargin{18. }%
+\CSLLeftMargin{19. }%
 \CSLRightInline{Qiu, C. \emph{et al.}
 \href{https://doi.org/10.1126/sciadv.abf1332}{Large historical carbon
 emissions from cultivated northern peatlands}. \emph{Science Advances}
 \textbf{7}, eabf1332 (2021).}
 
 \bibitem[\citeproctext]{ref-Haverd2018}
-\CSLLeftMargin{19. }%
+\CSLLeftMargin{20. }%
 \CSLRightInline{Haverd, V. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-11-2995-2018}{A new version of the
 CABLE land surface model (subversion revision r4601) incorporating land
@@ -734,7 +752,7 @@ optimisation-based approach to plant coordination of photosynthesis}.
 \emph{Geoscientific Model Development} \textbf{11}, 2995--3026 (2018).}
 
 \bibitem[\citeproctext]{ref-Melton2020}
-\CSLLeftMargin{20. }%
+\CSLLeftMargin{21. }%
 \CSLRightInline{Melton, J. R. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-13-2825-2020}{CLASSIC v1.0: The
 open-source community successor to the canadian land surface scheme
@@ -743,7 +761,7 @@ Model framework and site-level performance}. \emph{Geoscientific Model
 Development} \textbf{13}, 2825--2850 (2020).}
 
 \bibitem[\citeproctext]{ref-Lawrence2019}
-\CSLLeftMargin{21. }%
+\CSLLeftMargin{22. }%
 \CSLRightInline{{Lawrence, D. M. \emph{et al.}}
 \href{https://doi.org/10.1029/2018MS001583}{The community land model
 version 5: Description of new features, benchmarking, and impact of
@@ -751,7 +769,7 @@ forcing uncertainty}. \emph{Journal of Advances in Modeling Earth
 Systems} \textbf{11}, 4245--4287 (2019).}
 
 \bibitem[\citeproctext]{ref-Fisher2015}
-\CSLLeftMargin{22. }%
+\CSLLeftMargin{23. }%
 \CSLRightInline{Fisher, R. A. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-8-3593-2015}{Taking off the training
 wheels: The properties of a dynamic vegetation model without climate
@@ -759,21 +777,21 @@ envelopes, CLM4.5(ED)}. \emph{Geoscientific Model Development}
 \textbf{8}, 3593--3619 (2015).}
 
 \bibitem[\citeproctext]{ref-Tian2015}
-\CSLLeftMargin{23. }%
+\CSLLeftMargin{24. }%
 \CSLRightInline{Tian, H. \emph{et al.} North american terrestrial CO2
 uptake largely offset by CH4 and N2O emissions: Toward a full accounting
 of the greenhouse gas budget. \emph{Climatic Change} \textbf{129},
 423--426 (2015).}
 
 \bibitem[\citeproctext]{ref-Ma2022}
-\CSLLeftMargin{24. }%
+\CSLLeftMargin{25. }%
 \CSLRightInline{Ma, L. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-15-1971-2022}{Global evaluation of the
 ecosystem demography model (ED v3.0)}. \emph{Geoscientific Model
 Development} \textbf{15}, 1971--1994 (2022).}
 
 \bibitem[\citeproctext]{ref-Yang2023}
-\CSLLeftMargin{25. }%
+\CSLLeftMargin{26. }%
 \CSLRightInline{Yang, X., Thornton, P., Ricciuto, D., Wang, Y. \&
 Hoffman, F. \href{https://doi.org/10.5194/bg-20-2813-2023}{Global
 evaluation of terrestrial biogeochemistry in the energy exascale earth
@@ -782,14 +800,14 @@ historical terrestrial carbon balance}. \emph{Biogeosciences}
 \textbf{20}, 2813--2836 (2023).}
 
 \bibitem[\citeproctext]{ref-Needham2025}
-\CSLLeftMargin{26. }%
+\CSLLeftMargin{27. }%
 \CSLRightInline{{Needham, J. \emph{et al.}}
 \href{https://doi.org/10.1111/nph.20423}{Vertical canopy gradients of
 respiration drive plant carbon budgets and leaf area index}. \emph{New
 Phytologist} \textbf{246}, 144--157 (2025).}
 
 \bibitem[\citeproctext]{ref-Felzer2018}
-\CSLLeftMargin{27. }%
+\CSLLeftMargin{28. }%
 \CSLRightInline{Felzer, B. S. \& Jiang, M.
 \href{https://doi.org/10.1029/2017JG004378}{Effect of land use and land
 cover change in context of growth enhancements in the united states
@@ -797,19 +815,19 @@ since 1700: Net source or sink?} \emph{Journal of Geophysical Research:
 Biogeosciences} \textbf{123}, 3439--3457 (2018).}
 
 \bibitem[\citeproctext]{ref-Xia2024}
-\CSLLeftMargin{28. }%
+\CSLLeftMargin{29. }%
 \CSLRightInline{Xia, J. Z. \emph{et al.} The carbon budget of china:
 1980--2021. \emph{Science Bulletin} \textbf{69}, 114--124 (2024).}
 
 \bibitem[\citeproctext]{ref-Yue2024}
-\CSLLeftMargin{29. }%
+\CSLLeftMargin{30. }%
 \CSLRightInline{Yue, X. \emph{et al.} Development and evaluation of the
 interactive model for air pollution and land ecosystems (iMAPLE) version
 1.0. \emph{Geoscientific Model Development} \textbf{17}, 4621--4642
 (2024).}
 
 \bibitem[\citeproctext]{ref-Shu2020}
-\CSLLeftMargin{30. }%
+\CSLLeftMargin{31. }%
 \CSLRightInline{Shu, S., Jain, A. K., Koven, C. D. \& Mishra, U.
 \href{https://doi.org/10.1029/2020GB006585}{Estimation of permafrost SOC
 stock and turnover time using a land surface model with vertical
@@ -817,40 +835,40 @@ heterogeneity of permafrost soils}. \emph{Global Biogeochemical Cycles}
 \textbf{34}, e2020GB006585 (2020).}
 
 \bibitem[\citeproctext]{ref-Reick2021}
-\CSLLeftMargin{31. }%
+\CSLLeftMargin{32. }%
 \CSLRightInline{Reick, C. H. \emph{et al.} JSBACH 3 - the land component
 of the MPI earth system model: Documentation of version 3.2. (2021)
 doi:\href{https://doi.org/10.17617/2.3279802}{10.17617/2.3279802}.}
 
 \bibitem[\citeproctext]{ref-Poulter2011}
-\CSLLeftMargin{32. }%
+\CSLLeftMargin{33. }%
 \CSLRightInline{Poulter, B., Frank, D. C., Hodson, E. L. \& Zimmermann,
 N. E. Impacts of land cover and climate data selection on understanding
 terrestrial carbon dynamics and the CO2 airborne fraction.
 \emph{Biogeosciences} \textbf{8}, 2027--2036 (2011).}
 
 \bibitem[\citeproctext]{ref-Smith2014}
-\CSLLeftMargin{33. }%
+\CSLLeftMargin{34. }%
 \CSLRightInline{Smith, B. \emph{et al.} Implications of incorporating n
 cycling and n limitations on primary production in an individual-based
 dynamic vegetation model. \emph{Biogeosciences} \textbf{11}, 2027--2054
 (2014).}
 
 \bibitem[\citeproctext]{ref-Schaphoff2018}
-\CSLLeftMargin{34. }%
+\CSLLeftMargin{35. }%
 \CSLRightInline{Schaphoff, S. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-11-1343-2018}{LPJmL4 -- a dynamic
 global vegetation model with managed land -- part 1: Model description}.
 \emph{Geoscientific Model Development} \textbf{11}, 1343--1375 (2018).}
 
 \bibitem[\citeproctext]{ref-Lienert2018}
-\CSLLeftMargin{35. }%
+\CSLLeftMargin{36. }%
 \CSLRightInline{Lienert, S. \& Joos, F. A bayesian ensemble data
 assimilation to constrain model parameters and land-use carbon
 emissions. \emph{Biogeosciences} \textbf{15}, 2909--2930 (2018).}
 
 \bibitem[\citeproctext]{ref-Vuichard2019}
-\CSLLeftMargin{36. }%
+\CSLLeftMargin{37. }%
 \CSLRightInline{Vuichard, N. \emph{et al.} Accounting for carbon and
 nitrogen interactions in the global terrestrial ecosystem model ORCHIDEE
 (trunk version, rev 4999): Multi-scale evaluation of gross primary
@@ -858,14 +876,14 @@ production. \emph{Geoscientific Model Development} \textbf{12},
 4751--4779 (2019).}
 
 \bibitem[\citeproctext]{ref-Walker2017}
-\CSLLeftMargin{37. }%
+\CSLLeftMargin{38. }%
 \CSLRightInline{Walker, A. P. \emph{et al.} The impact of alternative
 trait-scaling hypotheses for the maximum photosynthetic carboxylation
 rate (v-cmax) on global gross primary production. \emph{New Phytologist}
 \textbf{215}, 1370--1386 (2017).}
 
 \bibitem[\citeproctext]{ref-Kato2013}
-\CSLLeftMargin{38. }%
+\CSLLeftMargin{39. }%
 \CSLRightInline{Kato, E., Kinoshita, T., Ito, A., Kawamiya, M. \&
 Yamagata, Y.
 \href{https://doi.org/10.1080/1747423X.2011.628705}{Evaluation of
@@ -874,7 +892,7 @@ burning using a process-based biogeochemical model}. \emph{Journal of
 Land Use Science} \textbf{8}, 104--122 (2013).}
 
 \bibitem[\citeproctext]{ref-Ito2019}
-\CSLLeftMargin{39. }%
+\CSLLeftMargin{40. }%
 \CSLRightInline{Ito, A.
 \href{https://doi.org/10.5194/esd-10-685-2019}{Disequilibrium of
 terrestrial ecosystem CO2 budget caused by disturbance-induced emissions
@@ -882,32 +900,25 @@ and non-CO2 carbon export flows: A global model assessment}. \emph{Earth
 System Dynamics} \textbf{10}, 685--709 (2019).}
 
 \bibitem[\citeproctext]{ref-Henderson1953}
-\CSLLeftMargin{40. }%
+\CSLLeftMargin{41. }%
 \CSLRightInline{Henderson, C. R.
 \href{https://doi.org/10.2307/3001881}{Estimation of variance and
 covariance components}. \emph{Biometrics} \textbf{9}, 226--252 (1953).}
 
 \bibitem[\citeproctext]{ref-Bolker2009}
-\CSLLeftMargin{41. }%
+\CSLLeftMargin{42. }%
 \CSLRightInline{Bolker, B. M. \emph{et al.}
 \href{https://doi.org/10.1016/j.tree.2008.10.008}{Generalized linear
 mixed models: A practical guide for ecology and evolution}. \emph{Trends
 in Ecology \& Evolution} \textbf{24}, 127--135 (2009).}
 
 \bibitem[\citeproctext]{ref-Gloor2010CarbonFeedbackAF}
-\CSLLeftMargin{42. }%
+\CSLLeftMargin{43. }%
 \CSLRightInline{{Gloor, M. \emph{et al.}}
 \href{https://acp.copernicus.org/articles/10/7739/2010/}{What can be
 learned about carbon cycle climate feedbacks from the CO2 airborne
 fraction?} \emph{Atmospheric Chemistry and Physics} \textbf{10},
 7739--7752 (2010).}
-
-\bibitem[\citeproctext]{ref-veravaldes2025robustestimationco2}
-\CSLLeftMargin{43. }%
-\CSLRightInline{Vera-Valdés, J. E. \& Grivas, C.
-\href{https://doi.org/10.1088/2515-7620/adc06b}{Robust estimation of
-carbon dioxide airborne fraction under measurement errors}.
-\emph{Environmental Research Communications} \textbf{7}, 031009 (2025).}
 
 \bibitem[\citeproctext]{ref-Oehlert1992}
 \CSLLeftMargin{44. }%
@@ -957,10 +968,10 @@ Society of Edinburgh} \textbf{55}, 42--48 (1935).}
 
 Our primary estimator is a linear mixed-effects trend model with random
 intercepts and random slopes for each LULC measurement series
-{[}\textsuperscript{40};\textsuperscript{41}. As a robustness check, we
+{[}\textsuperscript{41};\textsuperscript{42}. As a robustness check, we
 also estimate a measurement-error-aware airborne fraction variance using
 repeated yearly denominator measurements, followed by WLS trend
-estimation with HAC inference\textsuperscript{12--14,44,49}.
+estimation with HAC inference\textsuperscript{13--15,44,49}.
 
 \subsection*{Construction of the LULC measurement
 panel}\label{construction-of-the-lulc-measurement-panel}
@@ -969,14 +980,14 @@ panel}
 
 The repeated LULC measurements are built from the Global Carbon Budget
 2025 dataset. We first extract the three bookkeeping series:
-BLUE\textsuperscript{9}, OSCAR\textsuperscript{10},
-LUCE\textsuperscript{11}. Then, for each process-based land-model LULC
+BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
+LUCE\textsuperscript{12}. Then, for each process-based land-model LULC
 series in the GCB ensemble that does not already include peat
-emissions\textsuperscript{19--39}, we add the corresponding peat
+emissions\textsuperscript{20--40}, we add the corresponding peat
 component to make it comparable to the bookkeeping models, which include
 peat emissions by construction. Specifically, for each of the 22
 process-based series we create three peat-augmented variants by adding
-FAO\_peat, LPX\_Bern\_peat, and ORCHIDEE\_peat\textsuperscript{16--18}.
+FAO\_peat, LPX\_Bern\_peat, and ORCHIDEE\_peat\textsuperscript{17--19}.
 This produces 66 derived series, and together with BLUE/OSCAR/LUCE gives
 a panel of 69 yearly LULC measurements.
 
@@ -1018,7 +1029,7 @@ where \(\alpha_j = \mu_\alpha + u_{\alpha j}\) and
 \(\beta_j = \mu_\beta + u_{\beta j}\).
 
 The model is estimated by restricted maximum
-likelihood\textsuperscript{40,41}. Fixed-effect uncertainty is based on
+likelihood\textsuperscript{41,42}. Fixed-effect uncertainty is based on
 model-based standard errors and Wald tests. We report the estimated
 fixed intercept and slope, standard errors, and p-values.
 
@@ -1043,7 +1054,10 @@ specification that includes an AR(1) structure on \(\varepsilon_{t,j}\):
 
 This specification is estimated by maximum likelihood on the full sample
 and the sample ending in 2023. The results, shown in
-Table~\ref{tbl-mixed-effects-ar1}, do not materially change.
+Table~\ref{tbl-mixed-effects-ar1}, do not materially change. The
+estimated AR(1) parameters in the full sample and the sample ending in
+2023 are small and only marginally significant, indicating limited
+residual autocorrelation after accounting for random effects.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1111}}
@@ -1109,7 +1123,7 @@ approach}
 As a robustness check to the mixed-effects model, we also estimate a
 two-stage measurement-error-aware WLS model that uses repeated LULC
 measurements to construct a denominator-uncertainty proxy for each year
-and HAC inference\textsuperscript{12--14,44,49}.
+and HAC inference\textsuperscript{13--15,44,49}.
 
 In the estimation, the yearly denominator is computed as \[
 \hat C_t = FF_t + \bar{LULC}_t, \qquad
@@ -1211,7 +1225,7 @@ is WLS with weights \(w_t=\frac{1}{\sigma_t^2}\). If we suspect serial
 correlation, we can use HAC standard errors for inference on \(\beta\)
 without changing the point estimate. In practice, we use a HAC
 covariance estimator with a Bartlett kernel and Andrews automatic
-bandwidth selection\textsuperscript{14}. In the results, we report both
+bandwidth selection\textsuperscript{15}. In the results, we report both
 conventional and HAC standard errors.
 
 Testing for a time trend is then a test of \(\beta=0\) versus
