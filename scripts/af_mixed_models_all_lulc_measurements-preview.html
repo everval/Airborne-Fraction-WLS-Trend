@@ -2353,6 +2353,11 @@ text-align: justify;
   <ul class="collapse">
   <li><a href="#fixed-effects-summary-mixed-models" id="toc-fixed-effects-summary-mixed-models" class="nav-link" data-scroll-target="#fixed-effects-summary-mixed-models">Fixed-effects summary (mixed models)</a></li>
   </ul></li>
+  <li><a href="#mixed-model-with-ar1-component-r" id="toc-mixed-model-with-ar1-component-r" class="nav-link" data-scroll-target="#mixed-model-with-ar1-component-r">Mixed model with AR1 component (R)</a>
+  <ul class="collapse">
+  <li><a href="#full-sample-and-up-to-2023" id="toc-full-sample-and-up-to-2023" class="nav-link" data-scroll-target="#full-sample-and-up-to-2023">Full sample and up to 2023</a></li>
+  <li><a href="#ar1-augmented-fixed-effects-summary-table" id="toc-ar1-augmented-fixed-effects-summary-table" class="nav-link" data-scroll-target="#ar1-augmented-fixed-effects-summary-table">AR1-augmented fixed-effects summary table</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -3541,10 +3546,617 @@ println(&quot;Saved mixed-model summary table to: $(mixed_out_path)&quot;)</code
 | Estimate | 0.406959 | 0.001103 | 0.41326 | 0.000808 |
 | Standard error | 0.005573 | 0.000102 | 0.005586 | 0.000103 |
 | p-value | 0.0 | 0.0 | 0.0 | 0.0 |
-| R-squared (marginal) | 0.008631 | 0.008631 | 0.004518 | 0.004518 |
-| R-squared (conditional) | 0.700967 | 0.700967 | 0.708173 | 0.708173 |
+| R-squared (marginal) | 0.027148 | 0.027148 | 0.014722 | 0.014722 |
+| R-squared (conditional) | 0.059454 | 0.059454 | 0.049017 | 0.049017 |
 
 Saved mixed-model summary table to: /Users/eduardo/Library/CloudStorage/OneDrive-AalborgUniversitet/Research/CLIMATE/AirborneFraction/Airborne-Fraction-WLS-Trend/scripts/../results/af_mixed_model_fixed_effects_summary_table.md</code></pre>
+</div>
+</div></div>
+</section>
+</section>
+<section id="mixed-model-with-ar1-component-r" class="level2">
+<h2 class="anchored" data-anchor-id="mixed-model-with-ar1-component-r">Mixed model with AR1 component (R)</h2>
+<section id="full-sample-and-up-to-2023" class="level3">
+<h3 class="anchored" data-anchor-id="full-sample-and-up-to-2023">Full sample and up to 2023</h3>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="30" class="cell" data-execution_count="1">
+<pre><code>Pkg.add(&quot;RCall&quot;)
+using RCall
+
+@rput long_df long_df_2023</code></pre>
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-green-fg ansi-bold">   Resolving</span> package versions...
+<span class="ansi-cyan-fg ansi-bold">     Project</span> No packages added to or removed from `~/Library/CloudStorage/OneDrive-AalborgUniversitet/Research/CLIMATE/AirborneFraction/Airborne-Fraction-WLS-Trend/scripts/Project.toml`
+<span class="ansi-cyan-fg ansi-bold">    Manifest</span> No packages added to or removed from `~/Library/CloudStorage/OneDrive-AalborgUniversitet/Research/CLIMATE/AirborneFraction/Airborne-Fraction-WLS-Trend/scripts/Manifest.toml`
+</pre>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div><div style="float: left;"><span>4485×7 DataFrame</span></div><div style="float: right; font-style: italic;"><span>4460 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<table class="data-frame caption-top table table-sm table-striped small">
+<thead>
+<tr class="columnLabelRow header">
+<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Fossil</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Growth</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">definition</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">LULC</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">t</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">AF</th>
+</tr>
+<tr class="columnLabelRow even">
+<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{String, UInt32}">Cat…</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: right;">1959</td>
+<td style="text-align: right;">2.41679</td>
+<td style="text-align: right;">2.03904</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.913</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.382574</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: right;">1960</td>
+<td style="text-align: right;">2.56194</td>
+<td style="text-align: right;">1.50804</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.45113</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.300822</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: right;">1961</td>
+<td style="text-align: right;">2.56959</td>
+<td style="text-align: right;">1.65672</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.47789</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.328227</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: right;">1962</td>
+<td style="text-align: right;">2.66027</td>
+<td style="text-align: right;">1.18944</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.31003</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.239309</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: right;">1963</td>
+<td style="text-align: right;">2.80207</td>
+<td style="text-align: right;">1.21068</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.24292</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.239977</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: right;">1964</td>
+<td style="text-align: right;">2.95428</td>
+<td style="text-align: right;">1.04076</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.12081</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.205072</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: right;">1965</td>
+<td style="text-align: right;">3.08695</td>
+<td style="text-align: right;">2.3364</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.03152</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.456464</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: right;">1966</td>
+<td style="text-align: right;">3.23762</td>
+<td style="text-align: right;">2.3364</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">1.86901</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.457523</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: right;">1967</td>
+<td style="text-align: right;">3.33989</td>
+<td style="text-align: right;">1.29564</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.00413</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.242447</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: right;">1968</td>
+<td style="text-align: right;">3.52218</td>
+<td style="text-align: right;">2.10276</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.01168</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.379981</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">11</td>
+<td style="text-align: right;">1969</td>
+<td style="text-align: right;">3.75595</td>
+<td style="text-align: right;">2.80368</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.21087</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.469879</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">12</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">4.06636</td>
+<td style="text-align: right;">2.40012</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">2.08168</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0.390388</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">13</td>
+<td style="text-align: right;">1971</td>
+<td style="text-align: right;">4.2314</td>
+<td style="text-align: right;">1.55052</td>
+<td style="text-align: left;">BLUE</td>
+<td style="text-align: right;">1.92848</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.251713</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: left;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4474</td>
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">9.54005</td>
+<td style="text-align: right;">5.11884</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.392038</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">0.515384</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4475</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">9.62768</td>
+<td style="text-align: right;">5.2038</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.328421</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0.522675</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4476</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">9.6795</td>
+<td style="text-align: right;">4.31172</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.129945</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">0.439548</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4477</td>
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">9.66253</td>
+<td style="text-align: right;">6.2658</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.413571</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0.621847</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4478</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">9.65962</td>
+<td style="text-align: right;">6.03216</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.441687</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">0.597167</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4479</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">9.8184</td>
+<td style="text-align: right;">4.54536</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.0347935</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">0.46459</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4480</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">10.0257</td>
+<td style="text-align: right;">5.07636</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.0635215</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">0.509566</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4481</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">10.1219</td>
+<td style="text-align: right;">5.31</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">0.138368</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.517531</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4482</td>
+<td style="text-align: right;">2020</td>
+<td style="text-align: right;">9.59559</td>
+<td style="text-align: right;">4.94892</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.175257</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">0.525345</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4483</td>
+<td style="text-align: right;">2021</td>
+<td style="text-align: right;">10.0619</td>
+<td style="text-align: right;">5.03388</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.16896</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">0.508835</td>
+</tr>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4484</td>
+<td style="text-align: right;">2022</td>
+<td style="text-align: right;">10.2423</td>
+<td style="text-align: right;">4.86396</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.325292</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0.490467</td>
+</tr>
+<tr class="dataRow even">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">4485</td>
+<td style="text-align: right;">2023</td>
+<td style="text-align: right;">10.3968</td>
+<td style="text-align: right;">5.7348</td>
+<td style="text-align: left;">VISIT-UT_plus_ORCHIDEE_peat</td>
+<td style="text-align: right;">-0.101676</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">0.557038</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="32" class="cell" data-execution_count="1">
+<pre><code>R&quot;&quot;&quot;
+library(nlme)
+
+if (!requireNamespace(&quot;performance&quot;, quietly = TRUE)) {
+    install.packages(&quot;performance&quot;, repos = &quot;https://cloud.r-project.org&quot;)
+}
+
+extract_ar1_stats &lt;- function(model_ar1) {
+    phi &lt;- as.numeric(coef(model_ar1$modelStruct$corStruct, unconstrained = FALSE))
+
+    se_phi &lt;- NA_real_
+    ap &lt;- model_ar1$apVar
+    if (is.matrix(ap)) {
+        nms &lt;- colnames(ap)
+        idx &lt;- which(nms %in% c(&quot;corStruct&quot;, &quot;Phi&quot;, &quot;phi&quot;))
+        if (length(idx) &gt; 0) {
+            se_all &lt;- sqrt(diag(ap))
+            se_phi &lt;- as.numeric(se_all[idx[1]])
+        }
+    }
+
+    p_phi &lt;- NA_real_
+    if (!is.na(se_phi) &amp;&amp; is.finite(se_phi) &amp;&amp; se_phi &gt; 0) {
+        z_phi &lt;- phi / se_phi
+        p_phi &lt;- 2 * pnorm(-abs(z_phi))
+    }
+
+    data.frame(
+        ar1_estimate = phi,
+        ar1_se = se_phi,
+        ar1_pvalue = p_phi
+    )
+}
+
+fit_ar1_bundle &lt;- function(df) {
+    df$definition &lt;- as.factor(df$definition)
+    df$t &lt;- df$Year - min(df$Year)
+
+    ctrl &lt;- lmeControl(
+        opt = &quot;optim&quot;,
+        msMaxIter = 500,
+        maxIter = 200,
+        niterEM = 80,
+        tolerance = 1e-6,
+        msVerbose = FALSE,
+        returnObject = TRUE
+    )
+
+    model_ar1 &lt;- lme(
+        AF ~ t,
+        random = ~ t | definition,
+        correlation = corAR1(form = ~ t | definition),
+        data = df,
+        method = &quot;REML&quot;,
+        control = ctrl
+    )
+
+    t_ar1 &lt;- summary(model_ar1)$tTable
+    r2_ar1 &lt;- suppressWarnings(performance::r2_nakagawa(model_ar1))
+
+    fixed_stats &lt;- data.frame(
+        alpha = unname(fixef(model_ar1)[1]),
+        alpha_se = unname(t_ar1[&quot;(Intercept)&quot;, &quot;Std.Error&quot;]),
+        alpha_pvalue = unname(t_ar1[&quot;(Intercept)&quot;, &quot;p-value&quot;]),
+        beta = unname(fixef(model_ar1)[2]),
+        beta_se = unname(t_ar1[&quot;t&quot;, &quot;Std.Error&quot;]),
+        beta_pvalue = unname(t_ar1[&quot;t&quot;, &quot;p-value&quot;]),
+        r_squared_marginal = as.numeric(r2_ar1$R2_marginal),
+        r_squared_conditional = as.numeric(r2_ar1$R2_conditional)
+    )
+
+    list(
+        model = model_ar1,
+        fixed = fixed_stats,
+        ar1 = extract_ar1_stats(model_ar1),
+        resid = as.numeric(residuals(model_ar1, type = &quot;normalized&quot;))
+    )
+}
+
+ar1_full &lt;- fit_ar1_bundle(long_df)
+ar1_2023 &lt;- fit_ar1_bundle(long_df_2023)
+
+ar1_fixed_full &lt;- ar1_full$fixed
+ar1_fixed_2023 &lt;- ar1_2023$fixed
+ar1_stats_full &lt;- ar1_full$ar1
+ar1_stats_2023 &lt;- ar1_2023$ar1
+resid_ar1 &lt;- ar1_full$resid
+
+print(summary(ar1_full$model))
+print(ar1_stats_full)
+print(summary(ar1_2023$model))
+print(ar1_stats_2023)
+&quot;&quot;&quot;</code></pre>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed-effects model fit by REML
+  Data: df 
+        AIC     BIC   logLik
+  -5989.063 -5944.1 3001.531
+
+Random effects:
+ Formula: ~t | definition
+ Structure: General positive-definite, Log-Cholesky parametrization
+            StdDev       Corr  
+(Intercept) 0.0345555468 (Intr)
+t           0.0002886056 -0.967
+Residual    0.1238748141       
+
+Correlation Structure: AR(1)
+ Formula: ~t | definition 
+ Parameter estimate(s):
+       Phi 
+0.06301149 
+Fixed effects:  AF ~ t 
+                Value   Std.Error   DF  t-value p-value
+(Intercept) 0.4067841 0.005672633 4484 71.70992       0
+t           0.0011170 0.000108058 4484 10.33662       0
+ Correlation: 
+  (Intr)
+t -0.783
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.17935905 -0.77777975 -0.06416635  0.65587134  3.38950521 
+
+Number of Observations: 4554
+Number of Groups: 69 
+  ar1_estimate     ar1_se ar1_pvalue
+1   0.06301149 0.03073133 0.04032553
+Linear mixed-effects model fit by REML
+  Data: df 
+        AIC       BIC   logLik
+  -6029.743 -5984.887 3021.872
+
+Random effects:
+ Formula: ~t | definition
+ Structure: General positive-definite, Log-Cholesky parametrization
+            StdDev       Corr  
+(Intercept) 0.0350227412 (Intr)
+t           0.0003007985 -0.969
+Residual    0.1219676152       
+
+Correlation Structure: AR(1)
+ Formula: ~t | definition 
+ Parameter estimate(s):
+       Phi 
+0.05640585 
+Fixed effects:  AF ~ t 
+                Value   Std.Error   DF  t-value p-value
+(Intercept) 0.4134025 0.005676841 4415 72.82263       0
+t           0.0008058 0.000108640 4415  7.41728       0
+ Correlation: 
+  (Intr)
+t -0.784
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.18745307 -0.76531524 -0.02808866  0.66194493  3.45768859 
+
+Number of Observations: 4485
+Number of Groups: 69 
+  ar1_estimate     ar1_se ar1_pvalue
+1   0.05640585 0.02982834 0.05862229</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>RObject{VecSxp}
+  ar1_estimate     ar1_se ar1_pvalue
+1   0.05640585 0.02982834 0.05862229</code></pre>
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="34" class="cell" data-execution_count="1">
+<pre><code>@rget ar1_fixed_full ar1_fixed_2023 ar1_stats_full ar1_stats_2023 resid_ar1
+
+ar1_fixed_full
+ar1_stats_full
+ar1_fixed_2023
+ar1_stats_2023</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div><div style="float: left;"><span>1×3 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<table class="data-frame caption-top table table-sm table-striped small">
+<thead>
+<tr class="columnLabelRow header">
+<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ar1_estimate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ar1_se</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ar1_pvalue</th>
+</tr>
+<tr class="columnLabelRow even">
+<th class="stubheadLabel" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="dataRow odd">
+<td class="rowLabel" style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: right;">0.0564059</td>
+<td style="text-align: right;">0.0298283</td>
+<td style="text-align: right;">0.0586223</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ar1-augmented-fixed-effects-summary-table" class="level3">
+<h3 class="anchored" data-anchor-id="ar1-augmented-fixed-effects-summary-table">AR1-augmented fixed-effects summary table</h3>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="36" class="cell" data-results="asis" data-execution_count="1">
+<pre><code>#| results: asis
+# Build a mixed-model summary table that mirrors the existing format and adds
+# AR1 coefficient columns for both estimation windows.
+ar1_augmented_table = DataFrame(
+    Metric = [
+        &quot;Estimate&quot;,
+        &quot;Standard error&quot;,
+        &quot;p-value&quot;,
+        &quot;R-squared (marginal)&quot;,
+        &quot;R-squared (conditional)&quot;,
+    ],
+    Intercept_full = [
+        ar1_fixed_full.alpha[1],
+        ar1_fixed_full.alpha_se[1],
+        ar1_fixed_full.alpha_pvalue[1],
+        ar1_fixed_full.r_squared_marginal[1],
+        ar1_fixed_full.r_squared_conditional[1],
+    ],
+    Slope_full = [
+        ar1_fixed_full.beta[1],
+        ar1_fixed_full.beta_se[1],
+        ar1_fixed_full.beta_pvalue[1],
+        ar1_fixed_full.r_squared_marginal[1],
+        ar1_fixed_full.r_squared_conditional[1],
+    ],
+    AR1_full = [
+        ar1_stats_full.ar1_estimate[1],
+        ar1_stats_full.ar1_se[1],
+        ar1_stats_full.ar1_pvalue[1],
+        missing,
+        missing,
+    ],
+    Intercept_up_to_2023 = [
+        ar1_fixed_2023.alpha[1],
+        ar1_fixed_2023.alpha_se[1],
+        ar1_fixed_2023.alpha_pvalue[1],
+        ar1_fixed_2023.r_squared_marginal[1],
+        ar1_fixed_2023.r_squared_conditional[1],
+    ],
+    Slope_up_to_2023 = [
+        ar1_fixed_2023.beta[1],
+        ar1_fixed_2023.beta_se[1],
+        ar1_fixed_2023.beta_pvalue[1],
+        ar1_fixed_2023.r_squared_marginal[1],
+        ar1_fixed_2023.r_squared_conditional[1],
+    ],
+    AR1_up_to_2023 = [
+        ar1_stats_2023.ar1_estimate[1],
+        ar1_stats_2023.ar1_se[1],
+        ar1_stats_2023.ar1_pvalue[1],
+        missing,
+        missing,
+    ],
+)
+
+fmt_cell(x) = ismissing(x) ? &quot;&quot; : string(round(x; digits = 6))
+
+header_ar1 = &quot;| Metric | Intercept (full) | Slope (full) | AR1 (full) | Intercept (up to 2023) | Slope (up to 2023) | AR1 (up to 2023) |&quot;
+sep_ar1 = &quot;|---|---:|---:|---:|---:|---:|---:|&quot;
+
+rows_ar1 = String[]
+for r in eachrow(ar1_augmented_table)
+    push!(rows_ar1, &quot;| $(r.Metric) | $(fmt_cell(r.Intercept_full)) | $(fmt_cell(r.Slope_full)) | $(fmt_cell(r.AR1_full)) | $(fmt_cell(r.Intercept_up_to_2023)) | $(fmt_cell(r.Slope_up_to_2023)) | $(fmt_cell(r.AR1_up_to_2023)) |&quot;)
+end
+
+ar1_augmented_table_md = join([header_ar1, sep_ar1, rows_ar1...], &quot;\n&quot;) * &quot;\n&quot;
+
+println(ar1_augmented_table_md)
+
+ar1_out_path = joinpath(@__DIR__, &quot;..&quot;, &quot;results&quot;, &quot;af_mixed_model_fixed_effects_summary_table_ar1.md&quot;)
+open(ar1_out_path, &quot;w&quot;) do io
+    write(io, ar1_augmented_table_md)
+end
+
+println(&quot;Saved AR1-augmented mixed-model summary table to: $(ar1_out_path)&quot;)</code></pre>
+<div class="cell-output cell-output-stdout">
+<pre><code>| Metric | Intercept (full) | Slope (full) | AR1 (full) | Intercept (up to 2023) | Slope (up to 2023) | AR1 (up to 2023) |
+|---|---:|---:|---:|---:|---:|---:|
+| Estimate | 0.406784 | 0.001117 | 0.063011 | 0.413403 | 0.000806 | 0.056406 |
+| Standard error | 0.005673 | 0.000108 | 0.030731 | 0.005677 | 0.000109 | 0.029828 |
+| p-value | 0.0 | 0.0 | 0.040326 | 0.0 | 0.0 | 0.058622 |
+| R-squared (marginal) | 0.027474 | 0.027474 |  | 0.014468 | 0.014468 |  |
+| R-squared (conditional) | 0.069058 | 0.069058 |  | 0.058605 | 0.058605 |  |
+
+Saved AR1-augmented mixed-model summary table to: /Users/eduardo/Library/CloudStorage/OneDrive-AalborgUniversitet/Research/CLIMATE/AirborneFraction/Airborne-Fraction-WLS-Trend/scripts/../results/af_mixed_model_fixed_effects_summary_table_ar1.md</code></pre>
 </div>
 </div></div>
 </section>

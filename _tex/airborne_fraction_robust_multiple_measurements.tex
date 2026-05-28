@@ -201,7 +201,7 @@ emissions, robust estimation, trend inference, multiple measurements},
 
 \title{Multi-source land-use emissions reveal rising airborne fraction}
 \author{J. Eduardo Vera-Valdes}
-\date{2026-05-27}
+\date{2026-05-28}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -405,8 +405,6 @@ Slope (up to 2023)
 Estimate & 0.406959 & 0.001103 & 0.413260 & 0.000808 \\
 Standard error & 0.005573 & 0.000102 & 0.005586 & 0.000103 \\
 p-value & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
-R-squared (marginal) & 0.008631 & 0.008631 & 0.004518 & 0.004518 \\
-R-squared (conditional) & 0.700967 & 0.700967 & 0.708173 & 0.708173 \\
 \end{longtable}
 
 The mixed-effects slope is positive and statistically significant
@@ -417,9 +415,7 @@ intercept is around 0.407+/-0.006 and the slope is around
 over 1959-2024. These estimates are comparable with the approximately
 0.45 AF level reported in the literature\textsuperscript{2,3,6,7,42,43},
 while identifying a positive long-run trend when all LULC information is
-incorporated. The conditional R-squared values indicate that most
-explained variation is captured by between-series structure rather than
-by the fixed linear time trend (marginal versus conditional R-squared).
+incorporated.
 
 \begin{figure}
 
@@ -472,6 +468,11 @@ that the increasing AF trend is not driven by the final observation. The
 slope is smaller (0.000808 per year versus 0.001103 per year),
 consistent with a contribution from the 2024 large value, but the
 direction and inference are unchanged.
+
+Furthermore, we consider a mixed-effects specification that includes an
+AR(1) structure on the residuals to control for potential
+autocorrelation. The results do not materially change, and the slope
+remains positive and significant under this specification (see Methods).
 
 As an additional robustness check, we estimate a delta-method
 uncertainty proxy for each annual AF estimate using the
@@ -559,8 +560,6 @@ p-value & 0.04021 & 0.13891 & 1.0E-5 & 1.0E-5 & 0.09516 & 0.27109 &
 1.0E-5 & 1.0E-5 \\
 HAC p-value & 0.01112 & 0.06846 & 4.0E-5 & 0.00050 & 0.02495 & 0.14322 &
 5.0E-5 & 0.00080 \\
-R-squared & 0.06171 & 0.03309 & 0.14899 & 0.11107 & 0.04233 & 0.01886 &
-0.12552 & 0.08930 \\
 \end{longtable}
 
 By contrast, OLS specifications that do not incorporate denominator
@@ -944,25 +943,8 @@ ocean warming from 1961 to 2022 unveiled by large-ensemble reanalyses}.
 accelerated significantly}. \emph{Geophysical Research Letters}
 \textbf{53}, e2025GL118804 (2026).}
 
-\bibitem[\citeproctext]{ref-NakagawaSchielzeth2013}
-\CSLLeftMargin{49. }%
-\CSLRightInline{Nakagawa, S. \& Schielzeth, H.
-\href{https://doi.org/10.1111/j.2041-210X.2012.00261.x}{A general and
-simple method for obtaining r\({}^2\) from generalized linear
-mixed-effects models}. \emph{Methods in Ecology and Evolution}
-\textbf{4}, 133--142 (2013).}
-
-\bibitem[\citeproctext]{ref-NakagawaJohnsonSchielzeth2017}
-\CSLLeftMargin{50. }%
-\CSLRightInline{Nakagawa, S., Johnson, P. C. D. \& Schielzeth, H.
-\href{https://doi.org/10.1098/rsif.2017.0213}{The coefficient of
-determination r\({}^2\) and intra-class correlation coefficient from
-generalized linear mixed-effects models revisited and expanded}.
-\emph{Journal of the Royal Society Interface} \textbf{14}, 20170213
-(2017).}
-
 \bibitem[\citeproctext]{ref-Aitken1935}
-\CSLLeftMargin{51. }%
+\CSLLeftMargin{49. }%
 \CSLRightInline{Aitken, A. C.
 \href{https://doi.org/10.1017/S0370164600014346}{On least squares and
 linear combination of observations}. \emph{Proceedings of the Royal
@@ -974,11 +956,11 @@ Society of Edinburgh} \textbf{55}, 42--48 (1935).}
 \addcontentsline{toc}{section}{Methods}
 
 Our primary estimator is a linear mixed-effects trend model with random
-intercepts and random slopes for each LULC measurement
-series\textsuperscript{40,41,49,50}. As a robustness check, we also
-estimate a measurement-error-aware airborne fraction variance using
+intercepts and random slopes for each LULC measurement series
+{[}\textsuperscript{40};\textsuperscript{41}. As a robustness check, we
+also estimate a measurement-error-aware airborne fraction variance using
 repeated yearly denominator measurements, followed by WLS trend
-estimation with HAC inference\textsuperscript{12--14,44,51}.
+estimation with HAC inference\textsuperscript{12--14,44,49}.
 
 \subsection*{Construction of the LULC measurement
 panel}\label{construction-of-the-lulc-measurement-panel}
@@ -1038,17 +1020,86 @@ where \(\alpha_j = \mu_\alpha + u_{\alpha j}\) and
 The model is estimated by restricted maximum
 likelihood\textsuperscript{40,41}. Fixed-effect uncertainty is based on
 model-based standard errors and Wald tests. We report the estimated
-fixed intercept and slope, standard errors, p-values, and marginal and
-conditional R-squared\textsuperscript{49,50}.
+fixed intercept and slope, standard errors, and p-values.
 
 Identification and interpretation rely on standard mixed-model
 conditions: (i) conditional linearity in time, (ii) random effects
 centred at zero and independent across LULC definitions, and (iii)
 mean-zero residuals conditional on fixed and random effects.
 
-As an endpoint robustness check, we re-estimate the same mixed-effects
+\subsubsection*{Robustness checks}\label{robustness-checks}
+\addcontentsline{toc}{subsubsection}{Robustness checks}
+
+As an endpoint robustness check, we re-estimate the mixed-effects
 specification on the sample ending in 2023 to verify that inference on
 \(\mu_\beta\) is not mechanically driven by the final-year observation.
+
+To control for potential autocorrelation in the residuals, we consider a
+specification that includes an AR(1) structure on \(\varepsilon_{t,j}\):
+
+\[
+\varepsilon_{t,j} = \rho \varepsilon_{t-1,j} + \eta_{t,j}, \quad \eta_{t,j} \sim N(0,\sigma_\eta^2).
+\]
+
+This specification is estimated by maximum likelihood on the full sample
+and the sample ending in 2023. The results, shown in
+Table~\ref{tbl-mixed-effects-ar1}, do not materially change.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}@{}}
+\caption{Mixed-effects model with random effects for each LULC
+measurement series and AR(1) structure on
+residuals.}\label{tbl-mixed-effects-ar1}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Parameter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Intercept (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Slope (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+AR1 (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Intercept (up to 2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Slope (up to 2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+AR1 (up to 2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Parameter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Intercept (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Slope (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+AR1 (full)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Intercept (up to 2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Slope (up to 2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+AR1 (up to 2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Estimate & 0.406784 & 0.001117 & 0.063011 & 0.413403 & 0.000806 &
+0.056406 \\
+Standard error & 0.005673 & 0.000108 & 0.030731 & 0.005677 & 0.000109 &
+0.029828 \\
+p-value & 1.0E-5 & 1.0E-5 & 0.040326 & 1.0E-5 & 1.0E-5 & 0.058622 \\
+\end{longtable}
 
 \subsection*{Weighted least squares estimation
 approach}\label{weighted-least-squares-estimation-approach}
@@ -1058,7 +1109,7 @@ approach}
 As a robustness check to the mixed-effects model, we also estimate a
 two-stage measurement-error-aware WLS model that uses repeated LULC
 measurements to construct a denominator-uncertainty proxy for each year
-and HAC inference\textsuperscript{12--14,44,51}.
+and HAC inference\textsuperscript{12--14,44,49}.
 
 In the estimation, the yearly denominator is computed as \[
 \hat C_t = FF_t + \bar{LULC}_t, \qquad
@@ -1277,7 +1328,7 @@ All code used to process data, estimate models, and generate figures is
 available in the repository
 (\href{https://github.com/everval/Airborne-Fraction-WLS-Trend}{github.com/everval/Airborne-Fraction-WLS-Trend})
 under the scripts directory, including Quarto analysis files and Julia
-helper functions.
+and R helper functions.
 
 \subsection*{Competing interests}\label{competing-interests}
 \addcontentsline{toc}{subsection}{Competing interests}
