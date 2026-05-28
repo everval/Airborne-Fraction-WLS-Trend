@@ -167,24 +167,24 @@ function summarize_population_effects(model, group_df::DataFrame)
     return summary_df
 end
 
-##### Mixed model fixed-effect summary helpers
 function mixed_model_r2(model::LinearMixedModel)
-    # Variance of fixed-effect predictions
-    β  = fixef(model)
-    X  = model.X
-    ŷ_fixed = X * β
-    var_fixed = var(ŷ_fixed)
+    # Variance decomposition based on fixed-only and conditional fitted values.
+    β = fixef(model)
+    X = model.X
 
-    # Random effects variance (sum across all random effect groups)
-    var_random = sum(sum(values(vc.σ)) for vc in values(VarCorr(model).σρ))
+    yhat_fixed = X * β
+    yhat_cond = fitted(model)
 
-    # Residual variance
+    var_fixed = var(yhat_fixed)
+    var_random = max(var(yhat_cond .- yhat_fixed), 0.0)
     var_resid = model.sigma^2
 
-    # Total variance
     var_total = var_fixed + var_random + var_resid
+    if var_total <= 0
+        return (marginal = NaN, conditional = NaN)
+    end
 
-    R2_marginal    = var_fixed / var_total
+    R2_marginal = var_fixed / var_total
     R2_conditional = (var_fixed + var_random) / var_total
 
     return (marginal = R2_marginal, conditional = R2_conditional)

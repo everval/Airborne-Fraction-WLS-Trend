@@ -261,3 +261,201 @@ end
 
 println("Saved mixed-model summary table to: $(mixed_out_path)")
 ```
+
+
+## Mixed model with AR1 component (R)
+
+### Full sample and up to 2023
+
+```{julia}
+Pkg.add("RCall")
+using RCall
+
+@rput long_df long_df_2023
+```
+
+```{julia}
+R"""
+library(nlme)
+
+if (!requireNamespace("performance", quietly = TRUE)) {
+    install.packages("performance", repos = "https://cloud.r-project.org")
+}
+
+extract_ar1_stats <- function(model_ar1) {
+    phi <- as.numeric(coef(model_ar1$modelStruct$corStruct, unconstrained = FALSE))
+
+    se_phi <- NA_real_
+    ap <- model_ar1$apVar
+    if (is.matrix(ap)) {
+        nms <- colnames(ap)
+        idx <- which(nms %in% c("corStruct", "Phi", "phi"))
+        if (length(idx) > 0) {
+            se_all <- sqrt(diag(ap))
+            se_phi <- as.numeric(se_all[idx[1]])
+        }
+    }
+
+    p_phi <- NA_real_
+    if (!is.na(se_phi) && is.finite(se_phi) && se_phi > 0) {
+        z_phi <- phi / se_phi
+        p_phi <- 2 * pnorm(-abs(z_phi))
+    }
+
+    data.frame(
+        ar1_estimate = phi,
+        ar1_se = se_phi,
+        ar1_pvalue = p_phi
+    )
+}
+
+fit_ar1_bundle <- function(df) {
+    df$definition <- as.factor(df$definition)
+    df$t <- df$Year - min(df$Year)
+
+    ctrl <- lmeControl(
+        opt = "optim",
+        msMaxIter = 500,
+        maxIter = 200,
+        niterEM = 80,
+        tolerance = 1e-6,
+        msVerbose = FALSE,
+        returnObject = TRUE
+    )
+
+    model_ar1 <- lme(
+        AF ~ t,
+        random = ~ t | definition,
+        correlation = corAR1(form = ~ t | definition),
+        data = df,
+        method = "REML",
+        control = ctrl
+    )
+
+    t_ar1 <- summary(model_ar1)$tTable
+    r2_ar1 <- suppressWarnings(performance::r2_nakagawa(model_ar1))
+
+    fixed_stats <- data.frame(
+        alpha = unname(fixef(model_ar1)[1]),
+        alpha_se = unname(t_ar1["(Intercept)", "Std.Error"]),
+        alpha_pvalue = unname(t_ar1["(Intercept)", "p-value"]),
+        beta = unname(fixef(model_ar1)[2]),
+        beta_se = unname(t_ar1["t", "Std.Error"]),
+        beta_pvalue = unname(t_ar1["t", "p-value"]),
+        r_squared_marginal = as.numeric(r2_ar1$R2_marginal),
+        r_squared_conditional = as.numeric(r2_ar1$R2_conditional)
+    )
+
+    list(
+        model = model_ar1,
+        fixed = fixed_stats,
+        ar1 = extract_ar1_stats(model_ar1),
+        resid = as.numeric(residuals(model_ar1, type = "normalized"))
+    )
+}
+
+ar1_full <- fit_ar1_bundle(long_df)
+ar1_2023 <- fit_ar1_bundle(long_df_2023)
+
+ar1_fixed_full <- ar1_full$fixed
+ar1_fixed_2023 <- ar1_2023$fixed
+ar1_stats_full <- ar1_full$ar1
+ar1_stats_2023 <- ar1_2023$ar1
+resid_ar1 <- ar1_full$resid
+
+print(summary(ar1_full$model))
+print(ar1_stats_full)
+print(summary(ar1_2023$model))
+print(ar1_stats_2023)
+"""
+```
+
+```{julia}
+@rget ar1_fixed_full ar1_fixed_2023 ar1_stats_full ar1_stats_2023 resid_ar1
+
+ar1_fixed_full
+ar1_stats_full
+ar1_fixed_2023
+ar1_stats_2023
+```
+
+### AR1-augmented fixed-effects summary table
+
+```{julia}
+#| results: asis
+
+# Build a mixed-model summary table that mirrors the existing format and adds
+# AR1 coefficient columns for both estimation windows.
+ar1_augmented_table = DataFrame(
+    Metric = [
+        "Estimate",
+        "Standard error",
+        "p-value",
+        "R-squared (marginal)",
+        "R-squared (conditional)",
+    ],
+    Intercept_full = [
+        ar1_fixed_full.alpha[1],
+        ar1_fixed_full.alpha_se[1],
+        ar1_fixed_full.alpha_pvalue[1],
+        ar1_fixed_full.r_squared_marginal[1],
+        ar1_fixed_full.r_squared_conditional[1],
+    ],
+    Slope_full = [
+        ar1_fixed_full.beta[1],
+        ar1_fixed_full.beta_se[1],
+        ar1_fixed_full.beta_pvalue[1],
+        ar1_fixed_full.r_squared_marginal[1],
+        ar1_fixed_full.r_squared_conditional[1],
+    ],
+    AR1_full = [
+        ar1_stats_full.ar1_estimate[1],
+        ar1_stats_full.ar1_se[1],
+        ar1_stats_full.ar1_pvalue[1],
+        missing,
+        missing,
+    ],
+    Intercept_up_to_2023 = [
+        ar1_fixed_2023.alpha[1],
+        ar1_fixed_2023.alpha_se[1],
+        ar1_fixed_2023.alpha_pvalue[1],
+        ar1_fixed_2023.r_squared_marginal[1],
+        ar1_fixed_2023.r_squared_conditional[1],
+    ],
+    Slope_up_to_2023 = [
+        ar1_fixed_2023.beta[1],
+        ar1_fixed_2023.beta_se[1],
+        ar1_fixed_2023.beta_pvalue[1],
+        ar1_fixed_2023.r_squared_marginal[1],
+        ar1_fixed_2023.r_squared_conditional[1],
+    ],
+    AR1_up_to_2023 = [
+        ar1_stats_2023.ar1_estimate[1],
+        ar1_stats_2023.ar1_se[1],
+        ar1_stats_2023.ar1_pvalue[1],
+        missing,
+        missing,
+    ],
+)
+
+fmt_cell(x) = ismissing(x) ? "" : string(round(x; digits = 6))
+
+header_ar1 = "| Metric | Intercept (full) | Slope (full) | AR1 (full) | Intercept (up to 2023) | Slope (up to 2023) | AR1 (up to 2023) |"
+sep_ar1 = "|---|---:|---:|---:|---:|---:|---:|"
+
+rows_ar1 = String[]
+for r in eachrow(ar1_augmented_table)
+    push!(rows_ar1, "| $(r.Metric) | $(fmt_cell(r.Intercept_full)) | $(fmt_cell(r.Slope_full)) | $(fmt_cell(r.AR1_full)) | $(fmt_cell(r.Intercept_up_to_2023)) | $(fmt_cell(r.Slope_up_to_2023)) | $(fmt_cell(r.AR1_up_to_2023)) |")
+end
+
+ar1_augmented_table_md = join([header_ar1, sep_ar1, rows_ar1...], "\n") * "\n"
+
+println(ar1_augmented_table_md)
+
+ar1_out_path = joinpath(@__DIR__, "..", "results", "af_mixed_model_fixed_effects_summary_table_ar1.md")
+open(ar1_out_path, "w") do io
+    write(io, ar1_augmented_table_md)
+end
+
+println("Saved AR1-augmented mixed-model summary table to: $(ar1_out_path)")
+```

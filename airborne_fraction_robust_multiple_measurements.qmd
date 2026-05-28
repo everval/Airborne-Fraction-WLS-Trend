@@ -15,7 +15,7 @@ author:
     corresponding: true
 date: today
 abstract: |
-  The airborne fraction is the share of anthropogenic carbon dioxide emissions that remains in the atmosphere and is a key indicator of carbon-cycle response under continued emissions. Whether this share is rising remains debated because inference is sensitive to uncertainty in land-use and land-cover change (LULC) emissions. Here we use all available LULC measurement series from Global Carbon Budget 2025 data and estimate trends with a mixed-effects model with random intercepts and slopes by LULC series. We find that airborne fraction increased over 1959-2024, and that this conclusion is robust to excluding the final year and to a measurement-error-aware weighted least squares robustness specification. These results strengthen evidence that an increasing share of emitted carbon dioxide is accumulating in the atmosphere rather than being taken up by land and ocean sinks, with implications for carbon-budget assessment and near-term mitigation requirements.
+  The airborne fraction is the share of anthropogenic carbon dioxide emissions that remains in the atmosphere and is a key indicator of carbon‑cycle response and remaining carbon budgets under continued emissions. Whether this share is rising remains debated because inference is sensitive to uncertainty in land‑use and land‑cover change (LULC) emissions. Here we use all available LULC measurement series from Global Carbon Budget 2025 and estimate airborne‑fraction trends with a mixed‑effects model with random intercepts and slopes by LULC series. We find that the airborne fraction increased over 1959–2024, from about 0.40 to about 0.47, and that this conclusion is robust to excluding the final year and to alternative specifications that explicitly propagate denominator uncertainty. These results clarify why earlier studies reported weak or inconclusive trend evidence and strengthen support for the view that an increasing share of emitted carbon dioxide is accumulating in the atmosphere rather than being taken up by land and ocean sinks, with implications for carbon‑budget assessment and near‑term mitigation requirements.
 keywords:
   - airborne fraction
   - land-use and land-cover change emissions
@@ -30,7 +30,9 @@ csl: nature.csl
 
 ## Background {.unnumbered}
 
-Whether the airborne fraction (AF) is increasing or approximately constant remains contested [@Canadell2007; @Raupach2007; @Knorr2009; @Ballantyne2012; @LeQuere2009; @bennedsenEvidenceTrendCO22023; @bennedsenRegressionbasedApproachCO22024]. In its classical form, AF is a yearly ratio of atmospheric growth to total anthropogenic emissions, computed as the sum of fossil fuel emissions and land-use and land-cover change emissions as
+The amount of anthropogenic carbon dioxide ($CO_2$) that can be emitted while still meeting a given temperature goal, known as the remaining carbon budget, depends critically on how efficiently the land–ocean system continues to absorb $CO_2$ emissions. In recent decades, the share of anthropogenic $CO_2$ emissions that remains in the atmosphere, known as the airborne fraction (AF), has been estimated to be around 0.45, but whether it has increased over time remains contested [@Canadell2007; @Raupach2007; @Knorr2009; @Ballantyne2012; @LeQuere2009; @bennedsenEvidenceTrendCO22023; @bennedsenRegressionbasedApproachCO22024;@veravaldes2025robustestimationco2]. 
+
+In its classical form, AF is a yearly ratio of atmospheric growth to total anthropogenic emissions, computed as the sum of fossil fuel emissions and land-use and land-cover change emissions as
 
 $$
 AF_t = \frac{G_t}{FF_t + LULC_t},
@@ -95,11 +97,9 @@ The main results from estimating the mixed-effects model over the full sample (1
 | Estimate | 0.406959 | 0.001103 | 0.413260 | 0.000808 |
 | Standard error | 0.005573 | 0.000102 | 0.005586 | 0.000103 |
 | p-value | 1.0E-5 | 1.0E-5 | 1.0E-5  | 1.0E-5  |
-| R-squared (marginal) | 0.008631 | 0.008631 | 0.004518 | 0.004518 |
-| R-squared (conditional) | 0.700967 | 0.700967 | 0.708173 | 0.708173 |
 : Mixed-effects model with random effects for each LULC measurement series. {#tbl-mixed-effects}
 
-The mixed-effects slope is positive and statistically significant (p-value < 1.0E-5), indicating strong evidence of an increasing AF trend across LULC measurement series. The estimated intercept is around 0.407+/-0.006 and the slope is around 0.0011+/-0.0001 per year, implying an increase of about 0.0717 in AF over 1959-2024. These estimates are comparable with the approximately 0.45 AF level reported in the literature [@Raupach2007;@Knorr2009;@Gloor2010CarbonFeedbackAF;@bennedsenRegressionbasedApproachCO22024;@bennedsenEvidenceTrendCO22023;@veravaldes2025robustestimationco2], while identifying a positive long-run trend when all LULC information is incorporated. The conditional R-squared values indicate that most explained variation is captured by between-series structure rather than by the fixed linear time trend (marginal versus conditional R-squared).
+The mixed-effects slope is positive and statistically significant (p-value < 1.0E-5), indicating strong evidence of an increasing AF trend across LULC measurement series. The estimated intercept is around 0.407+/-0.006 and the slope is around 0.0011+/-0.0001 per year, implying an increase of about 0.0717 in AF over 1959-2024. These estimates are comparable with the approximately 0.45 AF level reported in the literature [@Raupach2007;@Knorr2009;@Gloor2010CarbonFeedbackAF;@bennedsenRegressionbasedApproachCO22024;@bennedsenEvidenceTrendCO22023;@veravaldes2025robustestimationco2], while identifying a positive long-run trend when all LULC information is incorporated. 
 
 ::: {#fig-mixed-effects layout-ncol=1}
 
@@ -115,6 +115,8 @@ The mixed-effects slope is positive and statistically significant (p-value < 1.0
 
 AF shows a large value in the final year (2024), so we re-estimate the mixed-effects model on the subsample ending in 2023 to check whether the result is driven by that observation. Results are shown in the last two columns of @tbl-mixed-effects and @fig-mixed-effects-trend-2023. The slope remains positive and statistically significant (p-value < 1.0E-5), indicating that the increasing AF trend is not driven by the final observation. The slope is smaller (0.000808 per year versus 0.001103 per year), consistent with a contribution from the 2024 large value, but the direction and inference are unchanged.
 
+Furthermore, we consider a mixed-effects specification that includes an AR(1) structure on the residuals to control for potential autocorrelation. The results do not materially change, and the slope remains positive and significant under this specification (see Methods).
+
 As an additional robustness check, we estimate a delta-method uncertainty proxy for each annual AF estimate using the cross-measurement dispersion of the full 69-series LULC panel, and use these proxies in WLS with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @NeweyWest1987]. Two WLS specifications are shown in @tbl-trend-full: one using the GCB LULC mean as the denominator and one using the all-LULC mean. In both specifications, weights are constructed from the all-LULC panel dispersion so that the weighting scheme is held fixed across denominator definitions. 
 
 The WLS results are consistent with the mixed-effects results and show a positive, statistically significant trend. Note that the slopes estimated from WLS are steeper than those from OLS or the mixed-effects model, which is consistent with the fact that WLS assigns less weight to years with higher denominator uncertainty, which tend to be the earlier years of the sample. 
@@ -127,7 +129,6 @@ The WLS results are consistent with the mixed-effects results and show a positiv
 | HAC standard error | 0.00062 | 0.00064 | 0.00065  | 0.00066 | 0.00058 | 0.0006 | 0.00059 | 0.0006 |
 | p-value | 0.04021 | 0.13891 | 1.0E-5  | 1.0E-5 | 0.09516 | 0.27109 | 1.0E-5 | 1.0E-5 |
 | HAC p-value | 0.01112 | 0.06846 | 4.0E-5  | 0.00050 | 0.02495 | 0.14322 | 5.0E-5 | 0.00080 |
-| R-squared | 0.06171 | 0.03309 | 0.14899  | 0.11107 | 0.04233 | 0.01886 | 0.12552 | 0.08930 |
 : Trend comparison across OLS and WLS specifications for the full sample and the sample ending in 2023. {#tbl-trend-full}
 
 By contrast, OLS specifications that do not incorporate denominator measurement information show weaker evidence of a positive trend and greater endpoint sensitivity. In the full sample, OLS using GCB LULC is significant under both conventional and HAC inference (p-value 0.04021 and HAC p-value 0.01112), whereas OLS using the all-LULC mean is not significant under either method (p-value 0.13891 and HAC p-value 0.06846). 
@@ -140,7 +141,7 @@ This sensitivity to denominator construction and endpoint exclusion highlights t
 
 Using a framework that incorporates all available LULC information from Global Carbon Budget 2025, we find robust evidence that AF increased from 1959 to 2024. Methodologically, incorporating multi-source uncertainty materially changes inference relative to plain OLS. Endpoint tests show that this conclusion is not driven by the large value in 2024.
 
-A rising AF implies that a larger share of emitted $CO_2$ remains in the atmosphere over policy-relevant horizons, tightening near-term mitigation requirements for a given temperature objective [@Canadell2007; @Raupach2007; @Friedlingstein2025]. The increasing AF signal is consistent with broader evidence that the climate system is out of energy balance and has recently shown elevated warming and heating rates [@Miniere2023; @WMO_SGC_2025; @StortoYang2024; @rahmstorfGlobalWarmingHas2025]; these findings should be interpreted in that wider risk context.
+Our estimates imply that AF increased from about 0.40 around 1960 to about 0.47 by 2024, relative to long-used values around 0.45. For a given emissions pathway, this implies faster atmospheric $CO_2$ growth than under a constant-AF baseline, shrinking the remaining carbon budget for any temperature target [@Canadell2007; @Raupach2007; @Friedlingstein2025]. The increasing AF signal is consistent with broader evidence that the climate system is out of energy balance and has recently shown elevated warming and heating rates [@Miniere2023; @WMO_SGC_2025; @StortoYang2024; @rahmstorfGlobalWarmingHas2025]; these findings should be interpreted in that wider risk context.
 
 ::: {.content-visible when-format="html"}
 
@@ -154,7 +155,7 @@ A rising AF implies that a larger share of emitted $CO_2$ remains in the atmosph
 
 # Methods {.unnumbered}
 
-Our primary estimator is a linear mixed-effects trend model with random intercepts and random slopes for each LULC measurement series [@Henderson1953; @Bolker2009; @NakagawaSchielzeth2013; @NakagawaJohnsonSchielzeth2017]. As a robustness check, we also estimate a measurement-error-aware airborne fraction variance using repeated yearly denominator measurements, followed by WLS trend estimation with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @Aitken1935; @NeweyWest1987].
+Our primary estimator is a linear mixed-effects trend model with random intercepts and random slopes for each LULC measurement series [@Henderson1953; @Bolker2009. As a robustness check, we also estimate a measurement-error-aware airborne fraction variance using repeated yearly denominator measurements, followed by WLS trend estimation with HAC inference [@Fuller1987; @Carroll2006; @Oehlert1992; @Aitken1935; @NeweyWest1987].
 
 ## Construction of the LULC measurement panel {.unnumbered}
 
@@ -189,12 +190,28 @@ $$
 
 This specification allows each LULC series to have its own level and trend while estimating a common population-average trend $\mu_\beta$. The main estimand is $\mu_\beta$, interpreted as the average annual change in AF across the full set of LULC definitions. Note that this notation is equivalent to the more compact notation in the main text, where $\alpha_j = \mu_\alpha + u_{\alpha j}$ and $\beta_j = \mu_\beta + u_{\beta j}$.
 
-The model is estimated by restricted maximum likelihood [@Henderson1953;@Bolker2009]. Fixed-effect uncertainty is based on model-based standard errors and Wald tests. We report the estimated fixed intercept and slope, standard errors, p-values, and marginal and conditional R-squared [@NakagawaSchielzeth2013;@NakagawaJohnsonSchielzeth2017].
+The model is estimated by restricted maximum likelihood [@Henderson1953;@Bolker2009]. Fixed-effect uncertainty is based on model-based standard errors and Wald tests. We report the estimated fixed intercept and slope, standard errors, and p-values.
 
 Identification and interpretation rely on standard mixed-model conditions: (i) conditional linearity in time, (ii) random effects centred at zero and independent across LULC definitions, and (iii) mean-zero residuals conditional on fixed and random effects.
 
-As an endpoint robustness check, we re-estimate the same mixed-effects specification on the sample ending in 2023 to verify that inference on $\mu_\beta$ is not mechanically driven by the final-year observation.
+### Robustness checks {.unnumbered}
 
+As an endpoint robustness check, we re-estimate the mixed-effects specification on the sample ending in 2023 to verify that inference on $\mu_\beta$ is not mechanically driven by the final-year observation.
+
+To control for potential autocorrelation in the residuals, we consider a specification that includes an AR(1) structure on $\varepsilon_{t,j}$:
+
+$$
+\varepsilon_{t,j} = \rho \varepsilon_{t-1,j} + \eta_{t,j}, \quad \eta_{t,j} \sim N(0,\sigma_\eta^2).
+$$
+
+This specification is estimated by maximum likelihood on the full sample and the sample ending in 2023. The results, shown in @tbl-mixed-effects-ar1, do not materially change. The estimated AR(1) parameters in the full sample and the sample ending in 2023 are small and only marginally significant, indicating limited residual autocorrelation after accounting for random effects.
+
+| Parameter | Intercept (full) | Slope (full) | AR1 (full) | Intercept (up to 2023) | Slope (up to 2023) | AR1 (up to 2023) |
+|---|---:|---:|---:|---:|---:|---:|
+| Estimate | 0.406784 | 0.001117 | 0.063011 | 0.413403 | 0.000806 | 0.056406 |
+| Standard error | 0.005673 | 0.000108 | 0.030731 | 0.005677 | 0.000109 | 0.029828 |
+| p-value | 1.0E-5 | 1.0E-5 | 0.040326 | 1.0E-5 | 1.0E-5 | 0.058622 |
+: Mixed-effects model with random effects for each LULC measurement series and AR(1) structure on residuals. {#tbl-mixed-effects-ar1}
 
 ## Weighted least squares estimation approach {.unnumbered}
 
@@ -344,7 +361,7 @@ The study uses publicly available Global Carbon Budget 2025 data and derived yea
 
 ## Code availability {.unnumbered}
 
-All code used to process data, estimate models, and generate figures is available in the repository ([github.com/everval/Airborne-Fraction-WLS-Trend](https://github.com/everval/Airborne-Fraction-WLS-Trend)) under the scripts directory, including Quarto analysis files and Julia helper functions.
+All code used to process data, estimate models, and generate figures is available in the repository ([github.com/everval/Airborne-Fraction-WLS-Trend](https://github.com/everval/Airborne-Fraction-WLS-Trend)) under the scripts directory, including Quarto analysis files and Julia and R helper functions.
 
 ## Competing interests {.unnumbered}
 
