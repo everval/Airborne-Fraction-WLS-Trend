@@ -52,6 +52,11 @@ format:
     number-sections: false
     font: Times New Roman
     keep-tex: true
+    include-in-header:
+      - text: |
+          \usepackage[left]{lineno}
+          \AtBeginDocument{\linenumbers}
+          \setlength\linenumbersep{10pt}
 engine: julia
 execute: 
   enabled: true
