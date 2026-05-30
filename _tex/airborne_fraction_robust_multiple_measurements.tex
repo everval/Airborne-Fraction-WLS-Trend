@@ -141,6 +141,9 @@
  
 
 
+\usepackage[left]{lineno}
+\AtBeginDocument{\linenumbers}
+\setlength\linenumbersep{10pt}
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -201,27 +204,24 @@ emissions, robust estimation, trend inference, multiple measurements},
 
 \title{Multi-source land-use emissions reveal rising airborne fraction}
 \author{J. Eduardo Vera-Valdes}
-\date{2026-05-28}
+\date{2026-05-30}
 \begin{document}
 \maketitle
 \begin{abstract}
 The airborne fraction is the share of anthropogenic carbon dioxide
 emissions that remains in the atmosphere and is a key indicator of
-carbon‑cycle response and remaining carbon budgets under continued
-emissions. Whether this share is rising remains debated because
-inference is sensitive to uncertainty in land‑use and land‑cover change
-(LULC) emissions. Here we use all available LULC measurement series from
-Global Carbon Budget 2025 and estimate airborne‑fraction trends with a
-mixed‑effects model with random intercepts and slopes by LULC series. We
-find that the airborne fraction increased over 1959--2024, from about
-0.40 to about 0.47, and that this conclusion is robust to excluding the
-final year and to alternative specifications that explicitly propagate
-denominator uncertainty. These results clarify why earlier studies
-reported weak or inconclusive trend evidence and strengthen support for
-the view that an increasing share of emitted carbon dioxide is
-accumulating in the atmosphere rather than being taken up by land and
-ocean sinks, with implications for carbon‑budget assessment and
-near‑term mitigation requirements.
+carbon-cycle response and remaining carbon budgets. Whether this share
+is rising remains debated because inference is sensitive to uncertainty
+in land-use and land-cover change (LULC) emissions. Here we use an
+expanded LULC-definition ensemble from Global Carbon Budget 2025 and
+estimate airborne-fraction trends with a mixed-effects model with random
+intercepts and slopes by LULC series. We find that airborne fraction
+increased over 1959-2024, from about 0.41 to about 0.48, and that this
+conclusion is robust to excluding the final year and to alternative
+specifications that propagate denominator uncertainty. These results
+clarify why earlier studies reported weak or inconclusive trend evidence
+and strengthen evidence that a larger share of emitted carbon dioxide is
+accumulating in the atmosphere.
 \end{abstract}
 
 
@@ -235,7 +235,7 @@ land--ocean system continues to absorb \(CO_2\) emissions. In recent
 decades, the share of anthropogenic \(CO_2\) emissions that remains in
 the atmosphere, known as the airborne fraction (AF), has been estimated
 to be around 0.45, but whether it has increased over time remains
-contested\textsuperscript{1--8}.
+contested\textsuperscript{1--9}.
 
 In its classical form, AF is a yearly ratio of atmospheric growth to
 total anthropogenic emissions, computed as the sum of fossil fuel
@@ -249,30 +249,29 @@ where \(G_t\) is the annual atmospheric \(CO_2\) growth, \(FF_t\) is
 fossil fuel emissions excluding carbonation, and \(LULC_t\) is land-use
 and land-cover change emissions. AF is a key carbon-cycle diagnostic,
 with implications for carbon-cycle feedbacks and near-term mitigation
-planning\textsuperscript{1,2,9}.
+planning\textsuperscript{1,2,10}.
 
 A persistent concern is that AF inference depends on the treatment of
 land-use and land-cover change (LULC) emissions, which are uncertain and
 model-dependent in annual carbon-budget accounting. The Global Carbon
-Budget (GCB) 2025\textsuperscript{9} provides one column of LULC
+Budget (GCB) 2025\textsuperscript{10} provides one column of LULC
 emissions as the average of three bookkeeping models
-(BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
-LUCE\textsuperscript{12}), but a broader set of model-based LULC
+(BLUE\textsuperscript{11}, OSCAR\textsuperscript{12},
+LUCE\textsuperscript{13}), but a broader set of model-based LULC
 alternatives can be constructed from the same source. Estimates that do
 not incorporate this multi-source LULC information can be underpowered
 and inference on trend direction becomes less reliable.
 
-Here we address that issue with a statistical design that uses all
-repeated LULC measurements in a mixed-effects trend framework to obtain
-more reliable inference. The main specification estimates AF trends from
-a panel of yearly AF values constructed from each LULC measurement
-series, with random intercepts and random slopes capturing
-between-series heterogeneity and inducing within-series dependence over
-time. As a robustness exercise, we also estimate a two-stage
-measurement-error weighted least squares (WLS) model that propagates
-denominator uncertainty from repeated LULC measurements into annual AF
-uncertainty and uses heteroskedasticity-and-autocorrelation-consistent
-(HAC) inference\textsuperscript{13--15}.
+Here we address that issue with a statistical design that uses an
+expanded ensemble of repeated LULC definitions in a mixed-effects trend
+framework\textsuperscript{14,15} to obtain more reliable inference. The
+main specification estimates AF trends from a panel of yearly AF values
+constructed from each LULC measurement series, with random intercepts
+and random slopes capturing between-series heterogeneity and inducing
+within-series dependence over time. As a robustness exercise, we also
+estimate a two-stage measurement-error weighted least squares (WLS)
+model that propagates denominator uncertainty from repeated LULC
+definitions into annual AF uncertainty\textsuperscript{16,17}.
 
 Across specifications that incorporate the multi-source LULC
 information, we find robust evidence that AF has increased over
@@ -290,13 +289,13 @@ accumulating in the atmosphere.
 
 We use annual Global Carbon Budget 2025 data for 1959-2024, with
 atmospheric growth \(G_t\) from NOAA/ESRL global concentration
-trends\textsuperscript{16}, fossil emissions excluding carbonation
+trends\textsuperscript{18}, fossil emissions excluding carbonation
 \(FF_t\) from the Global Carbon Project fossil
-dataset\textsuperscript{9}, and a panel of 69 LULC measurements per
-year: BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
-LUCE\textsuperscript{12}, and peat-augmented\textsuperscript{17--19}
+dataset\textsuperscript{10}, and a panel of 69 LULC measurements per
+year: BLUE\textsuperscript{11}, OSCAR\textsuperscript{12},
+LUCE\textsuperscript{13}, and peat-augmented\textsuperscript{19--21}
 process-based land-model combinations drawn from the GCB model
-ensemble\textsuperscript{20--40} (see Methods). The data is shown in
+ensemble\textsuperscript{22--42} (see Methods). The data are shown in
 Figure~\ref{fig-data}.
 
 Two LULC means can be constructed from the panel. First, the GCB LULC
@@ -304,10 +303,19 @@ mean, defined as the mean of the three bookkeeping models (BLUE, OSCAR,
 and LUCE), corresponds to the LULC column used in the Global Carbon
 Budget. Second, the all-LULC mean, defined as the cross-series mean
 across all 69 LULC measurements. The literature has typically used the
-GCB LULC mean as the denominator in AF trend estimation, but we show
-that incorporating the full set of LULC measurements increases the
-precision of trend estimates and provides more robust inference on trend
-direction.
+GCB LULC mean in AF trend estimation, but we show that incorporating the
+full set of LULC measurements increases the precision of trend estimates
+and provides more robust inference on trend direction.
+
+To account for the natural variability in the atmospheric growth
+series\textsuperscript{5,7--9}, we construct a natural variability
+adjusted growth series by regressing the observed growth on total
+anthropogenic emissions (fossil plus LULC) and indices of variability in
+the El Niño-Southern Oscillation (ENSO) and the Volcanic Aerosol Index
+(VAI). The fitted values from this regression are used as the natural
+variability adjusted growth series, which is shown in
+Figure~\ref{fig-data} and used in the main analysis. The details of the
+regression are described in Methods.
 
 \begin{figure}
 
@@ -318,9 +326,11 @@ direction.
 }
 
 \caption{\label{fig-data}Global Carbon Budget 2025 data for fossil
-emissions, atmospheric growth, and LULC emissions (1959-2024). For the
-LULC panel, we show all extracted and derived LULC measurements together
-with the GCB LULC column and the all-LULC cross-series mean.}
+emissions, atmospheric growth, and LULC emissions (1959-2024). For
+atmospheric growth, we show the observed growth and the natural
+variability adjusted fit. For the LULC panel, we show all extracted and
+derived LULC measurements together with the GCB LULC column and the
+all-LULC cross-series mean.}
 
 \end{figure}%
 
@@ -331,12 +341,15 @@ The empirical question is whether AF has a positive linear trend. The
 key design choice is how to use the full panel of repeated LULC
 measurements while accounting for within-series dependence and
 cross-series heterogeneity. OLS on a collapsed annual series discards
-panel information and hence provides less reliable inference, see
-results in Table~\ref{tbl-trend-full}. Our preferred specification is a
-mixed-effects model with random intercepts and random slopes by LULC
-series, allowing correlation across years within each series and
-capturing unobserved heterogeneity in LULC
-measurements\textsuperscript{41,42} (see Methods).
+panel information and hence provides less reliable inference, as shown
+in Table~\ref{tbl-trend-gcb} and Table~\ref{tbl-trend-gcb-2023}. Natural
+variability in the atmospheric growth series also adds noise to AF
+estimates, so we use a natural-variability-adjusted growth series in the
+main analysis to obtain more precise trend estimates. Our preferred
+specification is a mixed-effects model with random intercepts and random
+slopes by LULC series, allowing correlation across years within each
+series and capturing unobserved heterogeneity in LULC
+measurements\textsuperscript{14,15} (see Methods).
 
 For each LULC measurement series, we construct a series of AF estimates
 by year (Equation~\ref{eq-af-def}), and the model estimates a common
@@ -358,10 +371,10 @@ intercept and slope), while \(\sigma_\alpha^2\) and \(\sigma_\beta^2\)
 capture the variability in intercepts and slopes across LULC measurement
 series. The error term \(\varepsilon_{t,j}\) captures idiosyncratic
 noise. The key parameter of interest is \(\mu_\beta\), which captures
-the average trend across all LULC measurement series. Incorporating the
-full panel of LULC measurements in this way allows us to obtain more
-precise and robust estimates of the AF trend, while accounting for
-measurement uncertainty and heterogeneity across LULC series.
+the average trend across all LULC measurement series. Filtering growth
+for natural variability and incorporating the full panel of LULC
+measurements allows us to obtain more precise and robust estimates of
+the AF trend.
 
 \subsection*{Results}\label{results}
 \addcontentsline{toc}{subsection}{Results}
@@ -369,99 +382,143 @@ measurement uncertainty and heterogeneity across LULC series.
 \subsubsection*{Main estimates}\label{main-estimates}
 \addcontentsline{toc}{subsubsection}{Main estimates}
 
-The main results from estimating the mixed-effects model over the full
-sample (1959-2024) are shown in Table~\ref{tbl-mixed-effects}, and the
-associated trend lines are shown in
-Figure~\ref{fig-mixed-effects-trend}.
+The main results from estimating the mixed-effects model in the full
+sample are shown in Table~\ref{tbl-mixed-effects}. The table includes
+natural-variability-adjusted (\(AF^{ADJ}\)) and unadjusted
+(\(AF^{RAW}\)) growth specifications, with and without AR(1) effects in
+the residuals to control for potential autocorrelation (see Methods).
+
+The slope is positive and statistically significant in all
+specifications, indicating strong evidence of an increasing AF trend
+across LULC measurement series. The estimated intercept is around 0.41
+and the slope is around 0.0011 per year, implying an increase of about
+0.07 in AF over 1959-2024. These estimates are comparable with the
+approximately 0.45 AF level reported in the
+literature\textsuperscript{2,3,6,7,9,43}, while identifying a positive
+long-run trend when the full LULC-definition ensemble is incorporated.
+Note that the mixed-effects model reduces uncertainty in the estimates
+by jointly using this ensemble information, which allows us to obtain
+more precise estimates and robust inference on trend direction.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1579}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2105}}@{}}
-\caption{Mixed-effects model with random effects for each LULC
-measurement series.}\label{tbl-mixed-effects}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2593}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}@{}}
+\caption{Mixed-effects model estimates for the full sample (1959-2024).
+Specifications with natural variability adjusted (ADJ) and unadjusted
+(RAW) growth rates are shown with and without AR(1)
+effects.}\label{tbl-mixed-effects}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Parameter
+Mixed-effects model (1959-2024)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (full)
+\(AF^{ADJ}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (full)
+\(AF^{ADJ}\) (AR1)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (up to 2023)
+\(AF^{RAW}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (up to 2023)
+\(AF^{RAW}\) (AR1)
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Parameter
+Mixed-effects model (1959-2024)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (full)
+\(AF^{ADJ}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (full)
+\(AF^{ADJ}\) (AR1)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (up to 2023)
+\(AF^{RAW}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (up to 2023)
+\(AF^{RAW}\) (AR1)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Estimate & 0.406959 & 0.001103 & 0.413260 & 0.000808 \\
-Standard error & 0.005573 & 0.000102 & 0.005586 & 0.000103 \\
-p-value & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Intercept & 0.407572 & 0.408555 & 0.406959 & 0.406784 \\
+SE (Intercept) & 0.005324 & 0.005546 & 0.005573 & 0.005673 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.001082 & 0.00107 & 0.001103 & 0.001117 \\
+SE (Slope) & 8.6E-5 & 0.0001 & 0.000102 & 0.000108 \\
+p-value (Slope) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+AR1 & & 0.177702 & & 0.063011 \\
+SE (AR1) & & 0.031018 & & 0.030731 \\
+p-value (AR1) & & 1.0E-5 & & 0.040326 \\
 \end{longtable}
 
-The mixed-effects slope is positive and statistically significant
-(p-value \textless{} 1.0E-5), indicating strong evidence of an
-increasing AF trend across LULC measurement series. The estimated
-intercept is around 0.407+/-0.006 and the slope is around
-0.0011+/-0.0001 per year, implying an increase of about 0.0717 in AF
-over 1959-2024. These estimates are comparable with the approximately
-0.45 AF level reported in the literature\textsuperscript{2,3,6--8,43},
-while identifying a positive long-run trend when all LULC information is
-incorporated.
+Figure~\ref{fig-mixed-effects-trend} shows the AF series for each LULC
+measurement together with the overall mixed-effects trend line for the
+specification using the natural-variability-adjusted growth series and
+the full sample. The figure shows a clear positive trend across the
+panel of AF series, with the mixed-effects model capturing this common
+signal while allowing for series-specific heterogeneity. For visual
+clarity, one representative AF series is highlighted, while trend lines
+are estimated using the full LULC-definition ensemble.
 
 \begin{figure}
 
-\begin{minipage}[t]{\linewidth}
+\begin{minipage}[t]{0.50\linewidth}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_mixed_model_definition_trends.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_mixed_model_definition_trends.pdf}}
 
 }
 
 \subcaption{\label{fig-mixed-effects-trend}AF series with mixed-effects
-model trend (full sample, 1959-2024).}
+model trend (natural variability adjusted, full sample, 1959-2024).}
 
 \end{minipage}%
-\newline
-\begin{minipage}[t]{\linewidth}
+%
+\begin{minipage}[t]{0.50\linewidth}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_mixed_model_definition_trends_up_to_2023.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_mixed_model_definition_trends_up_to_2023.pdf}}
 
 }
 
 \subcaption{\label{fig-mixed-effects-trend-2023}AF series with
-mixed-effects model trend (sample ending in 2023).}
+mixed-effects model trend (natural variability adjusted, sample ending
+in 2023).}
+
+\end{minipage}%
+\newline
+\begin{minipage}[t]{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_trends_WLS_growth.pdf}}
+
+}
+
+\subcaption{\label{fig-wls-trend-full}AF series with WLS trend (natural
+variability adjusted, full sample, 1959-2024).}
+
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/AF_trends_WLS_growth_without_last_observation.pdf}}
+
+}
+
+\subcaption{\label{fig-wls-trend-2023}AF series with WLS trend (natural
+variability adjusted, sample ending in 2023).}
 
 \end{minipage}%
 
-\end{figure}%
+\caption{\label{fig-mixed-effects}AF series with mixed-effects and WLS
+model trends across LULC measurement series.}
 
-Figure~\ref{fig-mixed-effects-trend} shows the AF series for each LULC
-measurement together with the overall mixed-effects trend line. The
-figure shows a clear positive trend across the panel of AF series, with
-the mixed-effects model capturing this common signal while allowing for
-series-specific heterogeneity.
+\end{figure}%
 
 \subsubsection*{Endpoint and model specification
 robustness}\label{endpoint-and-model-specification-robustness}
@@ -469,145 +526,182 @@ robustness}\label{endpoint-and-model-specification-robustness}
 robustness}
 
 AF shows a large value in the final year (2024), so we re-estimate the
-mixed-effects model on the subsample ending in 2023 to check whether the
-result is driven by that observation. Results are shown in the last two
-columns of Table~\ref{tbl-mixed-effects} and
+mixed-effects specification on the sample ending in 2023 to check
+whether the result is driven by that observation. Results are shown in
+Table~\ref{tbl-mixed-effects-2023} and
 Figure~\ref{fig-mixed-effects-trend-2023}. The slope remains positive
-and statistically significant (p-value \textless{} 1.0E-5), indicating
-that the increasing AF trend is not driven by the final observation. The
-slope is smaller (0.000808 per year versus 0.001103 per year),
+and statistically significant, indicating that the increasing AF trend
+is not driven by the final observation. The slope estimates are smaller,
 consistent with a contribution from the 2024 large value, but the
 direction and inference are unchanged.
 
-Furthermore, we consider a mixed-effects specification that includes an
-AR(1) structure on the residuals to control for potential
-autocorrelation. The results do not materially change, and the slope
-remains positive and significant under this specification (see Methods).
-
-As an additional robustness check, we estimate a delta-method
-uncertainty proxy for each annual AF estimate using the
-cross-measurement dispersion of the full 69-series LULC panel, and use
-these proxies in WLS with HAC inference\textsuperscript{13--15,44}. Two
-WLS specifications are shown in Table~\ref{tbl-trend-full}: one using
-the GCB LULC mean as the denominator and one using the all-LULC mean. In
-both specifications, weights are constructed from the all-LULC panel
-dispersion so that the weighting scheme is held fixed across denominator
-definitions.
-
-The WLS results are consistent with the mixed-effects results and show a
-positive, statistically significant trend. Note that the slopes
-estimated from WLS are steeper than those from OLS or the mixed-effects
-model, which is consistent with the fact that WLS assigns less weight to
-years with higher denominator uncertainty, which tend to be the earlier
-years of the sample.
-
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}@{}}
-\caption{Trend comparison across OLS and WLS specifications for the full
-sample and the sample ending in
-2023.}\label{tbl-trend-full}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2593}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1852}}@{}}
+\caption{Mixed-effects model estimates for the sample ending in 2023
+(1959-2023). Specifications with natural variability adjusted (ADJ) and
+unadjusted (RAW) growth rates are shown with and without AR(1)
+effects.}\label{tbl-mixed-effects-2023}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Trend
+Mixed-effects model (1959-2023)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (GCB) full
+\(AF^{ADJ}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (all) full
+\(AF^{ADJ}\) (AR1)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (GCB) full
+\(AF^{RAW}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (all) full
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (GCB) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (all) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (GCB) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (all) up to 2023
+\(AF^{RAW}\) (AR1)
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Trend
+Mixed-effects model (1959-2023)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (GCB) full
+\(AF^{ADJ}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (all) full
+\(AF^{ADJ}\) (AR1)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (GCB) full
+\(AF^{RAW}\)
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (all) full
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (GCB) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-OLS (all) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (GCB) up to 2023
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-WLS (all) up to 2023
+\(AF^{RAW}\) (AR1)
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Estimate & 0.00158 & 0.00117 & 0.00265 & 0.00230 & 0.00130 & 0.00088 &
-0.00237 & 0.00202 \\
-Standard error & 0.00077 & 0.00079 & 2.0E-5 & 2.0E-5 & 0.00078 & 0.00080
-& 2.0E-5 & 2.0E-5 \\
-HAC standard error & 0.00062 & 0.00064 & 0.00065 & 0.00066 & 0.00058 &
-0.0006 & 0.00059 & 0.0006 \\
-p-value & 0.04021 & 0.13891 & 1.0E-5 & 1.0E-5 & 0.09516 & 0.27109 &
-1.0E-5 & 1.0E-5 \\
-HAC p-value & 0.01112 & 0.06846 & 4.0E-5 & 0.00050 & 0.02495 & 0.14322 &
-5.0E-5 & 0.00080 \\
+Intercept & 0.409783 & 0.411223 & 0.41326 & 0.413403 \\
+SE (Intercept) & 0.005345 & 0.005564 & 0.005586 & 0.005677 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.000978 & 0.000944 & 0.000808 & 0.000806 \\
+SE (Slope) & 8.8E-5 & 0.000102 & 0.000103 & 0.000109 \\
+p-value (Slope) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+AR1 & & 0.17795 & & 0.056406 \\
+SE (AR1) & & 0.031115 & & 0.029828 \\
+p-value (AR1) & & 1.0E-5 & & 0.058622 \\
 \end{longtable}
 
-By contrast, OLS specifications that do not incorporate denominator
-measurement information show weaker evidence of a positive trend and
-greater endpoint sensitivity. In the full sample, OLS using GCB LULC is
-significant under both conventional and HAC inference (p-value 0.04021
-and HAC p-value 0.01112), whereas OLS using the all-LULC mean is not
-significant under either method (p-value 0.13891 and HAC p-value
-0.06846).
+An additional estimation approach that explicitly incorporates
+denominator measurement uncertainty is WLS estimation of the AF trend,
+where the weights are constructed from the cross-measurement dispersion
+of the full LULC panel. Specifically, we estimate a delta-method
+uncertainty proxy for each annual AF estimate using the
+cross-measurement dispersion of the full 69-series LULC panel, and use
+these proxies in a WLS specification\textsuperscript{16,17,44} (see
+Methods). Table~\ref{tbl-trend-WLS} reports the results using the
+all-LULC mean in the denominator estimated by OLS and WLS. The first two
+columns show the full sample (1959-2024) estimates, while the last two
+columns show the estimates for the sample ending in 2023 to check
+whether the results are driven by the large value in 2024. The WLS
+estimates show a positive and statistically significant slope in both
+samples, while OLS estimates show a positive but non-significant slope
+in both samples. Figure~\ref{fig-wls-trend-full} and
+Figure~\ref{fig-wls-trend-2023} show the WLS trend lines together with
+the AF series for each LULC measurement for the full sample and the
+sample ending in 2023, respectively. The WLS trend lines show a clear
+positive trend across the panel of AF series.
 
-In the sample ending in 2023, WLS remains significant under both mean
-definitions (HAC p-values 5.0E-5 and 0.00080), whereas OLS only remains
-significant when using the GCB LULC mean (HAC p-values 0.02495 and
-0.14322).
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3043}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}@{}}
+\caption{Trend comparison for the WLS and OLS estimates with natural
+variability adjusted growth specifications. The first two columns show
+the full sample (1959-2024) estimates, while the last two columns show
+the estimates for the sample ending in
+2023.}\label{tbl-trend-WLS}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) OLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) WLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) OLS (1959-2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) WLS (1959-2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) OLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) WLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) OLS (1959-2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) WLS (1959-2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 0.401938 & 0.367286 & 0.408212 & 0.376919 \\
+SE (Intercept) & 0.029843 & 0.001243 & 0.029599 & 0.001211 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.001172 & 0.001382 & 0.000878 & 0.001054 \\
+SE (Slope) & 0.000792 & 2.8E-5 & 0.000798 & 2.8E-5 \\
+p-value (Slope) & 0.138912 & 1.0E-5 & 0.271089 & 1.0E-5 \\
+\end{longtable}
 
-This sensitivity to denominator construction and endpoint exclusion
-highlights the value of incorporating multi-source LULC information in
-AF trend estimation.
+Overall, the results show that incorporating multi-source LULC
+information and accounting for measurement uncertainty materially
+changes inference on AF trends. The mixed-effects model, which
+incorporates the full LULC-definition ensemble and accounts for
+within-series dependence and cross-series heterogeneity, provides robust
+evidence of a positive AF trend. The WLS approach, which explicitly
+incorporates denominator measurement uncertainty, also shows a positive
+and statistically significant trend.
+
+In contrast, OLS specifications that do not incorporate denominator
+measurement information provide weaker and less robust evidence, with
+significance that is sensitive to denominator definition and endpoint
+exclusion. These results highlight the value of incorporating
+multi-source LULC information in AF trend estimation in a way that
+accounts for within-series dependence and cross-series heterogeneity.
+OLS on a collapsed series discards this information and hence provides
+less reliable inference on trend direction. Our results clarify why
+earlier studies that did not incorporate multi-source LULC information
+have reported weak or inconclusive evidence of an increasing AF
+trend\textsuperscript{1--8}.
+
+Additional robustness checks (in Methods), including OLS and WLS
+specifications in the unadjusted growth series and considering the GCB
+LULC mean instead of the all-LULC mean, show that the positive AF trend
+detected by WLS is robust to these alternative specifications, while OLS
+estimates that do not incorporate multi-source LULC information show
+weaker evidence of a positive trend and are more sensitive to endpoint
+exclusion.
 
 \subsection*{Discussion and conclusion}\label{discussion-and-conclusion}
 \addcontentsline{toc}{subsection}{Discussion and conclusion}
 
-Using a framework that incorporates all available LULC information from
-Global Carbon Budget 2025, we find robust evidence that AF increased
-from 1959 to 2024. Methodologically, incorporating multi-source
-uncertainty materially changes inference relative to plain OLS. Endpoint
-tests show that this conclusion is not driven by the large value in
-2024.
+Using a framework that controls for natural variability in the
+atmospheric growth series and incorporates a broad LULC-definition
+ensemble from Global Carbon Budget 2025, we find robust evidence that AF
+increased from 1959 to 2024. Methodologically, incorporating
+multi-source uncertainty materially changes inference relative to plain
+OLS. Endpoint tests show that this conclusion is not driven by the large
+value in 2024.
 
-Our estimates imply that AF increased from about 0.40 around 1960 to
-about 0.47 by 2024, relative to long-used values around 0.45. For a
-given emissions pathway, this implies faster atmospheric \(CO_2\) growth
-than under a constant-AF baseline, shrinking the remaining carbon budget
-for any temperature target\textsuperscript{1,2,9}. The increasing AF
-signal is consistent with broader evidence that the climate system is
-out of energy balance and has recently shown elevated warming and
-heating rates\textsuperscript{45--48}; these findings should be
-interpreted in that wider risk context.
+Our estimates imply that AF increased from about 0.41 around 1960 to
+about 0.48 by 2024, relative to long-used values around 0.45. For a
+given emissions pathway, a higher AF would be associated with faster
+atmospheric \(CO_2\) growth than under a constant-AF baseline,
+potentially reducing the remaining carbon budget for a given temperature
+target\textsuperscript{1,2,10}. Quantifying the budget impact requires
+dedicated carbon-budget modelling beyond the scope of this study.
 
 \protect\phantomsection\label{refs}
 \begin{CSLReferences}{0}{0}
@@ -661,74 +755,90 @@ E1--E3 (2023).}
 approach to the {CO2} airborne fraction}. \emph{Nature Communications}
 \textbf{15}, 8507 (2024).}
 
-\bibitem[\citeproctext]{ref-veravaldes2025robustestimationco2}
+\bibitem[\citeproctext]{ref-bennettQuantificationAirborneFraction2024}
 \CSLLeftMargin{8. }%
+\CSLRightInline{Bennett, B. F., Salawitch, R. J., McBride, L. A., Hope,
+A. P. \& Tribett, W. R.
+\href{https://doi.org/10.1029/2023JG007760}{Quantification of the
+{Airborne} {Fraction} of {Atmospheric} {CO}\(_{\textrm{2}}\) {Reveals}
+{Stability} in {Global} {Carbon} {Sinks} {Over} the {Past} {Six}
+{Decades}}. \emph{Journal of Geophysical Research: Biogeosciences}
+\textbf{129}, e2023JG007760 (2024).}
+
+\bibitem[\citeproctext]{ref-veravaldes2025robustestimationco2}
+\CSLLeftMargin{9. }%
 \CSLRightInline{Vera-Valdés, J. E. \& Grivas, C.
 \href{https://doi.org/10.1088/2515-7620/adc06b}{Robust estimation of
 carbon dioxide airborne fraction under measurement errors}.
 \emph{Environmental Research Communications} \textbf{7}, 031009 (2025).}
 
 \bibitem[\citeproctext]{ref-Friedlingstein2025}
-\CSLLeftMargin{9. }%
+\CSLLeftMargin{10. }%
 \CSLRightInline{Friedlingstein, P. \emph{et al.}
 \href{https://doi.org/10.5194/essd-18-3211-2026}{Global carbon budget
 2025}. \emph{Earth System Science Data} \textbf{18}, 3211--3288 (2026).}
 
 \bibitem[\citeproctext]{ref-Hansis2015}
-\CSLLeftMargin{10. }%
+\CSLLeftMargin{11. }%
 \CSLRightInline{Hansis, E., Davis, S. J. \& Pongratz, J.
 \href{https://doi.org/10.1002/2014GB004997}{Relevance of methodological
 choices for accounting of land use change carbon fluxes}. \emph{Global
 Biogeochemical Cycles} \textbf{29}, 1230--1246 (2015).}
 
 \bibitem[\citeproctext]{ref-Gasser2020}
-\CSLLeftMargin{11. }%
+\CSLLeftMargin{12. }%
 \CSLRightInline{Gasser, T. \emph{et al.}
 \href{https://doi.org/10.5194/bg-17-4075-2020}{Historical {CO2}
 emissions from land use and land cover change and their uncertainty}.
 \emph{Biogeosciences} \textbf{17}, 4075--4101 (2020).}
 
 \bibitem[\citeproctext]{ref-Qin2024}
-\CSLLeftMargin{12. }%
+\CSLLeftMargin{13. }%
 \CSLRightInline{Qin, Z. \emph{et al.}
 \href{https://doi.org/10.1016/j.oneear.2024.04.002}{Global spatially
 explicit carbon emissions from land-use change over the past six decades
 (1961-2020)}. \emph{One Earth} \textbf{7}, 835--847 (2024).}
 
+\bibitem[\citeproctext]{ref-Henderson1953}
+\CSLLeftMargin{14. }%
+\CSLRightInline{Henderson, C. R.
+\href{https://doi.org/10.2307/3001881}{Estimation of variance and
+covariance components}. \emph{Biometrics} \textbf{9}, 226--252 (1953).}
+
+\bibitem[\citeproctext]{ref-Bolker2009}
+\CSLLeftMargin{15. }%
+\CSLRightInline{Bolker, B. M. \emph{et al.}
+\href{https://doi.org/10.1016/j.tree.2008.10.008}{Generalized linear
+mixed models: A practical guide for ecology and evolution}. \emph{Trends
+in Ecology \& Evolution} \textbf{24}, 127--135 (2009).}
+
 \bibitem[\citeproctext]{ref-Fuller1987}
-\CSLLeftMargin{13. }%
+\CSLLeftMargin{16. }%
 \CSLRightInline{Fuller, W. A. \emph{Measurement Error Models}. (Wiley,
 New York, 1987).}
 
 \bibitem[\citeproctext]{ref-Carroll2006}
-\CSLLeftMargin{14. }%
+\CSLLeftMargin{17. }%
 \CSLRightInline{Carroll, R. J., Ruppert, D., Stefanski, L. A. \&
 Crainiceanu, C. M. \emph{Measurement Error in Nonlinear Models: A Modern
 Perspective}. (Chapman \& Hall/CRC, Boca Raton, 2006).}
 
-\bibitem[\citeproctext]{ref-NeweyWest1987}
-\CSLLeftMargin{15. }%
-\CSLRightInline{Newey, W. K. \& West, K. D.
-\href{https://doi.org/10.2307/1913610}{A simple, positive semi-definite,
-heteroskedasticity and autocorrelation consistent covariance matrix}.
-\emph{Econometrica} \textbf{55}, 703--708 (1987).}
-
 \bibitem[\citeproctext]{ref-Lan2025}
-\CSLLeftMargin{16. }%
+\CSLLeftMargin{18. }%
 \CSLRightInline{Lan, X., Tans, P. \& Thoning, K. W. Trends in
 globally-averaged CO2 determined from NOAA global monitoring laboratory
 measurements. (2026)
 doi:\href{https://doi.org/10.15138/9N0H-ZH07}{10.15138/9N0H-ZH07}.}
 
 \bibitem[\citeproctext]{ref-Conchedda2020}
-\CSLLeftMargin{17. }%
+\CSLLeftMargin{19. }%
 \CSLRightInline{Conchedda, G. \& Tubiello, F. N.
 \href{https://doi.org/10.5194/essd-12-3113-2020}{Drainage of organic
 soils and GHG emissions: Validation with country data}. \emph{Earth
 System Science Data} \textbf{12}, 3113--3137 (2020).}
 
 \bibitem[\citeproctext]{ref-Mueller2021}
-\CSLLeftMargin{18. }%
+\CSLLeftMargin{20. }%
 \CSLRightInline{Müller, J. \& Joos, F.
 \href{https://doi.org/10.5194/bg-18-3657-2021}{Committed and projected
 future changes in global peatlands -- continued transient model
@@ -736,14 +846,14 @@ simulations since the last glacial maximum}. \emph{Biogeosciences}
 \textbf{18}, 3657--3687 (2021).}
 
 \bibitem[\citeproctext]{ref-Qiu2021}
-\CSLLeftMargin{19. }%
+\CSLLeftMargin{21. }%
 \CSLRightInline{Qiu, C. \emph{et al.}
 \href{https://doi.org/10.1126/sciadv.abf1332}{Large historical carbon
 emissions from cultivated northern peatlands}. \emph{Science Advances}
 \textbf{7}, eabf1332 (2021).}
 
 \bibitem[\citeproctext]{ref-Haverd2018}
-\CSLLeftMargin{20. }%
+\CSLLeftMargin{22. }%
 \CSLRightInline{Haverd, V. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-11-2995-2018}{A new version of the
 CABLE land surface model (subversion revision r4601) incorporating land
@@ -752,7 +862,7 @@ optimisation-based approach to plant coordination of photosynthesis}.
 \emph{Geoscientific Model Development} \textbf{11}, 2995--3026 (2018).}
 
 \bibitem[\citeproctext]{ref-Melton2020}
-\CSLLeftMargin{21. }%
+\CSLLeftMargin{23. }%
 \CSLRightInline{Melton, J. R. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-13-2825-2020}{CLASSIC v1.0: The
 open-source community successor to the canadian land surface scheme
@@ -761,7 +871,7 @@ Model framework and site-level performance}. \emph{Geoscientific Model
 Development} \textbf{13}, 2825--2850 (2020).}
 
 \bibitem[\citeproctext]{ref-Lawrence2019}
-\CSLLeftMargin{22. }%
+\CSLLeftMargin{24. }%
 \CSLRightInline{{Lawrence, D. M. \emph{et al.}}
 \href{https://doi.org/10.1029/2018MS001583}{The community land model
 version 5: Description of new features, benchmarking, and impact of
@@ -769,7 +879,7 @@ forcing uncertainty}. \emph{Journal of Advances in Modeling Earth
 Systems} \textbf{11}, 4245--4287 (2019).}
 
 \bibitem[\citeproctext]{ref-Fisher2015}
-\CSLLeftMargin{23. }%
+\CSLLeftMargin{25. }%
 \CSLRightInline{Fisher, R. A. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-8-3593-2015}{Taking off the training
 wheels: The properties of a dynamic vegetation model without climate
@@ -777,21 +887,21 @@ envelopes, CLM4.5(ED)}. \emph{Geoscientific Model Development}
 \textbf{8}, 3593--3619 (2015).}
 
 \bibitem[\citeproctext]{ref-Tian2015}
-\CSLLeftMargin{24. }%
+\CSLLeftMargin{26. }%
 \CSLRightInline{Tian, H. \emph{et al.} North american terrestrial CO2
 uptake largely offset by CH4 and N2O emissions: Toward a full accounting
 of the greenhouse gas budget. \emph{Climatic Change} \textbf{129},
 423--426 (2015).}
 
 \bibitem[\citeproctext]{ref-Ma2022}
-\CSLLeftMargin{25. }%
+\CSLLeftMargin{27. }%
 \CSLRightInline{Ma, L. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-15-1971-2022}{Global evaluation of the
 ecosystem demography model (ED v3.0)}. \emph{Geoscientific Model
 Development} \textbf{15}, 1971--1994 (2022).}
 
 \bibitem[\citeproctext]{ref-Yang2023}
-\CSLLeftMargin{26. }%
+\CSLLeftMargin{28. }%
 \CSLRightInline{Yang, X., Thornton, P., Ricciuto, D., Wang, Y. \&
 Hoffman, F. \href{https://doi.org/10.5194/bg-20-2813-2023}{Global
 evaluation of terrestrial biogeochemistry in the energy exascale earth
@@ -800,14 +910,14 @@ historical terrestrial carbon balance}. \emph{Biogeosciences}
 \textbf{20}, 2813--2836 (2023).}
 
 \bibitem[\citeproctext]{ref-Needham2025}
-\CSLLeftMargin{27. }%
+\CSLLeftMargin{29. }%
 \CSLRightInline{{Needham, J. \emph{et al.}}
 \href{https://doi.org/10.1111/nph.20423}{Vertical canopy gradients of
 respiration drive plant carbon budgets and leaf area index}. \emph{New
 Phytologist} \textbf{246}, 144--157 (2025).}
 
 \bibitem[\citeproctext]{ref-Felzer2018}
-\CSLLeftMargin{28. }%
+\CSLLeftMargin{30. }%
 \CSLRightInline{Felzer, B. S. \& Jiang, M.
 \href{https://doi.org/10.1029/2017JG004378}{Effect of land use and land
 cover change in context of growth enhancements in the united states
@@ -815,19 +925,19 @@ since 1700: Net source or sink?} \emph{Journal of Geophysical Research:
 Biogeosciences} \textbf{123}, 3439--3457 (2018).}
 
 \bibitem[\citeproctext]{ref-Xia2024}
-\CSLLeftMargin{29. }%
+\CSLLeftMargin{31. }%
 \CSLRightInline{Xia, J. Z. \emph{et al.} The carbon budget of china:
 1980--2021. \emph{Science Bulletin} \textbf{69}, 114--124 (2024).}
 
 \bibitem[\citeproctext]{ref-Yue2024}
-\CSLLeftMargin{30. }%
+\CSLLeftMargin{32. }%
 \CSLRightInline{Yue, X. \emph{et al.} Development and evaluation of the
 interactive model for air pollution and land ecosystems (iMAPLE) version
 1.0. \emph{Geoscientific Model Development} \textbf{17}, 4621--4642
 (2024).}
 
 \bibitem[\citeproctext]{ref-Shu2020}
-\CSLLeftMargin{31. }%
+\CSLLeftMargin{33. }%
 \CSLRightInline{Shu, S., Jain, A. K., Koven, C. D. \& Mishra, U.
 \href{https://doi.org/10.1029/2020GB006585}{Estimation of permafrost SOC
 stock and turnover time using a land surface model with vertical
@@ -835,40 +945,40 @@ heterogeneity of permafrost soils}. \emph{Global Biogeochemical Cycles}
 \textbf{34}, e2020GB006585 (2020).}
 
 \bibitem[\citeproctext]{ref-Reick2021}
-\CSLLeftMargin{32. }%
+\CSLLeftMargin{34. }%
 \CSLRightInline{Reick, C. H. \emph{et al.} JSBACH 3 - the land component
 of the MPI earth system model: Documentation of version 3.2. (2021)
 doi:\href{https://doi.org/10.17617/2.3279802}{10.17617/2.3279802}.}
 
 \bibitem[\citeproctext]{ref-Poulter2011}
-\CSLLeftMargin{33. }%
+\CSLLeftMargin{35. }%
 \CSLRightInline{Poulter, B., Frank, D. C., Hodson, E. L. \& Zimmermann,
 N. E. Impacts of land cover and climate data selection on understanding
 terrestrial carbon dynamics and the CO2 airborne fraction.
 \emph{Biogeosciences} \textbf{8}, 2027--2036 (2011).}
 
 \bibitem[\citeproctext]{ref-Smith2014}
-\CSLLeftMargin{34. }%
+\CSLLeftMargin{36. }%
 \CSLRightInline{Smith, B. \emph{et al.} Implications of incorporating n
 cycling and n limitations on primary production in an individual-based
 dynamic vegetation model. \emph{Biogeosciences} \textbf{11}, 2027--2054
 (2014).}
 
 \bibitem[\citeproctext]{ref-Schaphoff2018}
-\CSLLeftMargin{35. }%
+\CSLLeftMargin{37. }%
 \CSLRightInline{Schaphoff, S. \emph{et al.}
 \href{https://doi.org/10.5194/gmd-11-1343-2018}{LPJmL4 -- a dynamic
 global vegetation model with managed land -- part 1: Model description}.
 \emph{Geoscientific Model Development} \textbf{11}, 1343--1375 (2018).}
 
 \bibitem[\citeproctext]{ref-Lienert2018}
-\CSLLeftMargin{36. }%
+\CSLLeftMargin{38. }%
 \CSLRightInline{Lienert, S. \& Joos, F. A bayesian ensemble data
 assimilation to constrain model parameters and land-use carbon
 emissions. \emph{Biogeosciences} \textbf{15}, 2909--2930 (2018).}
 
 \bibitem[\citeproctext]{ref-Vuichard2019}
-\CSLLeftMargin{37. }%
+\CSLLeftMargin{39. }%
 \CSLRightInline{Vuichard, N. \emph{et al.} Accounting for carbon and
 nitrogen interactions in the global terrestrial ecosystem model ORCHIDEE
 (trunk version, rev 4999): Multi-scale evaluation of gross primary
@@ -876,14 +986,14 @@ production. \emph{Geoscientific Model Development} \textbf{12},
 4751--4779 (2019).}
 
 \bibitem[\citeproctext]{ref-Walker2017}
-\CSLLeftMargin{38. }%
+\CSLLeftMargin{40. }%
 \CSLRightInline{Walker, A. P. \emph{et al.} The impact of alternative
 trait-scaling hypotheses for the maximum photosynthetic carboxylation
 rate (v-cmax) on global gross primary production. \emph{New Phytologist}
 \textbf{215}, 1370--1386 (2017).}
 
 \bibitem[\citeproctext]{ref-Kato2013}
-\CSLLeftMargin{39. }%
+\CSLLeftMargin{41. }%
 \CSLRightInline{Kato, E., Kinoshita, T., Ito, A., Kawamiya, M. \&
 Yamagata, Y.
 \href{https://doi.org/10.1080/1747423X.2011.628705}{Evaluation of
@@ -892,25 +1002,12 @@ burning using a process-based biogeochemical model}. \emph{Journal of
 Land Use Science} \textbf{8}, 104--122 (2013).}
 
 \bibitem[\citeproctext]{ref-Ito2019}
-\CSLLeftMargin{40. }%
+\CSLLeftMargin{42. }%
 \CSLRightInline{Ito, A.
 \href{https://doi.org/10.5194/esd-10-685-2019}{Disequilibrium of
 terrestrial ecosystem CO2 budget caused by disturbance-induced emissions
 and non-CO2 carbon export flows: A global model assessment}. \emph{Earth
 System Dynamics} \textbf{10}, 685--709 (2019).}
-
-\bibitem[\citeproctext]{ref-Henderson1953}
-\CSLLeftMargin{41. }%
-\CSLRightInline{Henderson, C. R.
-\href{https://doi.org/10.2307/3001881}{Estimation of variance and
-covariance components}. \emph{Biometrics} \textbf{9}, 226--252 (1953).}
-
-\bibitem[\citeproctext]{ref-Bolker2009}
-\CSLLeftMargin{42. }%
-\CSLRightInline{Bolker, B. M. \emph{et al.}
-\href{https://doi.org/10.1016/j.tree.2008.10.008}{Generalized linear
-mixed models: A practical guide for ecology and evolution}. \emph{Trends
-in Ecology \& Evolution} \textbf{24}, 127--135 (2009).}
 
 \bibitem[\citeproctext]{ref-Gloor2010CarbonFeedbackAF}
 \CSLLeftMargin{43. }%
@@ -927,39 +1024,28 @@ fraction?} \emph{Atmospheric Chemistry and Physics} \textbf{10},
 delta method}. \emph{The American Statistician} \textbf{46}, 27--29
 (1992).}
 
-\bibitem[\citeproctext]{ref-Miniere2023}
-\CSLLeftMargin{45. }%
-\CSLRightInline{Minière, A., Schuckmann, K. von, Sallée, J.-B. \& Vogt,
-L. \href{https://doi.org/10.1038/s41598-023-49353-1}{Robust acceleration
-of earth system heating observed over the past six decades}.
-\emph{Scientific Reports} \textbf{13}, 22975 (2023).}
-
-\bibitem[\citeproctext]{ref-WMO_SGC_2025}
-\CSLLeftMargin{46. }%
-\CSLRightInline{World Meteorological Organization. State of the global
-climate 2025. (2026)
-doi:\href{https://doi.org/10.59327/WMO/S/CRI/SOC/1}{10.59327/WMO/S/CRI/SOC/1}.}
-
-\bibitem[\citeproctext]{ref-StortoYang2024}
-\CSLLeftMargin{47. }%
-\CSLRightInline{Storto, A. \& Yang, C.
-\href{https://doi.org/10.1038/s41467-024-44749-7}{Acceleration of the
-ocean warming from 1961 to 2022 unveiled by large-ensemble reanalyses}.
-\emph{Nature Communications} \textbf{15}, 545 (2024).}
-
-\bibitem[\citeproctext]{ref-rahmstorfGlobalWarmingHas2025}
-\CSLLeftMargin{48. }%
-\CSLRightInline{Foster, G. \& Rahmstorf, S.
-\href{https://doi.org/10.1029/2025GL118804}{Global warming has
-accelerated significantly}. \emph{Geophysical Research Letters}
-\textbf{53}, e2025GL118804 (2026).}
-
 \bibitem[\citeproctext]{ref-Aitken1935}
-\CSLLeftMargin{49. }%
+\CSLLeftMargin{45. }%
 \CSLRightInline{Aitken, A. C.
 \href{https://doi.org/10.1017/S0370164600014346}{On least squares and
 linear combination of observations}. \emph{Proceedings of the Royal
 Society of Edinburgh} \textbf{55}, 42--48 (1935).}
+
+\bibitem[\citeproctext]{ref-Huang_2017_ERSSTv5_JCLI}
+\CSLLeftMargin{46. }%
+\CSLRightInline{Huang, B. \emph{et al.} Extended reconstructed sea
+surface temperature, version 5 (ERSSTv5): Upgrades, validations, and
+intercomparisons. \emph{Journal of Climate}
+\url{https://doi.org/10.1175/JCLI-D-16-0836.1} (2017)
+doi:\href{https://doi.org/10.1175/JCLI-D-16-0836.1}{10.1175/JCLI-D-16-0836.1}.}
+
+\bibitem[\citeproctext]{ref-VAI2003}
+\CSLLeftMargin{47. }%
+\CSLRightInline{Ammann, C. M., Meehl, G. A., Washington, W. M. \&
+Zender, C. S. \href{https://doi.org/10.1029/2003GL016875}{A monthly and
+latitudinally varying volcanic forcing dataset in simulations of 20th
+century climate}. \emph{Geophysical Research Letters} \textbf{30},
+(2003).}
 
 \end{CSLReferences}
 
@@ -967,11 +1053,11 @@ Society of Edinburgh} \textbf{55}, 42--48 (1935).}
 \addcontentsline{toc}{section}{Methods}
 
 Our primary estimator is a linear mixed-effects trend model with random
-intercepts and random slopes for each LULC measurement series
-{[}\textsuperscript{41};\textsuperscript{42}. As a robustness check, we
-also estimate a measurement-error-aware airborne fraction variance using
-repeated yearly denominator measurements, followed by WLS trend
-estimation with HAC inference\textsuperscript{13--15,44,49}.
+intercepts and random slopes for each LULC measurement
+series\textsuperscript{14,15}. As a robustness check, we also estimate a
+measurement-error-aware airborne fraction variance using repeated yearly
+denominator measurements, followed by WLS trend
+estimation\textsuperscript{16,17,44,45}.
 
 \subsection*{Construction of the LULC measurement
 panel}\label{construction-of-the-lulc-measurement-panel}
@@ -980,16 +1066,107 @@ panel}
 
 The repeated LULC measurements are built from the Global Carbon Budget
 2025 dataset. We first extract the three bookkeeping series:
-BLUE\textsuperscript{10}, OSCAR\textsuperscript{11},
-LUCE\textsuperscript{12}. Then, for each process-based land-model LULC
+BLUE\textsuperscript{11}, OSCAR\textsuperscript{12},
+LUCE\textsuperscript{13}. Then, for each process-based land-model LULC
 series in the GCB ensemble that does not already include peat
-emissions\textsuperscript{20--40}, we add the corresponding peat
-component to make it comparable to the bookkeeping models, which include
-peat emissions by construction. Specifically, for each of the 22
-process-based series we create three peat-augmented variants by adding
-FAO\_peat, LPX\_Bern\_peat, and ORCHIDEE\_peat\textsuperscript{17--19}.
-This produces 66 derived series, and together with BLUE/OSCAR/LUCE gives
-a panel of 69 yearly LULC measurements.
+emissions\textsuperscript{22--42}, we add one peat component measurement
+to make it comparable to the bookkeeping models, which include peat
+emissions by construction. Specifically, for each of the 22
+process-based series we create 3 peat-augmented variants by adding
+FAO\_peat, LPX\_Bern\_peat, and ORCHIDEE\_peat\textsuperscript{19--21},
+respectively. This produces 66 derived series, and together with
+BLUE/OSCAR/LUCE gives a panel of 69 yearly LULC measurements.
+
+\subsection*{Accounting for natural
+variability}\label{accounting-for-natural-variability}
+\addcontentsline{toc}{subsection}{Accounting for natural variability}
+
+Natural factors such as volcanic eruptions and El Niño events can cause
+year-to-year fluctuations in atmospheric \(CO_2\) growth that are not
+directly related to anthropogenic emissions. To account for this natural
+variability, we consider a specification that includes a control for the
+Niño 3 index, which captures El Niño--Southern Oscillation (ENSO)
+variability and Volcanic Aerosol Index (VAI) to capture volcanic
+activity.
+
+The specification is as follows:
+\begin{equation}\protect\phantomsection\label{eq-growth-reg}{
+\hat{G}_t = \gamma_0 + \gamma_1 \hat{C}_t + \gamma_2 \text{N3}_t + \gamma_3 \text{VAI}_t + \varepsilon_{t,j},
+}\end{equation}
+
+where \(\hat{C}_t\) is the estimated total emissions (fossil fuel plus
+LULC), \(\text{N3}_t\) is the Niño 3 index, and \(\text{VAI}_t\) is the
+Volcanic Aerosol Index for year \(t\). The error term captures
+idiosyncratic noise.
+
+In the estimation, the yearly total emissions (\(\hat{C}_t\)) are
+computed as the sum of fossil fuel emissions and the mean of the LULC
+panel for that year as \[
+\hat C_t = FF_t + \bar{LULC}_t, \qquad
+\bar{LULC}_t = \frac{1}{n_t}\sum_{j=1}^{n_t} LULC_{tj},
+\]
+
+where \(n_t=3\) for the GCB LULC mean and \(n_t=69\) for the all-LULC
+mean.
+
+To account for uncertainty in the LULC measurements, we use WLS in
+Equation~\ref{eq-growth-reg} with weights based on the cross-measurement
+empirical dispersion of the full LULC panel
+
+\[
+\widehat{\operatorname{Var}}({\hat{C}_t}) = \frac{1}{n_t-1} \sum_{j=1}^{n_t} (C_{tj} - \hat{C}_t)^2,
+\]
+
+where \(C_{tj} = FF_t + LULC_{tj}\) is the total emissions for year
+\(t\) using the \(j\)-th LULC measurement and \(n_t=69\) is the number
+of LULC measurements. This weighting scheme gives less weight to years
+with higher cross-measurement dispersion or more uncertainty in the
+total emissions estimate.
+
+The variance of \(\hat{G}_t\) is estimated using the delta method, which
+accounts for the uncertainty in the regression coefficients and the
+variability in the LULC measurements. For the linear model specified
+above, the variance of the fitted values \(\hat{G}_t\) can be
+approximated using the delta method as
+
+\[
+\widehat{\operatorname{Var}}(\hat{G}_t) = \gamma_1^2 \operatorname{\widehat{Var}}(\hat{C}_t). 
+\]
+
+The weights used in the WLS regression are hence given by
+\(w_t = \frac{1}{\gamma_1^2 \operatorname{\widehat{Var}}(\hat{C}_t)}\),
+which reflects the uncertainty in the fitted values due to the
+variability in the LULC measurements.
+
+Results from the growth regression estimated by WLS are shown in
+Table~\ref{tbl-growth-reg}.
+
+\begin{longtable}[]{@{}lrrrrr@{}}
+\caption{Growth regression with natural variability
+controls.}\label{tbl-growth-reg}\tabularnewline
+\toprule\noalign{}
+Growth equation & Estimate & Std. error & p-value & & \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Growth equation & Estimate & Std. error & p-value & & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 1.071015 & 0.340529 & 0.001660 & & \\
+Total emissions & 0.364301 & 0.038410 & 1.0E-5 & & \\
+VAI & -17.386855 & 3.081315 & 1.0E-5 & & \\
+N3 index & 1.054167 & 0.131682 & 1.0E-5 & & \\
+R-squared & 0.831525 & & & & \\
+\end{longtable}
+
+The fitted values \(\hat{G}_t\) represent the natural variability
+adjusted growth series, which is shown in Figure~\ref{fig-data} and used
+in the main analysis. The variance of the fitted values, which captures
+the uncertainty in the growth estimates due to variability in the LULC
+measurements, is used to construct weights for the WLS regression on AF
+trends as described below.
 
 \subsection*{Mixed-effects model}\label{mixed-effects-model}
 \addcontentsline{toc}{subsection}{Mixed-effects model}
@@ -999,10 +1176,15 @@ the panel of yearly AF values constructed from each LULC measurement
 series. For each year \(t\) and series \(j\), we define
 
 \[
-AF_{t,j} = \frac{G_t}{FF_t + LULC_{t,j}},
+AF_{t,j} = \frac{\hat{G}_t}{FF_t + LULC_{t,j}},
 \]
 
-and estimate
+where \(\hat{G}_t\) is the fitted value from the growth regression that
+accounts for natural variability, \(FF_t\) is fossil fuel emissions, and
+\(LULC_{t,j}\) is the \(j\)-th LULC measurement for year \(t\). We then
+fit a mixed-effects model to these AF estimates, allowing for random
+intercepts and slopes by LULC series, to capture heterogeneity across
+series and estimate
 
 \[
 AF_{t,j} = (\mu_\alpha + u_{\alpha j}) + (\mu_\beta + u_{\beta j})\,t + \varepsilon_{t,j},
@@ -1029,7 +1211,7 @@ where \(\alpha_j = \mu_\alpha + u_{\alpha j}\) and
 \(\beta_j = \mu_\beta + u_{\beta j}\).
 
 The model is estimated by restricted maximum
-likelihood\textsuperscript{41,42}. Fixed-effect uncertainty is based on
+likelihood\textsuperscript{14,15}. Fixed-effect uncertainty is based on
 model-based standard errors and Wald tests. We report the estimated
 fixed intercept and slope, standard errors, and p-values.
 
@@ -1038,12 +1220,10 @@ conditions: (i) conditional linearity in time, (ii) random effects
 centred at zero and independent across LULC definitions, and (iii)
 mean-zero residuals conditional on fixed and random effects.
 
-\subsubsection*{Robustness checks}\label{robustness-checks}
-\addcontentsline{toc}{subsubsection}{Robustness checks}
-
-As an endpoint robustness check, we re-estimate the mixed-effects
-specification on the sample ending in 2023 to verify that inference on
-\(\mu_\beta\) is not mechanically driven by the final-year observation.
+\subsubsection*{Robustness exercises for the mixed-effects
+model}\label{robustness-exercises-for-the-mixed-effects-model}
+\addcontentsline{toc}{subsubsection}{Robustness exercises for the
+mixed-effects model}
 
 To control for potential autocorrelation in the residuals, we consider a
 specification that includes an AR(1) structure on \(\varepsilon_{t,j}\):
@@ -1052,215 +1232,64 @@ specification that includes an AR(1) structure on \(\varepsilon_{t,j}\):
 \varepsilon_{t,j} = \rho \varepsilon_{t-1,j} + \eta_{t,j}, \quad \eta_{t,j} \sim N(0,\sigma_\eta^2).
 \]
 
-This specification is estimated by maximum likelihood on the full sample
-and the sample ending in 2023. The results, shown in
-Table~\ref{tbl-mixed-effects-ar1}, do not materially change. The
-estimated AR(1) parameters in the full sample and the sample ending in
-2023 are small and only marginally significant, indicating limited
-residual autocorrelation after accounting for random effects.
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}
-  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1481}}@{}}
-\caption{Mixed-effects model with random effects for each LULC
-measurement series and AR(1) structure on
-residuals.}\label{tbl-mixed-effects-ar1}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-AR1 (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (up to 2023)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (up to 2023)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-AR1 (up to 2023)
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-AR1 (full)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Intercept (up to 2023)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Slope (up to 2023)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-AR1 (up to 2023)
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Estimate & 0.406784 & 0.001117 & 0.063011 & 0.413403 & 0.000806 &
-0.056406 \\
-Standard error & 0.005673 & 0.000108 & 0.030731 & 0.005677 & 0.000109 &
-0.029828 \\
-p-value & 1.0E-5 & 1.0E-5 & 0.040326 & 1.0E-5 & 1.0E-5 & 0.058622 \\
-\end{longtable}
+This specification is estimated on the full sample and the sample ending
+in 2023, considering both the natural variability adjusted and
+unadjusted growth series.
 
 \subsection*{Weighted least squares estimation
 approach}\label{weighted-least-squares-estimation-approach}
 \addcontentsline{toc}{subsection}{Weighted least squares estimation
 approach}
 
-As a robustness check to the mixed-effects model, we also estimate a
-two-stage measurement-error-aware WLS model that uses repeated LULC
-measurements to construct a denominator-uncertainty proxy for each year
-and HAC inference\textsuperscript{13--15,44,49}.
-
-In the estimation, the yearly denominator is computed as \[
-\hat C_t = FF_t + \bar{LULC}_t, \qquad
-\bar{LULC}_t = \frac{1}{n_t}\sum_{j=1}^{n_t} LULC_{tj},
-\]
-
-where \(n_t=3\) for the GCB LULC mean and \(n_t=69\) for the all-LULC
-mean. In the implemented robustness specification, the yearly weighting
-term is computed from the cross-measurement dispersion across the full
-set of 69 LULC values and is then applied to both denominator
-definitions.
+As an alternative estimation approach that explicitly incorporates
+denominator measurement uncertainty and serves as a robustness exercise
+to the mixed-effects model, we also estimate a two-stage
+measurement-error-aware WLS model that uses repeated LULC measurements
+to construct a denominator-uncertainty proxy for each
+year\textsuperscript{16,17,44,45}.
 
 Assume for each time \(t=1,\dots,T\) we observe:
 
 \begin{itemize}
 \item
-  a single numerator \(G_t\) (e.g., atmospheric \(CO_2\) growth), and
+  atmospheric growth adjusted for natural variability, \(\hat{G}_t\),
+  together with its variance as estimated above,
+  \(\operatorname{Var}(\hat{G}_t)\), and
 \item
   multiple denominator measurements \(c_{t1},\dots,c_{t n_t}\) with
   \(n_t \ge 2\), which are noisy observations of a latent \(C_t\).
 \end{itemize}
 
-Using the repeated denominator measurements, we construct a
-year-specific uncertainty proxy for the ratio estimator
-\(AF_t = G_t/C_t\) via the delta method, which captures how dispersion
-in denominator definitions propagates into AF. The procedure is
-described in detail next.
+Using all denominator measurements, we construct a year-specific
+uncertainty proxy for the ratio estimator \(AF_t = \hat{G}_t/C_t\) via
+the delta method, which captures how dispersion in both numerator and
+denominator definitions propagates into AF. The procedure is described
+in detail next.
 
-\subsubsection*{\texorpdfstring{Step 1: Estimate \(C_t\) and
-\(AF_t\)}{Step 1: Estimate C\_t and AF\_t}}\label{step-1-estimate-c_t-and-af_t}
-\addcontentsline{toc}{subsubsection}{Step 1: Estimate \(C_t\) and
-\(AF_t\)}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Construct the denominator estimate at time \(t\) as the sample mean
-  across available LULC measurements as \[
-    \hat{C}_t = \frac{1}{n_t} \sum_{j=1}^{n_t} c_{tj}.
-  \]
-\end{enumerate}
-
-We consider two variants of this denominator estimate: one using the GCB
-LULC column (the mean of BLUE, OSCAR, LUCE) and one using the all-LULC
-mean (the mean across all 69 LULC measurements).
-
-The cross-measurement dispersion around \(\hat{C}_t\) is estimated from
-the multiple measurements and used as a weighting proxy.
-
-With \(n_t \ge 2\), the empirical dispersion proxy is \[
-\widehat{\operatorname{Var}}(\hat C_t)= s_{c,t}^2,
-\qquad
-s_{c,t}^2=\frac{1}{n_t-1}\sum_{j=1}^{n_t}(c_{tj}-\bar c_t)^2,
-\qquad
-\bar c_t=\hat C_t.
-\]
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\item
-  Form the ratio estimate \[
-  AF_t = G_t/\hat C_t.
-  \]
-\item
-  Use the multivariate delta method (shown below) to obtain an estimate
-  of the \(AF_t\) uncertainty
-\end{enumerate}
-
-\[
-\widehat{\operatorname{Var}}(AF_t) = \left(\frac{G_t}{\hat C_t^2}\right)^2 s_{c,t}^2.
-\]
-
-\subsubsection*{\texorpdfstring{Step 2: WLS regression of \(AF_t\) on
-time}{Step 2: WLS regression of AF\_t on time}}\label{step-2-wls-regression-of-af_t-on-time}
-\addcontentsline{toc}{subsubsection}{Step 2: WLS regression of \(AF_t\)
-on time}
-
-For each time \(t\), we obtain a point estimate \(AF_t\) and an
-uncertainty proxy that reflects cross-measurement dispersion. We use
-these quantities to fit a linear trend via WLS:
-
-\[
-AF_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \operatorname{Var}(AF_t).
-\]
-
-In our application, the time index \(t\) is the year, and \(AF_t\) is
-the estimated AF for that year. The weighting term is obtained from AF
-uncertainty from denominator dispersion and varies across years with the
-spread of the LULC measurement panel. We use this term to weight the
-regression, giving more weight to years with lower denominator-related
-uncertainty. The core idea is that years with more consistent LULC
-measurements provide more reliable AF estimates, and hence should have
-greater influence on the trend estimation.
-
-Assuming negligible correlation in \(\varepsilon_t\) across time, this
-is WLS with weights \(w_t=\frac{1}{\sigma_t^2}\). If we suspect serial
-correlation, we can use HAC standard errors for inference on \(\beta\)
-without changing the point estimate. In practice, we use a HAC
-covariance estimator with a Bartlett kernel and Andrews automatic
-bandwidth selection\textsuperscript{15}. In the results, we report both
-conventional and HAC standard errors.
-
-Testing for a time trend is then a test of \(\beta=0\) versus
-\(\beta\neq 0\) in this linear model, and WLS uses the repeated
-denominator information through this delta-method weighting scheme.
-
-\subsection*{Delta method for ratio variance
+\subsubsection*{Delta method for ratio variance
 estimation}\label{delta-method-for-ratio-variance-estimation}
-\addcontentsline{toc}{subsection}{Delta method for ratio variance
+\addcontentsline{toc}{subsubsection}{Delta method for ratio variance
 estimation}
-
-\subsubsection*{Step-by-step derivation (first-order delta
-method):}\label{step-by-step-derivation-first-order-delta-method}
-\addcontentsline{toc}{subsubsection}{Step-by-step derivation
-(first-order delta method):}
 
 Define the random vector and the function of interest as \[
 X_t=
 \begin{bmatrix}
-G_t\\
+\hat{G}_t\\
 \hat C_t
 \end{bmatrix},
 \qquad
-g(X_t)=\frac{G_t}{\hat C_t}.
+g(X_t)=\frac{\hat{G}_t}{\hat C_t}.
 \]
 
 and let \[
-\sigma_{G,t}^2 = \operatorname{Var}(G_t),\qquad \sigma_{C,t}^2 = \operatorname{Var}(\hat C_t),\qquad \sigma_{GC,t} = \operatorname{Cov}(G_t,\hat C_t).
+\sigma_{G,t}^2 = \operatorname{Var}(\hat{G}_t),\qquad \sigma_{C,t}^2 = \operatorname{Var}(\hat C_t),\qquad \sigma_{GC,t} = \operatorname{Cov}(\hat{G}_t,\hat C_t).
 \]
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
   Linearize \(g\) around the mean vector
-  \((\mu_{G,t},\mu_{C,t})=\mathbb E[(G_t,\hat C_t)]\): \[
+  \((\mu_{G,t},\mu_{C,t})=\mathbb E[(\hat{G}_t,\hat C_t)]\): \[
   g(X_t)\approx g(\mu_{G,t},\mu_{C,t})+\nabla g(\mu_{G,t},\mu_{C,t})^\top (X_t-\mathbb E[X_t]).
   \]
 \item
@@ -1277,7 +1306,7 @@ and let \[
   \end{bmatrix}.
   \]
 \item
-  Write the covariance matrix of \((G_t,\hat C_t)\): \[
+  Write the covariance matrix of \((\hat{G}_t,\hat C_t)\): \[
   \Sigma_t=
   \begin{bmatrix}
   \sigma_{G,t}^2 & \sigma_{GC,t}\\
@@ -1295,66 +1324,258 @@ and let \[
 \]
 
 In practice, we use plug-in estimates (replace unknown moments by their
-empirical counterparts). This is the standard delta‑method approximation
-for the variance of a ratio estimator.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{4}
-\tightlist
-\item
-  In the case analysed in this paper, we have a single numerator
-  measurement from a robust source per time, so we treat
-  \(\sigma_{G,t}^2\) and \(\sigma_{GC,t}\) as negligible relative to the
-  variance from the denominator measurement error, which is captured by
-  \(\sigma_{C,t}^2\). Nevertheless, the formula above is general and can
-  be applied in other contexts where numerator uncertainty is
-  non-negligible or where there is covariance between numerator and
-  denominator measurements.
-\end{enumerate}
-
-Under the assumption of negligible numerator variance and covariance,
-the formula simplifies to
+empirical counterparts):
 
 \[
-\operatorname{Var}(AF_t)\approx\left(\frac{G_t}{C_t^2}\right)^2 \sigma_{C,t}^2.
+\sigma^2_{G,t} \approx \widehat{\operatorname{Var}}(\hat{G}_t),\qquad \sigma^2_{C,t} \approx \widehat{\operatorname{Var}}(\hat C_t),\qquad \sigma_{GC,t} \approx 0,
 \]
 
-Accordingly, a practical plug-in variance estimator for \(AF_t\) is
+where we set the covariance term to zero to guarantee that the variance
+estimate is always positive.
+
+This yields the following variance proxy for \(AF_t\):
 
 \[
-    \widehat{\operatorname{Var}}(AF_t) = \left(\frac{G_t}{C_t^2}\right)^2 s_{c,t}^2.
+\widehat{\operatorname{Var}}(AF_t) = \left(\frac{1}{C_t}\right)^2 \widehat{\operatorname{Var}}(\hat{G}_t) + \left(\frac{G_t}{C_t^2}\right)^2 \widehat{\operatorname{Var}}(\hat C_t).
 \]
+
+\subsubsection*{\texorpdfstring{WLS regression of \(AF_t\) on
+time}{WLS regression of AF\_t on time}}\label{wls-regression-of-af_t-on-time}
+\addcontentsline{toc}{subsubsection}{WLS regression of \(AF_t\) on time}
+
+For each time \(t\), we obtain a point estimate \(AF_t\) and an
+uncertainty proxy that reflects cross-measurement dispersion. We use
+these quantities to fit a linear trend via WLS:
+
+\[
+AF_t = \alpha + \beta t + \varepsilon_t, \quad \varepsilon_t \sim (0, \sigma_t^2), \quad \sigma_t^2 = \operatorname{Var}(AF_t).
+\]
+
+In our application, the weighting term, \(w_t=\frac{1}{\sigma_t^2}\), is
+obtained from AF uncertainty from denominator dispersion and varies
+across years with the spread of the LULC measurement panel. We use this
+term to weight the regression, giving more weight to years with lower
+denominator-related uncertainty. The core idea is that years with more
+consistent LULC measurements provide more reliable AF estimates, and
+hence should have greater influence on the trend estimation.
+
+Testing for a time trend is then a test of \(\beta=0\) versus
+\(\beta\neq 0\) in this linear model, and WLS uses the repeated
+denominator information through this delta-method weighting scheme.
+
+\subsubsection*{Robustness exercises for the WLS
+model}\label{robustness-exercises-for-the-wls-model}
+\addcontentsline{toc}{subsubsection}{Robustness exercises for the WLS
+model}
+
+As robustness checks, we consider alternative specifications of the WLS
+model. First, we consider a specification using the unadjusted observed
+growth \(G_t\) instead of the natural variability adjusted growth
+\(\hat{G}_t\) to check whether the results are sensitive to the choice
+of growth series, and the results, shown in
+Table~\ref{tbl-trend-WLS-RAW}, remain qualitatively similar.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3043}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}@{}}
+\caption{Trend comparison for the WLS and OLS estimates on the full
+sample (1959-2023), with natural variability adjusted and unadjusted
+growth specifications.}\label{tbl-trend-WLS-RAW}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) OLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) WLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) OLS (1959-2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) WLS (1959-2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) OLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) WLS (1959-2024)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) OLS (1959-2023)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) WLS (1959-2023)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 0.40194 & 0.30194 & 0.40821 & 0.30982 \\
+SE (Intercept) & 0.02984 & 0.00095 & 0.0296 & 0.00093 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.00117 & 0.0023 & 0.00088 & 0.00202 \\
+SE (Slope) & 0.00079 & 2.0E-5 & 0.0008 & 2.0E-5 \\
+p-value (Slope) & 0.13891 & 1.0E-5 & 0.27109 & 1.0E-5 \\
+\end{longtable}
+
+Then, we consider a specification using the GCB LULC mean instead of the
+all-LULC mean in the denominator to check whether the results are
+sensitive to the choice of denominator definition. The results remain
+robust, showing a positive and statistically significant trend in AF on
+both the full sample, Table~\ref{tbl-trend-gcb}, and the sample ending
+in 2023, Table~\ref{tbl-trend-gcb-2023}.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3043}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}@{}}
+\caption{Trend comparison for the GCB mean, full sample, with adjusted
+and unadjusted growth
+specifications.}\label{tbl-trend-gcb}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS (1959-2024) GCB mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (WLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (WLS)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS (1959-2024) GCB mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (WLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (WLS)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 0.371410 & 0.368874 & 0.377502 & 0.392029 \\
+SE (Intercept) & 0.029039 & 0.000777 & 0.028805 & 0.000474 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.001581 & 0.001382 & 0.001580 & 0.002650 \\
+SE (Slope) & 0.000771 & 1.7E-5 & 0.000770 & 2.0E-5 \\
+p-value (Slope) & 0.040212 & 1.0E-5 & 0.040210 & 1.0E-5 \\
+\end{longtable}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3043}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1739}}@{}}
+\caption{Trend comparison for the GCB mean, sample ending in 2023, with
+adjusted and unadjusted growth
+specifications.}\label{tbl-trend-gcb-2023}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS (1959-2023) GCB mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (WLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (WLS)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+OLS and WLS (1959-2023) GCB mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{ADJ}\) (WLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (OLS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(AF^{RAW}\) (WLS)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 0.377502 & 0.380109 & 0.377500 & 0.283400 \\
+SE (Intercept) & 0.028805 & 0.000758 & 0.028810 & 0.000910 \\
+p-value (Intercept) & 1.0E-5 & 1.0E-5 & 1.0E-5 & 1.0E-5 \\
+Slope & 0.001296 & 0.001030 & 0.001300 & 0.002370 \\
+SE (Slope) & 0.000777 & 1.7E-5 & 0.000780 & 2.0E-5 \\
+p-value (Slope) & 0.095163 & 1.0E-5 & 0.095160 & 1.0E-5 \\
+\end{longtable}
+
+\subsection*{OLS specification}\label{ols-specification}
+\addcontentsline{toc}{subsection}{OLS specification}
+
+As a point of comparison, we also estimate a simple OLS specification
+that regresses AF on time using a single denominator definition (either
+the GCB LULC mean or the all-LULC mean) without incorporating the
+multi-source LULC information. This specification is estimated for both
+the full sample and the sample ending in 2023, and considering the
+natural variability adjusted growth series and the unadjusted growth
+series. The OLS results show weaker evidence of a positive trend and
+greater sensitivity to endpoint exclusion compared to the mixed-effects
+and WLS specifications, highlighting the value of incorporating
+multi-source LULC information in AF trend estimation.
 
 \subsection*{Data availability}\label{data-availability}
 \addcontentsline{toc}{subsection}{Data availability}
 
-The study uses publicly available Global Carbon Budget 2025 data and
-derived yearly series generated from those source files. The processed
-analysis tables are provided in the manuscript repository under the
-results directory, and the extracted and derived LULC panel is available
-as a CSV file in the data directory.
+The study uses publicly available Global Carbon Budget 2025 data. The
+GCB data can be accessed at
+\url{https://globalcarbonbudget.org/gcb-2025/}. To control for natural
+variability, we use publicly available Niño 3 index data and Volcanic
+Aerosol Index data. The Niño 3 index data\textsuperscript{46} was
+obtained from the NOAA Physical Sciences Laboratory, available at
+\url{https://psl.noaa.gov/data/timeseries/monthly/NINO3/}, and the
+Volcanic Aerosol Index data\textsuperscript{47} from the NOAA National
+Centers for Environmental Information, available at
+\url{https://www.ncei.noaa.gov/access/paleo-search/study/5786}. All data
+used in the analysis, including the extracted and derived LULC panel,
+are available in the manuscript repository at
+\href{https://github.com/everval/Airborne-Fraction-WLS-Trend}{github.com/everval/Airborne-Fraction-WLS-Trend}.
 
 \subsection*{Code availability}\label{code-availability}
 \addcontentsline{toc}{subsection}{Code availability}
 
 All code used to process data, estimate models, and generate figures is
-available in the repository
+available in the manuscript repository
 (\href{https://github.com/everval/Airborne-Fraction-WLS-Trend}{github.com/everval/Airborne-Fraction-WLS-Trend})
-under the scripts directory, including Quarto analysis files and Julia
-and R helper functions.
+inside the scripts folder, including Quarto analysis files and Julia and
+R helper functions. The processed analysis tables are provided inside
+the results folder. The code is licensed under the MIT License, and the
+repository includes a README file with instructions for reproducing the
+analysis.
+
+\subsection*{Preprint availability}\label{preprint-availability}
+\addcontentsline{toc}{subsection}{Preprint availability}
+
+A preprint of this manuscript is available on
+\href{https://arxiv.org/abs/2605.30242}{arXiv (2605.30242)}.
 
 \subsection*{Competing interests}\label{competing-interests}
 \addcontentsline{toc}{subsection}{Competing interests}
 
 The author declares no competing interests.
-
-\subsection*{Additional information}\label{additional-information}
-\addcontentsline{toc}{subsection}{Additional information}
-
-Supplementary information is available in the accompanying
-\href{https://everval.github.io/Airborne-Fraction-WLS-Trend/supplementary-preview.html}{supplementary
-manuscript file}.
 
 
 
