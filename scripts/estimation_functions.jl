@@ -22,13 +22,13 @@ theme(:ggplot2)
 
 # Configure default plot settings
 default(
-    size = (600, 400),
+    size = (800, 400),
     fontfamily = "Computer Modern",
-    tickfontsize = 10,
+    tickfontsize = 12,
     legendfontsize = 12,
     titlefontsize = 12,
-    xlabelfontsize = 10,
-    ylabelfontsize = 10,
+    xlabelfontsize = 12,
+    ylabelfontsize = 12,
     titlefontfamily = "Computer Modern",
     legendfontfamily = "Computer Modern",
     tickfontfamily = "Computer Modern"

@@ -48,6 +48,41 @@ lulc_path = joinpath(@__DIR__, "..", "results", "LULC_measurements_extracted_and
 lulc_df = CSV.read(lulc_path, DataFrame)
 rename!(lulc_df, :year => :Year)
 
+vai_path = joinpath(@__DIR__, "..", "data", "Data_vai_enso.csv")
+df_vai = CSV.read(vai_path, DataFrame)
+rename!(df_vai, :Year => :year)
+
+# Build regression sample and fitted values from Growth ~ Fossil+LULC + VAI + ENSO
+all_lulc_cols = filter(c -> c != "Year", names(lulc_df))
+lulc_df[!, :lulc_mean] = vec(sum(Matrix(lulc_df[:, all_lulc_cols]), dims = 2) ./ length(all_lulc_cols))
+lulc_df[!, :lulc_mean_gcb3] = (lulc_df.BLUE .+ lulc_df.OSCAR .+ lulc_df.LUCE) ./ 3
+
+df_gcb = select(
+  df,
+  "Year" => :year,
+  "atmospheric growth" => :Growth,
+  "fossil emissions excluding carbonation" => :Fossil,
+)
+df_lulc_reg = select(lulc_df, :Year => :year, :lulc_mean, :lulc_mean_gcb3)
+
+df_reg = innerjoin(df_gcb, df_lulc_reg, on = :year)
+df_reg = innerjoin(df_reg, df_vai, on = :year)
+
+df_reg[!, :Fossil_plus_LULC] = df_reg.Fossil .+ df_reg.lulc_mean
+df_reg[!, :Fossil_plus_LULC_gcb3] = df_reg.Fossil .+ df_reg.lulc_mean_gcb3
+
+Y = Vector{Float64}(df_reg.Growth)
+X = hcat(ones(nrow(df_reg)), df_reg.Fossil_plus_LULC, df_reg.VAI, df_reg.ENSO)
+
+ols_all_lulc = robust_est(Y, X)
+df_reg[!, :Growth_fit_all_lulc] = ols_all_lulc.Yfit
+
+# Pointwise 95% CI for fitted mean using robust_est variance outputs
+fit_var = [sum((X[i, :] .^ 2) .* ols_all_lulc.betavardiag) for i in 1:size(X, 1)]
+fit_se = sqrt.(fit_var)
+df_reg[!, :Growth_fit_all_lulc_lo] = df_reg.Growth_fit_all_lulc .- 1.96 .* fit_se
+df_reg[!, :Growth_fit_all_lulc_hi] = df_reg.Growth_fit_all_lulc .+ 1.96 .* fit_se
+
 last(df[:, 1:5], 5)  # Show the last 5 rows to verify the data is loaded correctly
 ```
 
@@ -58,20 +93,31 @@ We plot the Fossil, LULC, and Growth series from the GCB 2025 dataset, which are
 ```{julia}
 pf = plot(df.Year, df."fossil emissions excluding carbonation"; color = :black, linewidth = 2.0, title = "Fossil Emissions", xlabel = "Year", ylabel = "Carbon Emissions (GtC/yr)", legend = false)
 
-pg = plot(df.Year, df."atmospheric growth"; color = :green, linewidth = 2.0, title = "Atmospheric Growth", xlabel = "Year", ylabel = "Carbon Emissions (GtC/yr)", legend = false)
+pg = plot(df.Year, df."atmospheric growth"; color = :green, linewidth = 2.0, title = "Atmospheric Growth", xlabel = "Year", ylabel = "Carbon Emissions (GtC/yr)", label = "Observed growth", legend = :topleft)
+plot!(pg, df_reg.year, df_reg.Growth_fit_all_lulc;
+  ribbon = (
+    df_reg.Growth_fit_all_lulc .- df_reg.Growth_fit_all_lulc_lo,
+    df_reg.Growth_fit_all_lulc_hi .- df_reg.Growth_fit_all_lulc,
+  ),
+  fillalpha = 0.2,
+  fillcolor = :black,
+  color = :brown,
+  linewidth = 2.0,
+  linestyle = :dash,
+  label = "Natural variability adj.",
+)
 
 pl = plot(df.Year, df."land-use change emissions"; color = :purple, linewidth = 2.0, title = "LULC Emissions", xlabel = "Year", ylabel = "Carbon Emissions (GtC/yr)", label = "GCB LULC")
 plot!(pl, df.Year, df.BLUE; color = :steelblue, linewidth = 1.5, linestyle = :dot, label = "BLUE")
 plot!(pl, df.Year, df.OSCAR; color = :darkorange, linewidth = 1.5, linestyle = :dashdot, label = "OSCAR")
 plot!(pl, df.Year, df.LUCE; color = :gray, linewidth = 1.5, linestyle = :dash, label = "LUCE")
 
-all_lulc_cols = filter(c -> c != "Year", names(lulc_df))
 all_lulc_mean = vec(sum(Matrix(lulc_df[:, all_lulc_cols]), dims = 2) ./ length(all_lulc_cols))
 
 pl_all = plot(
   df.Year,
   df."land-use change emissions";
-  color = :black,
+  color = :darkorange,
   linewidth = 2.0,
   title = "LULC Emissions (all measurements)",
   xlabel = "Year",

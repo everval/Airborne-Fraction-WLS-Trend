@@ -134,7 +134,7 @@ p = plot(
     title = "Airborne Fraction with OLS and WLS fits for all LULC measurements",
     xlabel = "Year",
     ylabel = "Airborne Fraction",
-    size = (800, 400),
+    size = (800, 600),
     margin = 3mm,
 )
 plot!(
@@ -186,13 +186,14 @@ bar!(
     label = "Relative WLS weight",
     ylabel = "Weight (relative)",
     legend = :topright,
+    grid=false
 )
 p
 ```
 
 ```{julia}
-savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS.png"))
-savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS.pdf"))
+savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_WLS_robustness.png"))
+savefig(p, joinpath(@__DIR__, "..", "figures", "AF_trends_WLS_robustness.pdf"))
 ```
 
 ## Sample ending in 2023
@@ -230,7 +231,7 @@ p_2023 = plot(
     title = "Airborne Fraction with OLS and WLS fits for all LULC measurements, without 2024",
     xlabel = "Year",
     ylabel = "Airborne Fraction",
-    size = (800, 400),
+    size = (800, 600),
     margin = 3mm,
 )
 plot!(
@@ -282,13 +283,14 @@ bar!(
     label = "Relative WLS weight",
     ylabel = "Weight (relative)",
     legend = :topright,
+    grid=false
 )
 p_2023
 ```
 
 ```{julia}
-savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS_2023.png"))
-savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_all_lulc_measurements_WLS_2023.pdf"))
+savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_WLS_2023_robustness.png"))
+savefig(p_2023, joinpath(@__DIR__, "..", "figures", "AF_trends_WLS_2023_robustness.pdf"))
 ```
 
 ## Results
@@ -303,73 +305,55 @@ results_table = DataFrame(
     Metric = [
         "Estimate",
         "Standard error",
-        "HAC standard error",
         "p-value",
-        "HAC p-value",
         "R-squared",
     ],
     OLS_GCB_full = [
         model_ols_gcb.β[trend_idx],
         model_ols_gcb.stderr[trend_idx],
-        model_ols_gcb.stderr_hac[trend_idx],
         model_ols_gcb.pvalues[trend_idx],
-        model_ols_gcb.pvalues_hac[trend_idx],
         model_ols_gcb.rsquared,
     ],
     OLS_full = [
         model_ols.β[trend_idx],
         model_ols.stderr[trend_idx],
-        model_ols.stderr_hac[trend_idx],
         model_ols.pvalues[trend_idx],
-        model_ols.pvalues_hac[trend_idx],
         model_ols.rsquared,
     ],
     WLS_full = [
         model_wls.β[trend_idx],
         model_wls.stderr[trend_idx],
-        model_wls.stderr_hac[trend_idx],
         model_wls.pvalues[trend_idx],
-        model_wls.pvalues_hac[trend_idx],
         model_wls.rsquared,
     ],
     WLS_GCB_AF_allw_full = [
         model_wls_gcbaf_allw.β[trend_idx],
         model_wls_gcbaf_allw.stderr[trend_idx],
-        model_wls_gcbaf_allw.stderr_hac[trend_idx],
         model_wls_gcbaf_allw.pvalues[trend_idx],
-        model_wls_gcbaf_allw.pvalues_hac[trend_idx],
         model_wls_gcbaf_allw.rsquared,
     ],
     OLS_up_to_2023 = [
         model_ols_2023.β[trend_idx],
         model_ols_2023.stderr[trend_idx],
-        model_ols_2023.stderr_hac[trend_idx],
         model_ols_2023.pvalues[trend_idx],
-        model_ols_2023.pvalues_hac[trend_idx],
         model_ols_2023.rsquared,
     ],
     OLS_GCB_up_to_2023 = [
         model_ols_gcb_2023.β[trend_idx],
         model_ols_gcb_2023.stderr[trend_idx],
-        model_ols_gcb_2023.stderr_hac[trend_idx],
         model_ols_gcb_2023.pvalues[trend_idx],
-        model_ols_gcb_2023.pvalues_hac[trend_idx],
         model_ols_gcb_2023.rsquared,
     ],
     WLS_up_to_2023 = [
         model_wls_2023.β[trend_idx],
         model_wls_2023.stderr[trend_idx],
-        model_wls_2023.stderr_hac[trend_idx],
         model_wls_2023.pvalues[trend_idx],
-        model_wls_2023.pvalues_hac[trend_idx],
         model_wls_2023.rsquared,
     ],
     WLS_GCB_AF_allw_up_to_2023 = [
         model_wls_gcbaf_allw_2023.β[trend_idx],
         model_wls_gcbaf_allw_2023.stderr[trend_idx],
-        model_wls_gcbaf_allw_2023.stderr_hac[trend_idx],
         model_wls_gcbaf_allw_2023.pvalues[trend_idx],
-        model_wls_gcbaf_allw_2023.pvalues_hac[trend_idx],
         model_wls_gcbaf_allw_2023.rsquared,
     ],
 )
@@ -388,7 +372,7 @@ table_md = join([header, sep, rows...], "\n") * "\n"
 
 println(table_md)
 
-table_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_trend_summary_table.md")
+table_out_path = joinpath(@__DIR__, "..", "results", "af_raw_wls_trend.md")
 open(table_out_path, "w") do io
     write(io, table_md)
 end
@@ -411,12 +395,12 @@ for r in eachrow(results_table)
 end
 table_slope_2023_md = join([header_slope, sep_slope, rows_2023...], "\n") * "\n"
 
-slope_full_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_slope_full_sample.md")
+slope_full_out_path = joinpath(@__DIR__, "..", "results", "af_raw_wls_trend_full_sample.md")
 open(slope_full_out_path, "w") do io
     write(io, table_slope_full_md)
 end
 
-slope_2023_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_slope_up_to_2023.md")
+slope_2023_out_path = joinpath(@__DIR__, "..", "results", "af_raw_wls_trend_up_to_2023.md")
 open(slope_2023_out_path, "w") do io
     write(io, table_slope_2023_md)
 end
@@ -436,73 +420,55 @@ intercept_table = DataFrame(
     Metric = [
         "Estimate",
         "Standard error",
-        "HAC standard error",
         "p-value",
-        "HAC p-value",
         "R-squared",
     ],
     OLS_GCB_full = [
         model_ols_gcb.β[intercept_idx],
         model_ols_gcb.stderr[intercept_idx],
-        model_ols_gcb.stderr_hac[intercept_idx],
         model_ols_gcb.pvalues[intercept_idx],
-        model_ols_gcb.pvalues_hac[intercept_idx],
         model_ols_gcb.rsquared,
     ],
     OLS_full = [
         model_ols.β[intercept_idx],
         model_ols.stderr[intercept_idx],
-        model_ols.stderr_hac[intercept_idx],
         model_ols.pvalues[intercept_idx],
-        model_ols.pvalues_hac[intercept_idx],
         model_ols.rsquared,
     ],
     WLS_full = [
         model_wls.β[intercept_idx],
         model_wls.stderr[intercept_idx],
-        model_wls.stderr_hac[intercept_idx],
         model_wls.pvalues[intercept_idx],
-        model_wls.pvalues_hac[intercept_idx],
         model_wls.rsquared,
     ],
     WLS_GCB_AF_allw_full = [
         model_wls_gcbaf_allw.β[intercept_idx],
         model_wls_gcbaf_allw.stderr[intercept_idx],
-        model_wls_gcbaf_allw.stderr_hac[intercept_idx],
         model_wls_gcbaf_allw.pvalues[intercept_idx],
-        model_wls_gcbaf_allw.pvalues_hac[intercept_idx],
         model_wls_gcbaf_allw.rsquared,
     ],
     OLS_up_to_2023 = [
         model_ols_2023.β[intercept_idx],
         model_ols_2023.stderr[intercept_idx],
-        model_ols_2023.stderr_hac[intercept_idx],
         model_ols_2023.pvalues[intercept_idx],
-        model_ols_2023.pvalues_hac[intercept_idx],
         model_ols_2023.rsquared,
     ],
     OLS_GCB_up_to_2023 = [
         model_ols_gcb_2023.β[intercept_idx],
         model_ols_gcb_2023.stderr[intercept_idx],
-        model_ols_gcb_2023.stderr_hac[intercept_idx],
         model_ols_gcb_2023.pvalues[intercept_idx],
-        model_ols_gcb_2023.pvalues_hac[intercept_idx],
         model_ols_gcb_2023.rsquared,
     ],
     WLS_up_to_2023 = [
         model_wls_2023.β[intercept_idx],
         model_wls_2023.stderr[intercept_idx],
-        model_wls_2023.stderr_hac[intercept_idx],
         model_wls_2023.pvalues[intercept_idx],
-        model_wls_2023.pvalues_hac[intercept_idx],
         model_wls_2023.rsquared,
     ],
     WLS_GCB_AF_allw_up_to_2023 = [
         model_wls_gcbaf_allw_2023.β[intercept_idx],
         model_wls_gcbaf_allw_2023.stderr[intercept_idx],
-        model_wls_gcbaf_allw_2023.stderr_hac[intercept_idx],
         model_wls_gcbaf_allw_2023.pvalues[intercept_idx],
-        model_wls_gcbaf_allw_2023.pvalues_hac[intercept_idx],
         model_wls_gcbaf_allw_2023.rsquared,
     ],
 )
@@ -519,7 +485,7 @@ intercept_table_md = join([header_int, sep_int, rows_int...], "\n") * "\n"
 
 println(intercept_table_md)
 
-intercept_out_path = joinpath(@__DIR__, "..", "results", "af_wls_all_lulc_intercept_summary_table.md")
+intercept_out_path = joinpath(@__DIR__, "..", "results", "af_raw_wls_intercept_summary_table.md")
 open(intercept_out_path, "w") do io
     write(io, intercept_table_md)
 end

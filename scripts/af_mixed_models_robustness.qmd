@@ -14,9 +14,6 @@ author:
         country: Denmark
     orcid: 0000-0002-0337-8055
     corresponding: true
-abstract: |
-    This script estimates airborne-fraction trends using the GCB 2025 fossil-emissions and atmospheric-growth series together with all LULC measurement combinations produced by the LULC extraction script. The LULC panel includes the extracted bookkeeping series and all peat-augmented model combinations. We use the cross-measurement dispersion of that full LULC panel to construct delta-method weights, then replicate the OLS and WLS trend analysis for the full sample and for the sample ending in 2023.
-keywords: [LULC, airborne fraction, measurement error, weighted least squares, Global Carbon Budget]
 execute:
   enabled: false
   engine: julia
@@ -90,7 +87,7 @@ p_mm = plot(
     title = "Mixed-model AF trends across 69 LULC definitions",
     xlabel = "Year",
     ylabel = "Airborne Fraction",
-    size = (900, 450),
+    size = (800, 600),
     margin = 3mm,
     legend = :topleft,
 )
@@ -120,8 +117,7 @@ plot!(
     linewidth = 3.0,
     linestyle = :solid,
     label = "Fixed-effects trend",
-    legend = :bottomright,
-    legendfontsize = 10
+    legend = :bottomright
 )
 
 # Plot 69 definition-specific lines: fixed + random effects (translucent).
@@ -147,8 +143,8 @@ p_mm
 Save the mixed model plot.
 
 ```{julia}
-savefig(p_mm, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends.png"))
-savefig(p_mm, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends.pdf"))
+savefig(p_mm, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_robustness.png"))
+savefig(p_mm, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_robustness.pdf"))
 ```
 
 ## Subsample up to 2023
@@ -184,7 +180,7 @@ p_mm_2023 = plot(
     title = "Mixed-model AF trends across 69 LULC definitions",
     xlabel = "Year",
     ylabel = "Airborne Fraction",
-    size = (900, 450),
+    size = (800, 600),
     margin = 3mm,
     legend = :topleft,
 )
@@ -214,8 +210,7 @@ plot!(
     linewidth = 3.0,
     linestyle = :solid,
     label = "Fixed-effects trend",
-    legend = :bottomright,
-    legendfontsize = 10
+    legend = :bottomright
 )
 
 # Plot 69 definition-specific lines: fixed + random effects (translucent).
@@ -239,8 +234,8 @@ p_mm_2023
 ```
 
 ```{julia}
-savefig(p_mm_2023, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_up_to_2023.png"))
-savefig(p_mm_2023, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_up_to_2023.pdf"))
+savefig(p_mm_2023, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_up_to_2023_robustness.png"))
+savefig(p_mm_2023, joinpath(@__DIR__, "..", "figures", "AF_mixed_model_definition_trends_up_to_2023_robustness.pdf"))
 ```
 
 ## Results
@@ -254,7 +249,7 @@ mixed_table_md = dataframe_to_markdown_table(mixed_results_table)
 
 println(mixed_table_md)
 
-mixed_out_path = joinpath(@__DIR__, "..", "results", "af_mixed_model_fixed_effects_summary_table.md")
+mixed_out_path = joinpath(@__DIR__, "..", "results", "af_raw_mixed_model_fixed_effects_summary_table.md")
 open(mixed_out_path, "w") do io
     write(io, mixed_table_md)
 end
@@ -452,7 +447,7 @@ ar1_augmented_table_md = join([header_ar1, sep_ar1, rows_ar1...], "\n") * "\n"
 
 println(ar1_augmented_table_md)
 
-ar1_out_path = joinpath(@__DIR__, "..", "results", "af_mixed_model_fixed_effects_summary_table_ar1.md")
+ar1_out_path = joinpath(@__DIR__, "..", "results", "af_raw_mixed_model_fixed_effects_summary_table_ar1.md")
 open(ar1_out_path, "w") do io
     write(io, ar1_augmented_table_md)
 end

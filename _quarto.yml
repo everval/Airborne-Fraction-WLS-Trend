@@ -9,10 +9,10 @@ manuscript:
   notebooks:
     - scripts/lulc_measurements.qmd
     - scripts/af_plots.qmd
-    - scripts/af_wls_all_lulc_measurements.qmd
-    - scripts/af_mixed_models_all_lulc_measurements.qmd
-    - notebook: supplementary.qmd
-      title: "Supplementary information"
+    - scripts/af_mixed_models_growth.qmd
+    - scripts/af_mixed_models_robustness.qmd
+    - scripts/af_wls_growth.qmd
+    - scripts/af_wls_robustness.qmd
 
   code-links: repo
 
