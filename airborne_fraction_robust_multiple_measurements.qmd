@@ -15,7 +15,7 @@ author:
     corresponding: true
 date: today
 abstract: |
-  The airborne fraction is the share of anthropogenic carbon dioxide emissions that remains in the atmosphere and is a key indicator of carbon‑cycle response and remaining carbon budgets under continued emissions. Whether this share is rising remains debated because inference is sensitive to uncertainty in land‑use and land‑cover change (LULC) emissions. Here we use all available LULC measurement series from Global Carbon Budget 2025 and estimate airborne‑fraction trends with a mixed‑effects model with random intercepts and slopes by LULC series. We find that the airborne fraction increased over 1959–2024, from about 0.41 to about 0.48, and that this conclusion is robust to excluding the final year and to alternative specifications that explicitly propagate denominator uncertainty. These results clarify why earlier studies reported weak or inconclusive trend evidence and strengthen evidence that a larger share of emitted carbon dioxide is accumulating in the atmosphere, with implications for carbon‑budget assessment.
+  The airborne fraction is the share of anthropogenic carbon dioxide emissions that remains in the atmosphere and is a key indicator of carbon-cycle response and remaining carbon budgets. Whether this share is rising remains debated because inference is sensitive to uncertainty in land-use and land-cover change (LULC) emissions. Here we use an expanded LULC-definition ensemble from Global Carbon Budget 2025 and estimate airborne-fraction trends with a mixed-effects model with random intercepts and slopes by LULC series. We find that airborne fraction increased over 1959-2024, from about 0.41 to about 0.48, and that this conclusion is robust to excluding the final year and to alternative specifications that propagate denominator uncertainty. These results clarify why earlier studies reported weak or inconclusive trend evidence and strengthen evidence that a larger share of emitted carbon dioxide is accumulating in the atmosphere.
 keywords:
   - airborne fraction
   - land-use and land-cover change emissions
@@ -42,7 +42,7 @@ where $G_t$ is the annual atmospheric $CO_2$ growth, $FF_t$ is fossil fuel emiss
 
 A persistent concern is that AF inference depends on the treatment of land-use and land-cover change (LULC) emissions, which are uncertain and model-dependent in annual carbon-budget accounting. The Global Carbon Budget (GCB) 2025 [@Friedlingstein2025] provides one column of LULC emissions as the average of three bookkeeping models (BLUE [@Hansis2015], OSCAR [@Gasser2020], LUCE [@Qin2024]), but a broader set of model-based LULC alternatives can be constructed from the same source. Estimates that do not incorporate this multi-source LULC information can be underpowered and inference on trend direction becomes less reliable.
 
-Here we address that issue with a statistical design that uses all repeated LULC measurements in a mixed-effects trend framework [@Henderson1953; @Bolker2009] to obtain more reliable inference. The main specification estimates AF trends from a panel of yearly AF values constructed from each LULC measurement series, with random intercepts and random slopes capturing between-series heterogeneity and inducing within-series dependence over time. As a robustness exercise, we also estimate a two-stage measurement-error weighted least squares (WLS) model that propagates denominator uncertainty from repeated LULC measurements into annual AF uncertainty [@Fuller1987; @Carroll2006].
+Here we address that issue with a statistical design that uses an expanded ensemble of repeated LULC definitions in a mixed-effects trend framework [@Henderson1953; @Bolker2009] to obtain more reliable inference. The main specification estimates AF trends from a panel of yearly AF values constructed from each LULC measurement series, with random intercepts and random slopes capturing between-series heterogeneity and inducing within-series dependence over time. As a robustness exercise, we also estimate a two-stage measurement-error weighted least squares (WLS) model that propagates denominator uncertainty from repeated LULC definitions into annual AF uncertainty [@Fuller1987; @Carroll2006].
 
 Across specifications that incorporate the multi-source LULC information, we find robust evidence that AF has increased over 1959-2024, and that this conclusion is not driven by the final observation (2024), which shows a large AF value. By contrast, ordinary least squares (OLS) specifications that do not incorporate denominator measurement information provide weaker evidence of a positive trend and are more sensitive to endpoint exclusion. Taken together, the results clarify why AF trend significance has been elusive in the literature and strengthen evidence that a growing share of emitted carbon dioxide is accumulating in the atmosphere.
 
@@ -90,7 +90,7 @@ Here $\mu_\alpha$ and $\mu_\beta$ are the fixed effects (overall intercept and s
 
 The main results from estimating the mixed-effects model in the full sample are shown in @tbl-mixed-effects. The table includes natural-variability-adjusted ($AF^{ADJ}$) and unadjusted ($AF^{RAW}$) growth specifications, with and without AR(1) effects in the residuals to control for potential autocorrelation (see Methods).
 
-The slope is positive and statistically significant in all specifications, indicating strong evidence of an increasing AF trend across LULC measurement series. The estimated intercept is around 0.41 and the slope is around 0.0011 per year, implying an increase of about 0.07 in AF over 1959-2024. These estimates are comparable with the approximately 0.45 AF level reported in the literature [@Raupach2007;@Knorr2009;@Gloor2010CarbonFeedbackAF;@bennedsenRegressionbasedApproachCO22024;@bennedsenEvidenceTrendCO22023;@veravaldes2025robustestimationco2], while identifying a positive long-run trend when all LULC information is incorporated. Note that the mixed-effects model reduces uncertainty in the estimates by jointly using all available LULC information, which allows us to obtain more precise estimates and robust inference on trend direction.
+The slope is positive and statistically significant in all specifications, indicating strong evidence of an increasing AF trend across LULC measurement series. The estimated intercept is around 0.41 and the slope is around 0.0011 per year, implying an increase of about 0.07 in AF over 1959-2024. These estimates are comparable with the approximately 0.45 AF level reported in the literature [@Raupach2007;@Knorr2009;@Gloor2010CarbonFeedbackAF;@bennedsenRegressionbasedApproachCO22024;@bennedsenEvidenceTrendCO22023;@veravaldes2025robustestimationco2], while identifying a positive long-run trend when the full LULC-definition ensemble is incorporated. Note that the mixed-effects model reduces uncertainty in the estimates by jointly using this ensemble information, which allows us to obtain more precise estimates and robust inference on trend direction.
 
 | Mixed-effects model (1959-2024) | $AF^{ADJ}$ | $AF^{ADJ}$ (AR1) | $AF^{RAW}$ | $AF^{RAW}$ (AR1) |
 |:------|----:|----:|----:|----:|
@@ -105,7 +105,7 @@ The slope is positive and statistically significant in all specifications, indic
 | p-value (AR1) |  | 1.0E-5 |  | 0.040326 |
 : Mixed-effects model estimates for the full sample (1959-2024). Specifications with natural variability adjusted (ADJ) and unadjusted (RAW) growth rates are shown with and without AR(1) effects. {#tbl-mixed-effects}
 
-@fig-mixed-effects-trend shows the AF series for each LULC measurement together with the overall mixed-effects trend line for the specification using the natural-variability-adjusted growth series and the full sample. The figure shows a clear positive trend across the panel of AF series, with the mixed-effects model capturing this common signal while allowing for series-specific heterogeneity. Note that the figure shows AF computed using the BLUE LULC series for illustrative purposes, but trend lines are estimated using the full panel of LULC measurements.
+@fig-mixed-effects-trend shows the AF series for each LULC measurement together with the overall mixed-effects trend line for the specification using the natural-variability-adjusted growth series and the full sample. The figure shows a clear positive trend across the panel of AF series, with the mixed-effects model capturing this common signal while allowing for series-specific heterogeneity. For visual clarity, one representative AF series is highlighted, while trend lines are estimated using the full LULC-definition ensemble.
 
 ::: {.content-visible when-format="html"}
 
@@ -173,7 +173,7 @@ An additional estimation approach that explicitly incorporates denominator measu
 | p-value (Slope) | 0.138912 | 1.0E-5 | 0.271089 | 1.0E-5 |
 : Trend comparison for the WLS and OLS estimates with natural variability adjusted growth specifications. The first two columns show the full sample (1959-2024) estimates, while the last two columns show the estimates for the sample ending in 2023. {#tbl-trend-WLS}
 
-Overall, the results show that incorporating multi-source LULC information and accounting for measurement uncertainty materially changes inference on AF trends. The mixed-effects model, which incorporates all available LULC information and accounts for within-series dependence and cross-series heterogeneity, provides robust evidence of a positive AF trend. The WLS approach, which explicitly incorporates denominator measurement uncertainty, also shows a positive and statistically significant trend. 
+Overall, the results show that incorporating multi-source LULC information and accounting for measurement uncertainty materially changes inference on AF trends. The mixed-effects model, which incorporates the full LULC-definition ensemble and accounts for within-series dependence and cross-series heterogeneity, provides robust evidence of a positive AF trend. The WLS approach, which explicitly incorporates denominator measurement uncertainty, also shows a positive and statistically significant trend. 
 
 In contrast, OLS specifications that do not incorporate denominator measurement information provide weaker and less robust evidence, with significance that is sensitive to denominator definition and endpoint exclusion. These results highlight the value of incorporating multi-source LULC information in AF trend estimation in a way that accounts for within-series dependence and cross-series heterogeneity. OLS on a collapsed series discards this information and hence provides less reliable inference on trend direction. Our results clarify why earlier studies that did not incorporate multi-source LULC information have reported weak or inconclusive evidence of an increasing AF trend [@Canadell2007; @Raupach2007; @Knorr2009; @Ballantyne2012; @LeQuere2009; @bennedsenEvidenceTrendCO22023; @bennedsenRegressionbasedApproachCO22024;@bennettQuantificationAirborneFraction2024].
 
@@ -182,7 +182,7 @@ Additional robustness checks (in Methods), including OLS and WLS specifications 
 
 ## Discussion and conclusion {.unnumbered}
 
-Using a framework that controls for natural variability in the atmospheric growth series and incorporates all available LULC information from Global Carbon Budget 2025, we find robust evidence that AF increased from 1959 to 2024. Methodologically, incorporating multi-source uncertainty materially changes inference relative to plain OLS. Endpoint tests show that this conclusion is not driven by the large value in 2024.
+Using a framework that controls for natural variability in the atmospheric growth series and incorporates a broad LULC-definition ensemble from Global Carbon Budget 2025, we find robust evidence that AF increased from 1959 to 2024. Methodologically, incorporating multi-source uncertainty materially changes inference relative to plain OLS. Endpoint tests show that this conclusion is not driven by the large value in 2024.
 
 Our estimates imply that AF increased from about 0.41 around 1960 to about 0.48 by 2024, relative to long-used values around 0.45. For a given emissions pathway, a higher AF would be associated with faster atmospheric $CO_2$ growth than under a constant-AF baseline, potentially reducing the remaining carbon budget for a given temperature target [@Canadell2007; @Raupach2007; @Friedlingstein2025]. Quantifying the budget impact requires dedicated carbon-budget modelling beyond the scope of this study.
 
@@ -246,7 +246,7 @@ Results from the growth regression estimated by WLS are shown in @tbl-growth-reg
 | Intercept | 1.071015 | 0.340529 | 0.001660 |
 | Total emissions | 0.364301 | 0.038410 | 1.0E-5 |
 | VAI | -17.386855 | 3.081315 | 1.0E-5 |
-| ENSO | 1.054167 | 0.131682 | 1.0E-5 |
+| N3 index | 1.054167 | 0.131682 | 1.0E-5 |
 | R-squared | 0.831525 |  |  |  |  |
 : Growth regression with natural variability controls. {#tbl-growth-reg}
 
@@ -445,17 +445,3 @@ A preprint of this manuscript is available on [arXiv (2605.30242)](https://arxiv
 
 The author declares no competing interests.
 
-## Citation
-
-To cite this article, please use the following reference:
-
-```bibtex
-@article{vera-valdes2026,
-  author = {Vera-Valdés, J. Eduardo},
-  title = {Multi-source land-use emissions reveal rising airborne fraction},
-  doi = {10.48550/arXiv.2605.30242},
-  url = {https://arxiv.org/abs/2605.30242},
-  journal = {arXiv},
-  year = {2026}
-}
-```
